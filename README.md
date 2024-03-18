@@ -1,5 +1,5 @@
 # _Maps_
-![github](https://img.shields.io/github/stars/Instituto-Hidrografico/maps-back "Github")
+![github](https://img.shields.io/github/stars/gadelhati/maps-back "Github")
 ![java](https://img.shields.io/badge/java-19-2145E8 "Java")
 ![postgresql](https://img.shields.io/badge/postgresql-15.1.1-6495ED "PostgreSQL")
 ![springboot](https://img.shields.io/badge/springboot-3.0.1-53D05D "Spring Boot")
@@ -51,7 +51,7 @@ CRUD service from a maps table.
 * [Licence](#licence)
 
 ## Example
-> [example](https://github.com/Instituto-Hidrografico/maps-back)
+> [example](https://github.com/gadelhati/maps-back)
 
 ## How to work with this project
 Type in intellij terminal tab
