@@ -2,18 +2,19 @@ package br.eti.gadelha.maps.persistence.payload.request;
 
 import br.eti.gadelha.maps.exception.annotation.UniqueNameCountry;
 import lombok.Getter;
-import org.locationtech.jts.geom.*;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter @UniqueNameCountry
-public class DTORequestLocation {
+public class DTORequestMaritimeArea {
 
     private UUID id;
-    private LocalDateTime localDateTime;
-    private Point point;
-    private LineString lineString;
+    private String code;
+    private String name;
+    private String start;
+    private String finish;
     private Polygon polygon;
     private MultiPolygon multiPolygon;
 }

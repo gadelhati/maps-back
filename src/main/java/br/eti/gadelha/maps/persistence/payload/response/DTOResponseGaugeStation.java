@@ -1,5 +1,7 @@
 package br.eti.gadelha.maps.persistence.payload.response;
 
+import br.eti.gadelha.maps.persistence.model.ChartArea;
+import br.eti.gadelha.maps.persistence.model.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,12 +10,13 @@ import java.util.UUID;
 import org.locationtech.jts.geom.*;
 
 @Getter @AllArgsConstructor
-public class DTOResponseLocation {
+public class DTOResponseGaugeStation {
 
     private UUID id;
-    private LocalDateTime localDateTime;
+    private String number;
+    private String title;
     private Point point;
-    private LineString lineString;
-    private Polygon polygon;
-    private MultiPolygon multiPolygon;
+
+    private State state;
+    private ChartArea chartArea;
 }

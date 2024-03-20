@@ -10,5 +10,5 @@ import org.hibernate.envers.Audited;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class InternationalChart extends Chart {
 
-    private int internationalNumber;
+    private String internationalNumber;
 }
