@@ -37,7 +37,6 @@ public class ServiceGaugeStation implements ServiceInterface<DTOResponseGaugeSta
             Example<GaugeStation> example = Example.of(object, exampleMatcher);
             return repositoryGaugeStation.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e){
-            System.out.println();
             return repositoryGaugeStation.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }
