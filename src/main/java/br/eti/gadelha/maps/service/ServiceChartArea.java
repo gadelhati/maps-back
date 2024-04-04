@@ -28,7 +28,7 @@ public class ServiceChartArea implements ServiceInterface<DTOResponseChartArea, 
         return MapStruct.MAPPER.toDTO(repositoryChartArea.save(MapStruct.MAPPER.toObject(created)));
     }
     @Override
-    public Page<DTOResponseChartArea> retrieve(Pageable pageable, String key, String value) {
+    public Page<DTOResponseChartArea> retrieve(Pageable pageable, String value) {
         ChartArea object = new ChartArea();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

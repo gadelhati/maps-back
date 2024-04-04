@@ -28,7 +28,7 @@ public class ServiceInternationalChart implements ServiceInterface<DTOResponseIn
         return MapStruct.MAPPER.toDTO(repositoryInternationalChart.save(MapStruct.MAPPER.toObject(created)));
     }
     @Override
-    public Page<DTOResponseInternationalChart> retrieve(Pageable pageable, String key, String value) {
+    public Page<DTOResponseInternationalChart> retrieve(Pageable pageable, String value) {
         InternationalChart object = new InternationalChart();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

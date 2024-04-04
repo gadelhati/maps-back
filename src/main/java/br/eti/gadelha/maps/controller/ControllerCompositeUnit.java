@@ -28,9 +28,9 @@ public class ControllerCompositeUnit {
     }
     @GetMapping("/composite")
     public ResponseEntity<Page<DTOResponseCompositeUnit>> retrieve(
-            @RequestParam(name = "key", defaultValue = "", required = false) String key,
-            @RequestParam(name="value", defaultValue = "", required = false) String value,
             Pageable pageable,
+            @RequestParam(name = "key", defaultValue = "", required = false) String key,
+            @RequestParam(name = "value", defaultValue = "", required = false) String value,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "number", required = false) int number){
         return ResponseEntity.ok().body(serviceCompositeUnit.retrieveComposite(pageable, key, value, name, number));

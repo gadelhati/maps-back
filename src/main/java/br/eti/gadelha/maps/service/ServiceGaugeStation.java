@@ -28,7 +28,7 @@ public class ServiceGaugeStation implements ServiceInterface<DTOResponseGaugeSta
         return MapStruct.MAPPER.toDTO(repositoryGaugeStation.save(MapStruct.MAPPER.toObject(created)));
     }
     @Override
-    public Page<DTOResponseGaugeStation> retrieve(Pageable pageable, String key, String value) {
+    public Page<DTOResponseGaugeStation> retrieve(Pageable pageable, String value) {
         GaugeStation object = new GaugeStation();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

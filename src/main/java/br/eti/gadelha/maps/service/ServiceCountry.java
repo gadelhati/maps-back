@@ -26,7 +26,7 @@ public class ServiceCountry implements ServiceInterface<DTOResponseCountry, DTOR
     public DTOResponseCountry create(DTORequestCountry created){
         return MapStruct.MAPPER.toDTO(repositoryCountry.save(MapStruct.MAPPER.toObject(created)));
     }
-    public Page<DTOResponseCountry> retrieve(Pageable pageable, String key, String value){
+    public Page<DTOResponseCountry> retrieve(Pageable pageable, String value){
         Country object = new Country();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

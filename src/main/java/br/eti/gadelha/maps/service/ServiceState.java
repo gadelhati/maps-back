@@ -25,7 +25,7 @@ public class ServiceState {
     public DTOResponseState create(DTORequestState created){
         return MapStruct.MAPPER.toDTO(repositoryState.save(MapStruct.MAPPER.toObject(created)));
     }
-    public Page<DTOResponseState> retrieve(Pageable pageable, String key, String value){
+    public Page<DTOResponseState> retrieve(Pageable pageable, String value){
         State object = new State();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

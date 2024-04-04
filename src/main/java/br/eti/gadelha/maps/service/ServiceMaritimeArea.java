@@ -28,7 +28,7 @@ public class ServiceMaritimeArea implements ServiceInterface<DTOResponseMaritime
         return MapStruct.MAPPER.toDTO(repositoryMaritimeArea.save(MapStruct.MAPPER.toObject(created)));
     }
     @Override
-    public Page<DTOResponseMaritimeArea> retrieve(Pageable pageable, String key, String value) {
+    public Page<DTOResponseMaritimeArea> retrieve(Pageable pageable, String value) {
         MaritimeArea object = new MaritimeArea();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

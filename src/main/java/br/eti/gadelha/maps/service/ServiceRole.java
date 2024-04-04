@@ -28,7 +28,7 @@ public class ServiceRole implements ServiceInterface<DTOResponseRole, DTORequest
         return MapStruct.MAPPER.toDTO(repositoryRole.save(MapStruct.MAPPER.toObject(created)));
     }
     @Override
-    public Page<DTOResponseRole> retrieve(Pageable pageable, String key, String value) {
+    public Page<DTOResponseRole> retrieve(Pageable pageable, String value) {
         Role object = new Role();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

@@ -34,7 +34,7 @@ public class ServiceUser implements ServiceInterface<DTOResponseUser, DTORequest
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     @Override
-    public Page<DTOResponseUser> retrieve(Pageable pageable, String key, String value) {
+    public Page<DTOResponseUser> retrieve(Pageable pageable, String value) {
         User object = new User();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

@@ -28,7 +28,7 @@ public class ServicePrivilege implements ServiceInterface<DTOResponsePrivilege, 
         return MapStruct.MAPPER.toDTO(repositoryPrivilege.save(MapStruct.MAPPER.toObject(created)));
     }
     @Override
-    public Page<DTOResponsePrivilege> retrieve(Pageable pageable, String key, String value){
+    public Page<DTOResponsePrivilege> retrieve(Pageable pageable, String value){
         Privilege object = new Privilege();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {

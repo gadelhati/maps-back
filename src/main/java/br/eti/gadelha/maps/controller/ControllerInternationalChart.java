@@ -27,8 +27,8 @@ public class ControllerInternationalChart implements ControllerInterface<DTOResp
         return ResponseEntity.created(uri).body(serviceInternationalChart.create(created));
     }
     @GetMapping("") @PreAuthorize("hasAnyRole('USER', '52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
-    public ResponseEntity<Page<DTOResponseInternationalChart>> retrieve(@RequestParam(name = "key", defaultValue = "", required = false) String key, @RequestParam(name="value", defaultValue = "", required = false) String value, Pageable pageable){
-        return ResponseEntity.ok().body(serviceInternationalChart.retrieve(pageable, key, value));
+    public ResponseEntity<Page<DTOResponseInternationalChart>> retrieve(@RequestParam(name="value", defaultValue = "", required = false) String value, Pageable pageable){
+        return ResponseEntity.ok().body(serviceInternationalChart.retrieve(pageable, value));
     }
     @PutMapping("") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
     public ResponseEntity<DTOResponseInternationalChart> update(@RequestBody @Valid DTORequestInternationalChart updated){
