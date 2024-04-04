@@ -24,7 +24,7 @@ public class ServiceCity {
     }
     public Page<DTOResponseCity> retrieve(Pageable pageable, String value){
         City object = new City();
-        ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);

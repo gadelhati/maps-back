@@ -30,7 +30,7 @@ public class ServiceInternationalChart implements ServiceInterface<DTOResponseIn
     @Override
     public Page<DTOResponseInternationalChart> retrieve(Pageable pageable, String value) {
         InternationalChart object = new InternationalChart();
-        ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);
