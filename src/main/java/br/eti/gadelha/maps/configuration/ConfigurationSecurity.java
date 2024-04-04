@@ -31,10 +31,7 @@ public class ConfigurationSecurity {
                 .exceptionHandling(Customizer.withDefaults())
                 .sessionManagement((session) -> session .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
-                    .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/maps/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/auth/ping").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/food").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/city").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/city/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                     .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
