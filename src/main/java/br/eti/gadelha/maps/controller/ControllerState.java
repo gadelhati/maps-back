@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.UUID;
 
 @RestController @RequestMapping("/state") @RequiredArgsConstructor
 public class ControllerState {
@@ -34,7 +35,7 @@ public class ControllerState {
         return ResponseEntity.accepted().body(serviceState.update(updated.getId(), updated));
     }
     @DeleteMapping("/{id}") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
-    public ResponseEntity<DTOResponseState> delete(@PathVariable long id){
+    public ResponseEntity<DTOResponseState> delete(@PathVariable UUID id){
         return ResponseEntity.accepted().body(serviceState.delete(id));
     }
     @DeleteMapping("") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")

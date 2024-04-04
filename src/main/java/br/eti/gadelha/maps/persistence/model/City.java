@@ -1,5 +1,6 @@
 package br.eti.gadelha.maps.persistence.model;
 
+import br.eti.gadelha.maps.persistence.GenericAuditEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,11 +11,9 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = false)
-public class City implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class City extends GenericAuditEntity {
 
-    @Id @GeneratedValue
-    private long id;
+    private String code;
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

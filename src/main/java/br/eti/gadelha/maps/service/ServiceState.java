@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 import static org.springframework.data.domain.ExampleMatcher.matching;
 
@@ -37,10 +38,10 @@ public class ServiceState {
             return repositoryState.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }
-    public DTOResponseState update(long id, DTORequestState updated){
+    public DTOResponseState update(UUID id, DTORequestState updated){
         return MapStruct.MAPPER.toDTO(repositoryState.save(MapStruct.MAPPER.toObject(updated)));
     }
-    public DTOResponseState delete(long id){
+    public DTOResponseState delete(UUID id){
         State object = repositoryState.findById(id).orElse(null);
         repositoryState.deleteById(id);
         return MapStruct.MAPPER.toDTO(object);
@@ -51,7 +52,7 @@ public class ServiceState {
     public boolean existsByName(String value) {
         return repositoryState.existsByNameIgnoreCase(value);
     }
-    public boolean existsByNameAndIdNot(String value, long id) {
+    public boolean existsByNameAndIdNot(String value, UUID id) {
         return repositoryState.existsByNameIgnoreCaseAndIdNot(value, id);
     }
 }

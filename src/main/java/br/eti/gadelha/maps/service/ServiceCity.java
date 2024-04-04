@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 import static org.springframework.data.domain.ExampleMatcher.matching;
 
@@ -34,10 +35,10 @@ public class ServiceCity {
             return repositoryCity.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }
-    public DTOResponseCity update(long id, DTORequestCity updated){
+    public DTOResponseCity update(UUID id, DTORequestCity updated){
         return MapStruct.MAPPER.toDTO(repositoryCity.save(MapStruct.MAPPER.toObject(updated)));
     }
-    public DTOResponseCity delete(long id){
+    public DTOResponseCity delete(UUID id){
         City object = repositoryCity.findById(id).orElse(null);
         repositoryCity.deleteById(id);
         return MapStruct.MAPPER.toDTO(object);
@@ -48,7 +49,7 @@ public class ServiceCity {
     public boolean existsByName(String value) {
         return repositoryCity.existsByNameIgnoreCase(value);
     }
-    public boolean existsByNameAndIdNot(String value, long id) {
+    public boolean existsByNameAndIdNot(String value, UUID id) {
         return repositoryCity.existsByNameIgnoreCaseAndIdNot(value, id);
     }
 }
