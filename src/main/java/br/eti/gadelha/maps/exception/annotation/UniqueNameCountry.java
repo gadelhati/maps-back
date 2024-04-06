@@ -17,7 +17,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface UniqueNameCountry {
 
-    String message() default "{unique.name.country}";
+    String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 

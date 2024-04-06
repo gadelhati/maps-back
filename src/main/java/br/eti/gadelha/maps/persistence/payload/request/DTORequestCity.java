@@ -13,7 +13,7 @@ public class DTORequestCity {
 
     private UUID id;
     private String code;
-    @NotNull(message = "{name.not.null}") @NotBlank(message = "{name.not.blank}")
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private State state;
 }

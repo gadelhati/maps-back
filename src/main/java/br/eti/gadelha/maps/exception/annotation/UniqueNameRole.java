@@ -17,7 +17,7 @@ import static br.eti.gadelha.maps.exception.Validator.isNull;
 @Documented
 public @interface UniqueNameRole {
 
-    String message() default "{unique.name.role}";
+    String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 

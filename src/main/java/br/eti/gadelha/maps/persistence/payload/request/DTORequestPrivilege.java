@@ -14,7 +14,7 @@ import java.util.UUID;
 public class DTORequestPrivilege {
 
     private UUID id;
-    @NotNull(message = "{privilege.name.not.null}") @NotBlank(message = "{privilege.name.not.blank}")
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private Set<Role> roles = new HashSet<>();
 }

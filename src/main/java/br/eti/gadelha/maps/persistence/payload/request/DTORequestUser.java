@@ -12,11 +12,11 @@ import java.util.UUID;
 public class DTORequestUser {
 
     private UUID id;
-    @NotNull(message = "{user.name.not.null}") @NotBlank(message = "{user.name.not.blank}") @HasLength
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}") @HasLength
     private String username;
-    @NotBlank(message = "{user.email.not.blank}") @Size(max = 50) @Email
+    @NotBlank(message = "{not.blank}") @Size(max = 50) @Email
     private String email;
-    @NotNull(message = "{user.password.not.null}") @NotBlank(message = "{user.password.not.blank}")
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     @HasDigit
     @HasLetter
     @HasUpperCase

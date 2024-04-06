@@ -11,6 +11,6 @@ import java.util.UUID;
 public class DTORequestCountry {
 
     private UUID id;
-    @NotNull(message = "{name.not.null}") @NotBlank(message = "{name.not.blank}")
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
 }
