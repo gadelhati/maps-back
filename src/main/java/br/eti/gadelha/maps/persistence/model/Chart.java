@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -21,7 +21,9 @@ public class Chart extends GenericAuditEntity {
     private Integer scale;
     private Collection<LocalDateTime> edition;
     @Column(columnDefinition = "geography")
-    private Polygon polygon;
+    private Point ne;
+    @Column(columnDefinition = "geography")
+    private Point sw;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "chartArea")
