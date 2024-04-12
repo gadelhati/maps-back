@@ -1,6 +1,7 @@
 package br.eti.gadelha.maps.persistence.model.bndo;
 
 import br.eti.gadelha.maps.persistence.GenericAuditEntity;
+import br.eti.gadelha.maps.persistence.model.Country;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +10,14 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class EquipmentCategory extends GenericAuditEntity {
+public class Institution extends GenericAuditEntity {
 
     private int code;
-    private String acronym;
-    private String name;
-    private String description;
+    private int codePais;
+    private int name;
+    private boolean mb;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "module", nullable = true)
-    private Module module;
+    @JoinColumn(name = "project", nullable = true)
+    private Country country;
 }

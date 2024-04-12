@@ -15,7 +15,7 @@
 	<name>maps-back</name>
 	<description>Gadelha&apos;s Spring Boot Project</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 		<springframework.version>3.2.0</springframework.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>

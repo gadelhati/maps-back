@@ -12,5 +12,6 @@ import jakarta.persistence.*;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"})) @EqualsAndHashCode(callSuper = false)
 public class Country extends GenericAuditEntity {
 
+    private int code;
     private String name;
 }

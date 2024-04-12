@@ -1,8 +1,7 @@
 package br.eti.gadelha.maps.persistence.model.bndo;
 
 import br.eti.gadelha.maps.persistence.GenericAuditEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +19,14 @@ public class Bathymetry extends GenericAuditEntity {
     @Column(columnDefinition = "geography")
     private Point position;
     private int depth;
-    private int cod_datum;
+    private int codDatum;
     private int positionQualityControl;
     private int depthQualityControl;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "datum", nullable = true)
+    private Datum datum;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @JoinColumn(name = "station", nullable = true)
+//    private Station station;
 }
