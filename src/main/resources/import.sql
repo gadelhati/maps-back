@@ -7498,7 +7498,47 @@ INSERT INTO maps.module(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 
 -- INSERT INTO maps.datum(created_at, updated_at, id, code, name, ae, umf) VALUES (NOW(), NOW(), '97bb1a23-d28d-4707-b03d-a56591ca9c77', 32, 'SIRGAS2000', 6378137, 298.2572221010) ON CONFLICT DO NOTHING;
 
 -- SELECT DISTINCT() maps.module;
---INSERT INTO maps.platform_category (created_at, updated_at, id, code, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_plataforma, TRIM(t2.nome_tipo_plataforma) FROM sisbndo.tb_tipo_plataforma AS t2;
---INSERT INTO maps.media_category (created_at, updated_at, id, code, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_midia, TRIM(t2.nome_tipo_midia) FROM sisbndo.tb_tipo_midia AS t2;
---INSERT INTO maps.station_category (created_at, updated_at, id, code, alias, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_estacao, TRIM(t2.nome_estacao), TRIM(t2.descricao_estacao) FROM sisbndo.tb_tipo_estacao AS t2;
---INSERT INTO maps.equipment_category (created_at, updated_at, id, code, acronym, name, module, description) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_equipamento, t2.acronimo, t2.nome, (SELECT t3.id FROM maps.module AS t3 WHERE t3.name = t2.modulo_utilizacao), t2.descricao from sisbndo.tb_tipo_equipamento AS t2;
+INSERT INTO maps.platform_category (created_at, updated_at, id, code, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_plataforma, TRIM(t2.nome_tipo_plataforma) FROM sisbndo.tb_tipo_plataforma AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.media_category (created_at, updated_at, id, code, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_midia, TRIM(t2.nome_tipo_midia) FROM sisbndo.tb_tipo_midia AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.station_category (created_at, updated_at, id, code, alias, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_estacao, TRIM(t2.nome_estacao), TRIM(t2.descricao_estacao) FROM sisbndo.tb_tipo_estacao AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.equipment_category (created_at, updated_at, id, code, acronym, name, module, description) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_tipo_equipamento, TRIM(t2.acronimo), TRIM(t2.nome), (SELECT t3.id FROM maps.module AS t3 WHERE t3.name = t2.modulo_utilizacao), t2.descricao from sisbndo.tb_tipo_equipamento AS t2 ON CONFLICT DO NOTHING;
+
+INSERT INTO maps.project (created_at, updated_at, id, code, name, description) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_projeto, TRIM(t2.nome_projeto), TRIM(t2.descricao_projeto) FROM sisbndo.tb_projeto AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.hydrographic_survey (created_at, updated_at, id, code, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_levantamento, TRIM(t2.nome_levantamento) FROM sisbndo.tb_levantamento AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.country (created_at, updated_at, id, code, name) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_pais, TRIM(t2.nome_pais) FROM sisbndo.tb_pais AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.institution (created_at, updated_at, id, code, country, name, mb) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_instituicao, (SELECT t3.id FROM maps.country AS t3 WHERE t3.code = t2.cod_pais), TRIM(t2.nome_instituicao), (t2.mb = 'S') FROM sisbndo.tb_instituicao AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.harbor (created_at, updated_at, id, name) SELECT NOW(), NOW(), gen_random_uuid(), TRIM(t2.porto_partida) FROM sisbndo.tb_comissao AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.harbor (created_at, updated_at, id, name) SELECT NOW(), NOW(), gen_random_uuid(), TRIM(t2.porto_chegada) FROM sisbndo.tb_comissao AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.platform (created_at, updated_at, id, code, country, platform_category, telegraph_call_sign, international_call_sign, name, visual_call_sign) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_plataforma, (SELECT t3.id FROM maps.country AS t3 WHERE t3.code = t2.cod_pais), (SELECT t3.id FROM maps.platform_category AS t3 WHERE t3.code = t2.cod_tipo_plataforma), TRIM(t2.indicativo_telegrafico), TRIM(t2.indicativo_internacional), TRIM(t2.nome_plataforma), TRIM(t2.indicativo_visual) FROM sisbndo.tb_plataforma AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.researcher (created_at, updated_at, id, code, name, email, address) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_pesquisador, TRIM(t2.nome_pesquisador), TRIM(t2.endereco_eletronico), TRIM(t2.endereco_pesquisador) FROM sisbndo.tb_pesquisador AS t2 ON CONFLICT DO NOTHING;
+INSERT INTO maps.media (created_at, updated_at, id, code, institution, media_category, identification, receipt, shipping, obs) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_midia, (SELECT t3.id FROM maps.institution AS t3 WHERE t3.code = t2.cod_instituicao), (SELECT t3.id FROM maps.media_category AS t3 WHERE t3.code = t2.cod_tipo_midia), TRIM(t2.identificacao), t2.data_recebimento, t2.data_remessa, t2.obs FROM sisbndo.tb_midia AS t2 ON CONFLICT DO NOTHING;
+-- sisbndo.tb_plataforma_comisao, PARECE INCONSISTENTE
+UPDATE sisbndo.tb_pesquisador_comissao SET cod_area_resp = 'OCEANOGRAFIA' WHERE cod_area_resp = 'OCENOGRAFIA';
+
+-- INSERT INTO maps.commission (created_at, updated_at, id, code, project, hydrographic_survey, coordinator, responsible, cruise_name, cruise_number, name, description, start, finish, latitude_bottom_most, latitude_top_most, longitude_left_most, longitude_right_most, harbor_departure, harbor_arrived, area_name, maximum_depth_area, minimum_depth_area, maximum_collection_depth, minimum_collection_depth, total_size_media, h_folder, obs)
+--     SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_comissao, (SELECT t3.id FROM maps.project AS t3 WHERE t3.code = t2.cod_projeto), (SELECT t3.id FROM maps.hydrographic_survey AS t3 WHERE t3.code = t2.cod_levantamento), (SELECT t3.id FROM maps.institution AS t3 WHERE t3.code = t2.cod_instituicao_coordenadora), (SELECT t3.id FROM maps.institution AS t3 WHERE t3.code = t2.cod_instituicao_responsavel), TRIM(t2.nome_cruzeiro), TRIM(t2.num_cruzeiro), TRIM(t2.nome_comissao), TRIM(t2.descricao_comissao), t2.data_inicio, t2.data_fim, t2.lat_bottommost, t2.lat_topmost, t2.long_leftmost, t2.long_rightmost, (SELECT t3.id FROM maps.harbor AS t3 WHERE t3.name = t2.porto_partida), (SELECT t3.id FROM maps.harbor AS t3 WHERE t3.name = t2.porto_chegada), TRIM(t2.nome_area_comissao), t2.profundidade_maxima_area, t2.profundidade_minima_area, t2.profundidade_maxima_coleta, t2.profundidade_minima_coleta, t2.tamanho_total_midia, TRIM(t2.pasta_h),
+--     (CASE WHEN (t2.obs = 'Nome comissÃ£o retirado do ALPHA' or obs = 'Nome da comissão obtido no ALPHA' or obs = 'Nome da comissao retirado do ALPHA' or obs = 'Nome comissão retirado do ALPHA') THEN 'Nome da comissão obtido no ALPHA' ELSE TRIM(t2.obs) END)
+--     FROM sisbndo.tb_comissao AS t2 ON CONFLICT DO NOTHING;
+-- --     qualificacao_dados
+-- -- ('POLYGON((-35.2 -5.75, -29 -3, -38 2, -44.3 -2.4833333333333333, -35.2 -5.75))')
+-- -- CONCAT('('POLYGON((', -35.2 -5.75, -29 -3, -38 2, -44.3 -2.4833333333333333, -35.2 -5.75))')
+
+-- INSERT INTO maps.research (created_at, updated_at, id, researcher, commission, module, start, finish) SELECT NOW(), NOW(), gen_random_uuid(), (SELECT t3.id FROM maps.researcher AS t3 WHERE t3.code = t2.cod_pesquisador), (SELECT t3.id FROM maps.commission AS t3 WHERE t3.code = t2.cod_comissao), (SELECT t3.id FROM maps.module AS t3 WHERE t3.name = t2.cod_area_resp), t2.data_inicio_resp, t2.data_fim_resp FROM sisbndo.tb_pesquisador_comissao AS t2 ON CONFLICT DO NOTHING;
+-- INSERT INTO maps.manufacturer (created_at, updated_at, id, name) SELECT NOW(), NOW(), gen_random_uuid(),
+--     CASE
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'teldyne rdi' or LOWER(TRIM(t2.fabricante)) = 'teeldyne rdi instruments') THEN 'teledyne'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'valport') THEN 'valeport'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'vaissala') THEN 'vaisala'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'sofar' or LOWER(TRIM(t2.fabricante)) = 'sofar ocean technologies') THEN 'sofar ocean'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'sea-bird' or LOWER(TRIM(t2.fabricante)) = 'seabird' or LOWER(TRIM(t2.fabricante)) = 'sbe' or LOWER(TRIM(t2.fabricante)) = 'sbe/wetlabs') THEN 'sea-bird scientific'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'sea and sun technology') THEN 'sea & sun technology'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'niel brown' or LOWER(TRIM(t2.fabricante)) = 'neil brown') THEN 'neil brown ocean sensors'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'jfe advantech') THEN 'jfe'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = 'axys' or LOWER(TRIM(t2.fabricante)) = 'axys technologis inc.' or LOWER(TRIM(t2.fabricante)) = 'axys technologies inc.' or LOWER(TRIM(t2.fabricante)) = 'axys technologies inc') THEN 'axys technologies'
+--         WHEN (LOWER(TRIM(t2.fabricante)) = '') THEN null
+--     ELSE LOWER(TRIM(t2.fabricante)) END
+--     FROM sisbndo.tb_equipamento AS t2 ON CONFLICT DO NOTHING;
+
+-- sisbndo.tb_midia_equipamento_comissao, PARECE INCONSISTENTE
+-- INSERT INTO maps.estacao_espaco_tempo
+-- INSERT INTO maps.seismic (created_at, updated_at, id, code, institution, media_category, identification, receipt, shipping, obs) SELECT NOW(), NOW(), gen_random_uuid(), t2.cod_midia, (SELECT t3.id FROM maps.institution AS t3 WHERE t3.code = t2.cod_instituicao), (SELECT t3.id FROM maps.media_category AS t3 WHERE t3.code = t2.cod_tipo_midia), TRIM(t2.identificacao), t2.data_recebimento, t2.data_remessa, t2.obs FROM sisbndo.tb_sismica AS t2 ON CONFLICT DO NOTHING;
