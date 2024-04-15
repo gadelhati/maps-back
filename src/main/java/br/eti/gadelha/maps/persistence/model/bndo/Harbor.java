@@ -13,13 +13,14 @@ import org.locationtech.jts.geom.Point;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class Harbor extends GenericAuditEntity {
 
-    private int code;
-    private int latitude;
-    private int longitude;
+    private Integer code;
+    private Integer latitude;
+    private Integer longitude;
     @Column(columnDefinition = "geography")
     private Point latitudeP;
     @Column(columnDefinition = "geography")
     private Point longitudeP;
+    @Column(unique = true)
     private String name;
     private String chartNumber;
     private Integer reference;

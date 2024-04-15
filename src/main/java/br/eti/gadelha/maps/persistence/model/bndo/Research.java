@@ -11,21 +11,18 @@ import org.hibernate.envers.Audited;
 import java.time.LocalDateTime;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class Media extends GenericAuditEntity {
+public class Research extends GenericAuditEntity {
 
-    private int code;
-//    private int codInstituicao;
-//    private int codTipoMidia;
-    private String identification;
-//    private int sequential;
-    private LocalDateTime receipt;
-    private LocalDateTime shipping;
-    private String obs;
+    private LocalDateTime start;
+    private LocalDateTime finish;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "institution", nullable = true)
-    private Institution institution;
+    @JoinColumn(name = "researcher", nullable = true)
+    private Researcher researcher;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "mediaCategory", nullable = true)
-    private MediaCategory mediaCategory;
+    @JoinColumn(name = "commission", nullable = true)
+    private Commission commission;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "module", nullable = true)
+    private Module module;
 }

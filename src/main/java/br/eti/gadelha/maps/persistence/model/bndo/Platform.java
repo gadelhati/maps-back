@@ -13,10 +13,10 @@ import org.hibernate.envers.Audited;
 public class Platform extends GenericAuditEntity {
 
     private int code;
-    private String indicativoTelegrafico;
-    private String indicativoInternacional;
+    private String telegraphCallSign;
+    private String internationalCallSign;
     private String name;
-    private String indicativoVisual;
+    private String visualCallSign;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "country", nullable = true)

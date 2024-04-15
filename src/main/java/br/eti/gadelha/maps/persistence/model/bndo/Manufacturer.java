@@ -11,6 +11,5 @@ import org.hibernate.envers.Audited;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class Manufacturer extends GenericAuditEntity {
 
-    private int code;
     private String name;
 }

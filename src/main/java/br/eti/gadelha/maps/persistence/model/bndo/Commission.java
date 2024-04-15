@@ -10,29 +10,28 @@ import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class Commission extends GenericAuditEntity {
 
-    private String code;
+    private Integer code;
     private String codeProjeto;
     private String codeLevantamento;
     private String cod_instituicao_coordenadora;
     private String cod_instituicao_responsavel;
 
-    private String nome_cruzeiro;   // == pernada?
-    private String num_cruzeiro;    // == pernada?
+    private String cruiseName;
+    private String cruiseNumber;
     private String name;
     private String description;
     private LocalDateTime start;
     private LocalDateTime finish;
-    private String latBottommost;
-    private String latTopmost;
+    private String latitudeBottomMost;
+    private String latitudeTopMost;
     @Column(columnDefinition = "geography")
     private Point ne;//lat_topmost and long_rightmost
-    private String longLeftmost;
-    private String longRightmost;
+    private String longitudeLeftMost;
+    private String longitudeRightMost;
     @Column(columnDefinition = "geography")
     private Point sw;//lat_bottommost and long_leftmost
     private String porto_partida;
@@ -53,12 +52,16 @@ public class Commission extends GenericAuditEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "hydrographicSurvey", nullable = true)
     private HydrographicSurvey hydrographicSurvey;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "commission_institution", joinColumns = @JoinColumn(name = "commission_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "institution_id", referencedColumnName = "id"))
-    private Collection<Institution> institution;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "commission_harbors", joinColumns = @JoinColumn(name = "commission_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "harbor_id", referencedColumnName = "id"))
-    private Collection<Harbor> harbor;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "coordinator", nullable = true)
+    private Institution coordinator;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "responsible", nullable = true)
+    private Institution responsible;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "harborArrived", nullable = true)
+    private Harbor harborArrived;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "harborDeparture", nullable = true)
+    private Harbor harborDeparture;
 }
