@@ -13,6 +13,6 @@ public class Datum extends GenericAuditEntity {
 
     private int code;
     private String name;
-    private int ae;
-    private float umF;
+    private Integer ae;
+    private Float umF;//?
 }

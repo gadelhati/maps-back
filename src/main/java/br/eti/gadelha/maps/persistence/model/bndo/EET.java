@@ -12,13 +12,15 @@ import org.locationtech.jts.geom.Point;
 import java.time.LocalDateTime;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class Commission extends GenericAuditEntity {
+public class EET extends GenericAuditEntity {
 
-    private Integer code;
-    private String cruiseName;
-    private String cruiseNumber;
-    private String name;
-    private String description;
+    private int code;
+//    private int cod_tipo_estacao;
+//    private int cod_comissao;
+//    private int cod_plataforma;
+//    private int cod_equipamento;
+//    private int cod_midia;
+
     private LocalDateTime start;
     private LocalDateTime finish;
     private String latitudeBottomMost;
@@ -29,32 +31,33 @@ public class Commission extends GenericAuditEntity {
     private String longitudeRightMost;
     @Column(columnDefinition = "geography")
     private Point sw;//lat_bottommost and long_leftmost
-    private String areaName;
-    private String maximumDepthArea;
-    private String minimumDepthArea;
-    private String maximumCollectionDepth;
-    private String minimumCollectionDepth;
-    private String totalSizeMedia;
-    private String qualificacao_dados;//se cada equipamento validou os dados
-    private String hFolder;
+    private String fb;
+    private String plataforma_batimetrica;//=~platform
+    private String secrecyCode;
     private String obs;
+    private Integer equipmentDepth;
+    private Integer localDepth;
+//    private int cod_datum;
+    private String nameSeismicLine;
+    private LocalDateTime startSeismicLineData;
+    private LocalDateTime endSeismicLineData;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "project", nullable = true)
-    private Project project;
+    @JoinColumn(name = "stationCategory", nullable = true)
+    private StationCategory stationCategory;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "hydrographicSurvey", nullable = true)
-    private HydrographicSurvey hydrographicSurvey;
+    @JoinColumn(name = "commission", nullable = true)
+    private Commission commission;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "coordinator", nullable = true)
-    private Institution coordinator;
+    @JoinColumn(name = "platform", nullable = true)
+    private Platform platform;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "responsible", nullable = true)
-    private Institution responsible;
+    @JoinColumn(name = "equipment", nullable = true)
+    private Equipment equipment;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "harborArrived", nullable = true)
-    private Harbor harborArrived;
+    @JoinColumn(name = "media", nullable = true)
+    private Media media;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "harborDeparture", nullable = true)
-    private Harbor harborDeparture;
+    @JoinColumn(name = "datum", nullable = true)
+    private Datum datum;
 }

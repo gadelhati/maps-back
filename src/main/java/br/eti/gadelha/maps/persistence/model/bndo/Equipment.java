@@ -15,19 +15,19 @@ import java.util.Collection;
 public class Equipment extends GenericAuditEntity {
 
     private int code;
-    private int codTipoEquipamento;
-    private String metodoAmostragem;
-    private String numSerie;
-    private String modelo;
-    private String fabricante;
-    private int frequency;
-    private int range;
-    private Collection<LocalDateTime> calibration;
+    private String number;
+    private String model;
+    private Integer frequency;
+    private Integer range;
+    private LocalDateTime calibration;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "equipment", nullable = true)
-    private Equipment equipment;
+    @JoinColumn(name = "equipmentCategory", nullable = true)
+    private EquipmentCategory equipmentCategory;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "manufacturer", nullable = true)
     private Manufacturer manufacturer;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "equipmentMethod", nullable = true)
+    private EquipmentMethod equipmentMethod;
 }

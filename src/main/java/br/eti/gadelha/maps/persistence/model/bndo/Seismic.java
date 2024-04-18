@@ -12,7 +12,6 @@ import org.locationtech.jts.geom.Point;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class Seismic extends GenericAuditEntity {
 
-    private int cod_estacao_espaco_tempo;
     private int point;
     private int latitude;
     private int longitude;
@@ -22,7 +21,7 @@ public class Seismic extends GenericAuditEntity {
     private Point longitudeP;
     private int qualityControlPosition;
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @JoinColumn(name = "country", nullable = true)
-//    private Country country;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "eet", nullable = true)
+    private EET eet;
 }

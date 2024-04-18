@@ -1,7 +1,6 @@
 package br.eti.gadelha.maps.persistence.model.bndo;
 
 import br.eti.gadelha.maps.persistence.GenericAuditEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class Module extends GenericAuditEntity {
+public class EquipmentMethod extends GenericAuditEntity {
 
-    @Column(unique = true)
     private String name;
 }
