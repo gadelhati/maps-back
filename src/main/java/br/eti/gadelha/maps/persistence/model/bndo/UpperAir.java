@@ -8,22 +8,24 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.time.LocalTime;
+
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class UpperAir extends GenericAuditEntity {
 
-    private int cod_estacao;
-    private int alt;
-    private int dbc;
-    private int pressao;
-    private int dd;
-    private int fff;
-    private int ido;
-    private int temp;
-    private int ur;
-    private int hora;
-    private int ascensao;
-    private int orvalho;
-    private int ctrlqc_pressao;
+    private Integer cod_estacao;
+    private Integer alt;
+    private Integer dbc;
+    private Integer pressao;
+    private Integer dd;
+    private Integer fff;
+    private Integer ido;
+    private Integer temp;
+    private Integer ur;
+    private LocalTime hora;
+    private Integer ascensao;
+    private Integer orvalho;
+    private Integer ctrlqc_pressao;
     private int ctrlqc_vento;
     private int ctrlqc_temp;
     private int ctrlqc_orvalho;
