@@ -12,7 +12,7 @@ public class ConfigurationHierarchy {
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ADMIN > MODERATOR > USER");
-        roleHierarchy.setHierarchy("ADMIN > REVIEWER > VERIFIER > OPERATOR");
+        roleHierarchy.setHierarchy("ADMIN > VERIFIER > REVIEWER > OPERATOR");
         roleHierarchy.setHierarchy("ADMIN > MODERATOR > VIEWER");
         return roleHierarchy;
     }
