@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.springframework.data.domain.ExampleMatcher.matching;
@@ -32,6 +33,9 @@ public class ServiceInternationalChart implements ServiceInterface<DTOResponseIn
         InternationalChart object = new InternationalChart();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
+            if(Objects.equals(UUID.fromString(value).toString(), value)) {
+                return repositoryInternationalChart.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+            }
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);
             Example<InternationalChart> example = Example.of(object, exampleMatcher);

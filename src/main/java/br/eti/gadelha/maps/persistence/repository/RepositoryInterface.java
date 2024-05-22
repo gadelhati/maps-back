@@ -11,6 +11,7 @@ public interface RepositoryInterface<T> {
     boolean existsByNameIgnoreCaseAndIdNot(String username, UUID id);
     boolean existsByName(String value);
     boolean existsByNameIgnoreCase(String value);
+    Page<T> findById(Pageable pageable, UUID uuid);
     Page<T> findByIdOrderByIdAsc(Pageable pageable, UUID id);
     Page<T> findByNameContainingIgnoreCaseOrderByNameAsc(Pageable pageable, String name);
 }

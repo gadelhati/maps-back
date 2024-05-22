@@ -23,4 +23,5 @@ public interface RepositoryUser extends JpaRepository<User, UUID> {
     Page<User> findByIdOrderByIdAsc(Pageable pageable, UUID id);
     Page<User> findByUsernameContainingIgnoreCaseOrderByUsernameAsc(Pageable pageable, String username);
     Page<User> findByEmailContainingIgnoreCaseOrderByEmailAsc(Pageable pageable, String username);
+    Page<User> findById(Pageable pageable, UUID uuid);
 }
