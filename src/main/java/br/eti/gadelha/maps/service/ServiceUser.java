@@ -30,7 +30,7 @@ public class ServiceUser implements ServiceInterface<DTOResponseUser, DTORequest
     public DTOResponseUser create(DTORequestUser created){
         User user = MapStruct.MAPPER.toObject(created);
         user.setPassword(passwordEncoder.encode(created.getPassword()));
-        user.setRoles(Collections.singletonList(repositoryRole.findByName("ROLE_USER")));
+        user.setRole(Collections.singletonList(repositoryRole.findByName("ROLE_USER")));
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     @Override
@@ -46,7 +46,7 @@ public class ServiceUser implements ServiceInterface<DTOResponseUser, DTORequest
             Example<User> example = Example.of(object, exampleMatcher);
             return repositoryUser.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e){
-            return repositoryUser.findAll(PageRequest.of(0, 3, Sort.by("username"))).map(MapStruct.MAPPER::toDTO);
+            return repositoryUser.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }
     @Override
