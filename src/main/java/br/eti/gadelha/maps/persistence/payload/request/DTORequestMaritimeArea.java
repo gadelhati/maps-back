@@ -1,13 +1,13 @@
 package br.eti.gadelha.maps.persistence.payload.request;
 
-import br.eti.gadelha.maps.exception.annotation.UniqueNameCountry;
+import br.eti.gadelha.maps.exception.annotation.UniqueNameMaritimeArea;
 import lombok.Getter;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 
 import java.util.UUID;
 
-@Getter @UniqueNameCountry
+@Getter @UniqueNameMaritimeArea
 public class DTORequestMaritimeArea {
 
     private UUID id;
