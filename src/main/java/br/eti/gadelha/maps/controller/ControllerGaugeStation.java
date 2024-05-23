@@ -21,24 +21,24 @@ public class ControllerGaugeStation implements ControllerInterface<DTOResponseGa
 
     private final ServiceGaugeStation serviceGaugeStation;
 
-    @PostMapping("") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
+    @PostMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
     public ResponseEntity<DTOResponseGaugeStation> create(@RequestBody @Valid DTORequestGaugeStation created){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/gauge_station").toUriString());
         return ResponseEntity.created(uri).body(serviceGaugeStation.create(created));
     }
-    @GetMapping("") @PreAuthorize("hasAnyRole('USER', '52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
+    @GetMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
     public ResponseEntity<Page<DTOResponseGaugeStation>> retrieve(@RequestParam(name="value", defaultValue = "", required = false) String value, Pageable pageable){
         return ResponseEntity.ok().body(serviceGaugeStation.retrieve(pageable, value));
     }
-    @PutMapping("") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
+    @PutMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
     public ResponseEntity<DTOResponseGaugeStation> update(@RequestBody @Valid DTORequestGaugeStation updated){
         return ResponseEntity.accepted().body(serviceGaugeStation.update(updated.getId(), updated));
     }
-    @DeleteMapping("/{id}") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
+    @DeleteMapping("/{id}") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
     public ResponseEntity<DTOResponseGaugeStation> delete(@PathVariable UUID id){
         return ResponseEntity.accepted().body(serviceGaugeStation.delete(id));
     }
-    @DeleteMapping("") @PreAuthorize("hasAnyRole('52c57a80-4e3b-4a41-a864-58d0cea25b14', '8652ec73-0a53-433c-93be-420f1d90c681')")
+    @DeleteMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681')")
     public ResponseEntity<HttpStatus> delete(){
         try {
             serviceGaugeStation.delete();
