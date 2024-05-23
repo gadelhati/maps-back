@@ -33,14 +33,14 @@ public class ServiceInternationalChart implements ServiceInterface<DTOResponseIn
         InternationalChart object = new InternationalChart();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryInternationalChart.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);
             Example<InternationalChart> example = Example.of(object, exampleMatcher);
             return repositoryInternationalChart.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e){
+            if(Objects.equals(UUID.fromString(value).toString(), value)) {
+                return repositoryInternationalChart.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+            }
             return repositoryInternationalChart.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }

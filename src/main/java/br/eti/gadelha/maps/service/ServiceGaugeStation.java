@@ -33,14 +33,14 @@ public class ServiceGaugeStation implements ServiceInterface<DTOResponseGaugeSta
         GaugeStation object = new GaugeStation();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryGaugeStation.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);
             Example<GaugeStation> example = Example.of(object, exampleMatcher);
             return repositoryGaugeStation.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e){
+            if(Objects.equals(UUID.fromString(value).toString(), value)) {
+                return repositoryGaugeStation.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+            }
             return repositoryGaugeStation.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }

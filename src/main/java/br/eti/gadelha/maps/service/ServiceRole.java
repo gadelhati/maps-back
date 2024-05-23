@@ -33,14 +33,14 @@ public class ServiceRole implements ServiceInterface<DTOResponseRole, DTORequest
         Role object = new Role();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryRole.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);
             Example<Role> example = Example.of(object, exampleMatcher);
             return repositoryRole.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e){
+            if(Objects.equals(UUID.fromString(value).toString(), value)) {
+                return repositoryRole.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+            }
             return repositoryRole.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }

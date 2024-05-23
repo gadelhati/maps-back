@@ -33,14 +33,14 @@ public class ServiceChartArea implements ServiceInterface<DTOResponseChartArea, 
         ChartArea object = new ChartArea();
         ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         try {
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryChartArea.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
             setMethod.invoke(object, value);
             Example<ChartArea> example = Example.of(object, exampleMatcher);
             return repositoryChartArea.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e){
+            if(Objects.equals(UUID.fromString(value).toString(), value)) {
+                return repositoryChartArea.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+            }
             return repositoryChartArea.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }
