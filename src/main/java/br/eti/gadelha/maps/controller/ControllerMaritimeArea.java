@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
 
-@RestController @RequestMapping("/maritime_area") @RequiredArgsConstructor
+@RestController @RequestMapping("/maritimeArea") @RequiredArgsConstructor
 public class ControllerMaritimeArea implements ControllerInterface<DTOResponseMaritimeArea, DTORequestMaritimeArea> {
 
     private final ServiceMaritimeArea serviceMaritimeArea;

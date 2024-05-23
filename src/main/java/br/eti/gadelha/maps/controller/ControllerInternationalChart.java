@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
 
-@RestController @RequestMapping("/international_chart") @RequiredArgsConstructor
+@RestController @RequestMapping("/internationalChart") @RequiredArgsConstructor
 public class ControllerInternationalChart implements ControllerInterface<DTOResponseInternationalChart, DTORequestInternationalChart> {
 
     private final ServiceInternationalChart serviceInternationalChart;

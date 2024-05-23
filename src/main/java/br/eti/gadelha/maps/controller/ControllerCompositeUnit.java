@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@RestController @RequestMapping("/composite_unit") @RequiredArgsConstructor
+@RestController @RequestMapping("/compositeUnit") @RequiredArgsConstructor
 public class ControllerCompositeUnit {
 
     private final ServiceCompositeUnit serviceCompositeUnit;

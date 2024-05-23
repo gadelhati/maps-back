@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
 
-@RestController @RequestMapping("/chart_area") @RequiredArgsConstructor
+@RestController @RequestMapping("/chartArea") @RequiredArgsConstructor
 public class ControllerChartArea implements ControllerInterface<DTOResponseChartArea, DTORequestChartArea> {
 
     private final ServiceChartArea serviceChartArea;

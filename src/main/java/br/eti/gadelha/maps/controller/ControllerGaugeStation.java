@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
 
-@RestController @RequestMapping("/gauge_station") @RequiredArgsConstructor
+@RestController @RequestMapping("/gaugeStation") @RequiredArgsConstructor
 public class ControllerGaugeStation implements ControllerInterface<DTOResponseGaugeStation, DTORequestGaugeStation> {
 
     private final ServiceGaugeStation serviceGaugeStation;
