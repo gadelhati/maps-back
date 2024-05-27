@@ -32,10 +32,9 @@ public class ServiceCity {
             setMethod.invoke(object, value);
             Example<City> example = Example.of(object, exampleMatcher);
             return repositoryCity.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (Exception e){
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryCity.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
+        } catch (IllegalArgumentException exception) {
+            return repositoryCity.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+        } catch (Exception e) {
             return repositoryCity.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }

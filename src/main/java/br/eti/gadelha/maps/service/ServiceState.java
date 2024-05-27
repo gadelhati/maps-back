@@ -35,10 +35,9 @@ public class ServiceState {
             setMethod.invoke(object, value);
             Example<State> example = Example.of(object, exampleMatcher);
             return repositoryState.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (Exception e){
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryState.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
+        } catch (IllegalArgumentException exception) {
+            return repositoryState.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+        } catch (Exception e) {
             return repositoryState.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }

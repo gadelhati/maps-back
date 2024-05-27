@@ -42,10 +42,9 @@ public class ServiceUser implements ServiceInterface<DTOResponseUser, DTORequest
             setMethod.invoke(object, value);
             Example<User> example = Example.of(object, exampleMatcher);
             return repositoryUser.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (Exception e){
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryUser.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
+        } catch (IllegalArgumentException exception) {
+            return repositoryUser.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+        } catch (Exception e) {
             return repositoryUser.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }

@@ -37,10 +37,9 @@ public class ServiceMaritimeArea implements ServiceInterface<DTOResponseMaritime
             setMethod.invoke(object, value);
             Example<MaritimeArea> example = Example.of(object, exampleMatcher);
             return repositoryMaritimeArea.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (Exception e){
-            if(Objects.equals(UUID.fromString(value).toString(), value)) {
-                return repositoryMaritimeArea.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-            }
+        } catch (IllegalArgumentException exception) {
+            return repositoryMaritimeArea.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
+        } catch (Exception e) {
             return repositoryMaritimeArea.findAll(pageable).map(MapStruct.MAPPER::toDTO);
         }
     }
