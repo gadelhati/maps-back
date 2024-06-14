@@ -1,8 +1,7 @@
 package br.eti.gadelha.maps.persistence.model;
 
 import br.eti.gadelha.maps.persistence.GenericAuditEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +19,11 @@ public class BlindSignal extends GenericAuditEntity {
     private Point point;
     private String description;
     private String observation;
-    private String chart_area;
-    private String state;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "chartArea", nullable = true)
+    private ChartArea chartArea;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "state", nullable = true)
+    private State state;
 }
