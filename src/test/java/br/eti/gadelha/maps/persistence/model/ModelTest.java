@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest @ActiveProfiles("homolog")
 class ModelTest {
     //UNIT TESTS(& COMPONENTS): VALIDATION, EXCEPTION
     //INTEGRATION TESTS: API INTEGRATION, REPOSITORY LAYER, API VALIDATION, DB INTEGRATION.
