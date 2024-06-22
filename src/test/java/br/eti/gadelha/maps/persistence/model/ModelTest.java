@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest @ActiveProfiles("homolog")
+@SpringBootTest// @ActiveProfiles("homolog")
 class ModelTest {
     //UNIT TESTS(& COMPONENTS): VALIDATION, EXCEPTION
     //INTEGRATION TESTS: API INTEGRATION, REPOSITORY LAYER, API VALIDATION, DB INTEGRATION.
