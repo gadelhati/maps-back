@@ -33,13 +33,10 @@ public class ConfigurationSecurity {
                 .authorizeHttpRequests((auth) -> auth
                     .requestMatchers(HttpMethod.GET, "/city/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                    .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                     .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
-    }
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/maps/**");
     }
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
