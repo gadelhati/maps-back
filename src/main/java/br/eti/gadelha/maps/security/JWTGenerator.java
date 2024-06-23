@@ -31,7 +31,7 @@ public class JWTGenerator {
                 .compact();
     }
     public String getUsernameFromJWT(String token) {
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(secretKey).build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -39,7 +39,7 @@ public class JWTGenerator {
     }
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
+            Jwts.parser()
                     .setSigningKey(secretKey).build()
                     .parseClaimsJws(token);
             return true;

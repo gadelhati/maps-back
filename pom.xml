@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.3</version>
+		<version>3.3.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.eti.gadelha</groupId>
@@ -16,11 +16,11 @@
 	<description>Gadelha&apos;s Spring Boot Project</description>
 	<properties>
 		<java.version>17</java.version>
-		<springframework.version>3.2.0</springframework.version>
+		<springframework.version>3.3.1</springframework.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
-		<maven.compiler.source>20</maven.compiler.source>
-		<maven.compiler.target>20</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
@@ -58,13 +58,13 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>2.2.224</version>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.1</version>
+			<version>42.7.3</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.postgis/postgis-jdbc -->
@@ -77,14 +77,14 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
+			<version>1.18.32</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-websocket</artifactId>
-			<version>11.0.0-M15</version>
+			<version>11.0.0-M21</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
@@ -98,33 +98,33 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<version>6.2.0</version>
+			<version>6.3.1</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-envers -->
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-envers</artifactId>
-			<version>6.4.0.Final</version>
+			<version>6.5.2.Final</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>0.11.5</version>
+			<version>0.12.6</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.5</version>
+			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.5</version>
+			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
@@ -137,19 +137,19 @@
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.4.0.Final</version>
+			<version>6.5.2.Final</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-spatial -->
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-spatial</artifactId>
-			<version>6.4.0.Final</version>
+			<version>6.5.2.Final</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.3.0</version>
+			<version>2.5.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.locationtech.jts/jts-core -->
 		<dependency>
@@ -185,8 +185,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.12.1</version>
 				<configuration>
-					<source>20</source> <!-- depending on your project -->
-					<target>20</target> <!-- depending on your project -->
+					<source>${java.version}</source> <!-- depending on your project -->
+					<target>${java.version}</target> <!-- depending on your project -->
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
