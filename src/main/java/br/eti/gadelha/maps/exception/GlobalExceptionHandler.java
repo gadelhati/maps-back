@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,13 +18,13 @@ import java.util.Arrays;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders httpHeaders, HttpStatusCode httpStatusCode, WebRequest webRequest) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, @NonNull HttpHeaders httpHeaders, @NonNull HttpStatusCode httpStatusCode, @NonNull WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(httpStatusCode, Arrays.toString(exception.getStackTrace()), exception.getAllErrors().toString());
         for (FieldError error : exception.getBindingResult().getFieldErrors()) {
-            errorResponse.addValidationError(((FieldError) error).getField(), error.getDefaultMessage());
+            errorResponse.addValidationError((error).getField(), error.getDefaultMessage());
         }
         for (ObjectError error : exception.getBindingResult().getGlobalErrors()) {
-            errorResponse.addValidationError(((ObjectError) error).getObjectName(), error.getDefaultMessage());
+            errorResponse.addValidationError((error).getObjectName(), error.getDefaultMessage());
         }
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
