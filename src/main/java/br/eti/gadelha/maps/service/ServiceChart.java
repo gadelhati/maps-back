@@ -37,7 +37,7 @@ public class ServiceChart implements ServiceInterface<DTOResponseChart, DTOReque
             setMethod.invoke(object, value);
             Example<Chart> example = Example.of(object, exampleMatcher);
             return repositoryChart.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (IllegalArgumentException exception) {
+        } catch (NoSuchMethodException exception) {
             return repositoryChart.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e) {
             return repositoryChart.findAll(pageable).map(MapStruct.MAPPER::toDTO);

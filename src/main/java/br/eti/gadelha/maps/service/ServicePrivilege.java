@@ -37,7 +37,7 @@ public class ServicePrivilege implements ServiceInterface<DTOResponsePrivilege, 
             setMethod.invoke(object, value);
             Example<Privilege> example = Example.of(object, exampleMatcher);
             return repositoryPrivilege.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (IllegalArgumentException exception) {
+        } catch (NoSuchMethodException exception) {
             return repositoryPrivilege.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e) {
             return repositoryPrivilege.findAll(pageable).map(MapStruct.MAPPER::toDTO);

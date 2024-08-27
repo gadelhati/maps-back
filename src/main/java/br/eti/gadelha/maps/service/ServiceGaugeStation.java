@@ -37,7 +37,7 @@ public class ServiceGaugeStation implements ServiceInterface<DTOResponseGaugeSta
             setMethod.invoke(object, value);
             Example<GaugeStation> example = Example.of(object, exampleMatcher);
             return repositoryGaugeStation.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (IllegalArgumentException exception) {
+        } catch (NoSuchMethodException exception) {
             return repositoryGaugeStation.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e) {
             return repositoryGaugeStation.findAll(pageable).map(MapStruct.MAPPER::toDTO);
