@@ -36,7 +36,6 @@ public class ServiceState {
             Example<State> example = Example.of(object, exampleMatcher);
             return repositoryState.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
         } catch (NoSuchMethodException exception) {
-            System.out.println("2: :" + exception);
             return repositoryState.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
         } catch (Exception e) {
             return repositoryState.findAll(pageable).map(MapStruct.MAPPER::toDTO);
