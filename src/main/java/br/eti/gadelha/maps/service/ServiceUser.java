@@ -3,6 +3,7 @@ package br.eti.gadelha.maps.service;
 import br.eti.gadelha.maps.persistence.MapStruct;
 import br.eti.gadelha.maps.persistence.model.User;
 import br.eti.gadelha.maps.persistence.payload.request.DTORequestUser;
+import br.eti.gadelha.maps.persistence.payload.request.DTORequestUserPassword;
 import br.eti.gadelha.maps.persistence.payload.response.DTOResponseUser;
 import br.eti.gadelha.maps.persistence.repository.RepositoryRole;
 import br.eti.gadelha.maps.persistence.repository.RepositoryUser;
@@ -29,7 +30,6 @@ public class ServiceUser implements ServiceInterface<DTOResponseUser, DTORequest
     @Override
     public DTOResponseUser create(DTORequestUser created){
         User user = MapStruct.MAPPER.toObject(created);
-        user.setPassword(passwordEncoder.encode(created.getPassword()));
         user.setRole(Collections.singletonList(repositoryRole.findByName("ROLE_USER")));
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
@@ -78,7 +78,7 @@ public class ServiceUser implements ServiceInterface<DTOResponseUser, DTORequest
         return repositoryUser.existsByEmailIgnoreCaseAndIdNot(value, id);
     }
 
-    public DTOResponseUser changePassword(DTORequestUser updated){
+    public DTOResponseUser changePassword(DTORequestUserPassword updated){
         User user = repositoryUser.findById(updated.getId()).orElse(null);
         Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));

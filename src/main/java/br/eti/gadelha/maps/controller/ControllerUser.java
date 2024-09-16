@@ -1,6 +1,7 @@
 package br.eti.gadelha.maps.controller;
 
 import br.eti.gadelha.maps.persistence.payload.request.DTORequestUser;
+import br.eti.gadelha.maps.persistence.payload.request.DTORequestUserPassword;
 import br.eti.gadelha.maps.persistence.payload.response.DTOResponseUser;
 import br.eti.gadelha.maps.service.ServiceUser;
 import jakarta.validation.Valid;
@@ -48,7 +49,7 @@ public class ControllerUser implements ControllerInterface<DTOResponseUser, DTOR
         }
     }
     @PutMapping("/changePassword")
-    public ResponseEntity<DTOResponseUser> changePassword(@RequestBody @Valid DTORequestUser updated){
+    public ResponseEntity<DTOResponseUser> changePassword(@RequestBody @Valid DTORequestUserPassword updated){
         try {
             return new ResponseEntity<>(serviceUser.changePassword(updated), HttpStatus.OK);
         } catch (Exception e) {

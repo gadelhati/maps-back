@@ -16,13 +16,6 @@ public class DTORequestUser {
     private String username;
     @NotBlank(message = "{not.blank}") @Size(max = 50) @Email
     private String email;
-    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    @HasDigit
-    @HasLetter
-    @HasUpperCase
-    @HasLowerCase
-    @HasLength
-    private String password;
     @NotNull(message = "{user.active.not.null}")
     private boolean active;
     private Collection<Role> role;
