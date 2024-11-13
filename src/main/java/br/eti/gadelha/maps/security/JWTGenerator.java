@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 
 @Component
@@ -16,7 +17,7 @@ public class JWTGenerator {
     private String issuer;
     @Value("${app.jwtAudience}")
     private String audience;
-    final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private final SecretKey secretKey = new SecretKeySpec(new byte[64], "HmacSHA512");
 
     public String generateToken(Authentication authentication) {
         return Jwts.builder()
