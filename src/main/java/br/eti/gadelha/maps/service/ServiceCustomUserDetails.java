@@ -3,7 +3,6 @@ package br.eti.gadelha.maps.service;
 import br.eti.gadelha.maps.persistence.model.Privilege;
 import br.eti.gadelha.maps.persistence.model.Role;
 import br.eti.gadelha.maps.persistence.model.User;
-import br.eti.gadelha.maps.persistence.repository.RepositoryRole;
 import br.eti.gadelha.maps.persistence.repository.RepositoryUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +18,6 @@ import java.util.*;
 public class ServiceCustomUserDetails implements UserDetailsService {
 
     private final RepositoryUser repositoryUser;
-    private final RepositoryRole repositoryRole;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
