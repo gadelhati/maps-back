@@ -1,5 +1,6 @@
 package br.eti.gadelha.maps.configuration;
 
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -12,10 +13,13 @@ public class ConfigurationCors {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("POST", "GET", "PUT", "DELETE");
+                        .allowedOrigins("http://localhost:5173")
+                        .allowedMethods("POST", "GET", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .allowCredentials(true)
+                        .maxAge(3600);
             }
         };
     }
