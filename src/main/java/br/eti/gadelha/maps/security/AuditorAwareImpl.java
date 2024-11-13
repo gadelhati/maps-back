@@ -2,7 +2,7 @@ package br.eti.gadelha.maps.security;
 
 import br.eti.gadelha.maps.persistence.model.User;
 import br.eti.gadelha.maps.persistence.repository.RepositoryUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +18,7 @@ public class AuditorAwareImpl implements AuditorAware<User> {
     public AuditorAwareImpl(RepositoryUser repositoryUser) {
         this.repositoryUser = repositoryUser;
     }
-    @Override
+    @Override @NonNull
     public Optional<User> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
