@@ -13,9 +13,11 @@ import java.util.Optional;
 @Service
 public class AuditorAwareImpl implements AuditorAware<User> {
 
-    @Autowired
-    private RepositoryUser repositoryUser;
+    private final RepositoryUser repositoryUser;
 
+    public AuditorAwareImpl(RepositoryUser repositoryUser) {
+        this.repositoryUser = repositoryUser;
+    }
     @Override
     public Optional<User> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
