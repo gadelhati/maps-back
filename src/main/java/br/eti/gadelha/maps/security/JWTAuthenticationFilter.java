@@ -1,8 +1,8 @@
 package br.eti.gadelha.maps.security;
 
 import br.eti.gadelha.maps.service.ServiceCustomUserDetails;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,32 +15,36 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JWTGenerator tokenGenerator;
-    @Autowired
-    private ServiceCustomUserDetails serviceCustomUserDetails;
+    private final JWTGenerator jwtGenerator;
+    private final ServiceCustomUserDetails serviceCustomUserDetails;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = getJWTFromRequest(request);
-        if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
-            String username = tokenGenerator.getUsernameFromJWT(token);
-            UserDetails userDetails = serviceCustomUserDetails.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+        getJWTFromRequest(request)
+                .filter(jwtGenerator::validateToken)
+                .map(jwtGenerator::getUsernameFromJWT)
+                .ifPresent(username->authenticateUser(username, request));
+        filterChain.doFilter(request, response);
+    }
+    private Optional<String> getJWTFromRequest(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            return Optional.of(token.substring(7));
+        }
+        return Optional.empty();
+    }
+    private void authenticateUser(String username, HttpServletRequest request) {
+        UserDetails userDetails = serviceCustomUserDetails.loadUserByUsername(username);
+        if (userDetails != null) {
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
-        filterChain.doFilter(request, response);
-    }
-    private String getJWTFromRequest(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
-            return token.substring(7);
-        }
-        return null;
     }
 }

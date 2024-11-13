@@ -1,6 +1,8 @@
 package br.eti.gadelha.maps.configuration;
 
 import br.eti.gadelha.maps.security.JWTAuthenticationFilter;
+import br.eti.gadelha.maps.security.JWTGenerator;
+import br.eti.gadelha.maps.service.ServiceCustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration @EnableWebSecurity @EnableMethodSecurity @RequiredArgsConstructor
 public class ConfigurationSecurity {
+
+    public final JWTGenerator jwtGenerator;
+    public final ServiceCustomUserDetails serviceCustomUserDetails;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -51,6 +56,6 @@ public class ConfigurationSecurity {
     }
     @Bean
     public JWTAuthenticationFilter jwtAuthenticationFilter() {
-        return new JWTAuthenticationFilter();
+        return new JWTAuthenticationFilter(jwtGenerator, serviceCustomUserDetails);
     }
 }
