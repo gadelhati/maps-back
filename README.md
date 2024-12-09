@@ -17,14 +17,9 @@ CRUD service from a datatable.
 
 ### Roadmap
 #### in development
-- [ ] @PostFilter(hasPermission('')), hasAuthority('Admin')
+- [ ] 
 #### in concept
-- [ ] add purchase flow
-- [ ] service to provide sidebar access
-- [x] change application.properties to [dev using h2, and prod using postgres]
-- [ ] add Internationalization to ValidationMessages.properties
-- [ ] service to provide color palete
-- [x] improve refresh token
+- [ ] 
 
 ## Summary
 * [How to work with this project](#how-to-work-with-this-project)
