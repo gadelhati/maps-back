@@ -1,58 +1,41 @@
 package com.maps.service;
 
-import com.maps.persistence.MapStruct;
+import com.maps.persistence.MapperInterface;
 import com.maps.persistence.model.City;
 import com.maps.persistence.payload.request.DTORequestCity;
 import com.maps.persistence.payload.response.DTOResponseCity;
 import com.maps.persistence.repository.RepositoryCity;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import com.maps.persistence.repository.RepositoryGeneric;
+import com.maps.utils.Information;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Method;
 import java.util.UUID;
 
-import static org.springframework.data.domain.ExampleMatcher.matching;
-
 @Service
-@RequiredArgsConstructor
-public class ServiceCity {
+public class ServiceCity extends ServiceGeneric<City, DTORequestCity, DTOResponseCity> {
 
     private final RepositoryCity repositoryCity;
+    private final MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface;
 
-    public DTOResponseCity create(DTORequestCity created){
-        return MapStruct.MAPPER.toDTO(repositoryCity.save(MapStruct.MAPPER.toObject(created)));
-    }
-    public Page<DTOResponseCity> retrieve(Pageable pageable, String value){
-        City object = new City();
-        ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        try {
-            Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(pageable.getSort().stream().findFirst().get().getProperty()), String.class);
-            setMethod.invoke(object, value);
-            Example<City> example = Example.of(object, exampleMatcher);
-            return repositoryCity.findAll(example, pageable).map(MapStruct.MAPPER::toDTO);
-        } catch (NoSuchMethodException exception) {
-            return repositoryCity.findById(pageable, UUID.fromString(value)).map(MapStruct.MAPPER::toDTO);
-        } catch (Exception e) {
-            return repositoryCity.findAll(pageable).map(MapStruct.MAPPER::toDTO);
-        }
-    }
-    public DTOResponseCity update(UUID id, DTORequestCity updated){
-        return MapStruct.MAPPER.toDTO(repositoryCity.save(MapStruct.MAPPER.toObject(updated)));
-    }
-    public DTOResponseCity delete(UUID id){
-        City object = repositoryCity.findById(id).orElse(null);
-        repositoryCity.deleteById(id);
-        return MapStruct.MAPPER.toDTO(object);
-    }
-    public void delete() {
-        repositoryCity.deleteAll();
+    public ServiceCity(RepositoryGeneric<City> repositoryGeneric, MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface, RepositoryCity repositoryCity) {
+        super(new Information(), repositoryGeneric, mapperInterface);
+        this.repositoryCity = repositoryCity;
+        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("Value must not be null or empty.");
+        }
         return repositoryCity.existsByNameIgnoreCase(value);
     }
     public boolean existsByNameAndIdNot(String value, UUID id) {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("Value must not be null or empty.");
+        }
+        if (id == null) {
+            throw new IllegalArgumentException("ID must not be null.");
+        }
         return repositoryCity.existsByNameIgnoreCaseAndIdNot(value, id);
     }
 }

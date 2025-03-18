@@ -16,7 +16,6 @@ import java.util.List;
 public class ConfigurationOpenAPI {
     @Value("${gadelha.openapi.homolog-url}")
     private String homologUrl;
-
     @Value("${gadelha.openapi.prod-url}")
     private String prodUrl;
 

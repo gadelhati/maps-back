@@ -18,12 +18,9 @@ public class ServiceRecaptcha {
 
     @Value("${recaptcha.secret}")
     private String recaptchaSecret;
-
     @Value("${recaptcha.url}")
     private String recaptchaUrl;
-
     private double threshold = 0.5;
-
     private final RestTemplate restTemplate = new RestTemplate();
 
     public boolean validateCaptcha(String captchaToken) {

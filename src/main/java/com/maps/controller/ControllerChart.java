@@ -1,20 +1,10 @@
 package com.maps.controller;
 
+import com.maps.persistence.model.Chart;
 import com.maps.persistence.payload.request.DTORequestChart;
 import com.maps.persistence.payload.response.DTOResponseChart;
 import com.maps.service.ServiceChart;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -24,35 +14,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/chart")
-@RequiredArgsConstructor
-public class ControllerChart {
+public class ControllerChart extends ControllerGeneric<Chart, DTORequestChart, DTOResponseChart> {
 
     private final ServiceChart serviceChart;
 
-    @PostMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
-    public ResponseEntity<DTOResponseChart> create(@RequestBody @Valid DTORequestChart created){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/chart").toUriString());
-        return ResponseEntity.created(uri).body(serviceChart.create(created));
+    public ControllerChart(ServiceChart serviceChart) {
+        super(serviceChart);
+        this.serviceChart = serviceChart;
     }
-    @GetMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
-    public ResponseEntity<Page<DTOResponseChart>> retrieve(@RequestParam(name="value", defaultValue = "", required = false) String value, Pageable pageable){
-        return ResponseEntity.ok().body(serviceChart.retrieve(pageable, value));
-    }
-    @PutMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681', '52c57a80-4e3b-4a41-a864-58d0cea25b14')")
-    public ResponseEntity<DTOResponseChart> update(@RequestBody @Valid DTORequestChart updated){
-        return ResponseEntity.accepted().body(serviceChart.update(updated.getId(), updated));
-    }
-    @DeleteMapping("/{id}") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681')")
-    public ResponseEntity<DTOResponseChart> delete(@PathVariable UUID id){
-        return ResponseEntity.accepted().body(serviceChart.delete(id));
-    }
-    @DeleteMapping("") @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681')")
-    public ResponseEntity<HttpStatus> delete(){
-        try {
-            serviceChart.delete();
-            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
-        }
+    protected Class<Chart> getEntityClass() {
+        return Chart.class;
     }
 }

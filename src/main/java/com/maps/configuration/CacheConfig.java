@@ -1,6 +1,7 @@
 package com.maps.configuration;
 
 import com.maps.persistence.model.Privilege;
+import com.maps.persistence.model.Role;
 import com.maps.persistence.repository.RepositoryUser;
 import com.maps.utils.CacheConstants;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  * @mail	gadelha.ti@gmail.com
  * @link	www.gadelha.eti.br
  **/
+
 @Configuration
 @EnableCaching
 @RequiredArgsConstructor
@@ -54,7 +56,7 @@ public class CacheConfig {
     private Set<String> loadUserRoles(String username) {
         return repositoryUser.findByUsername(username)
                 .map(user -> user.getRoles().stream()
-                        .map(role -> "ROLE_" + role.getName())
+                        .map(Role::getName)
                         .collect(Collectors.toSet()))
                 .orElse(Collections.emptySet());
     }
