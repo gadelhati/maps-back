@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/image/lock.png}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link th:href="@{/js/script.js}">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<section class="login-container">
+    <article class="login-box">
+        <!-- Cabeçalho -->
+        <div class="login-header">
+            <h2>Confirmação</h2>
+            <p>Um confirmação foi enviada para o email cadastrado</p>
+        </div>
+        <!-- Links de rodapé -->
+        <div class="login-footer">
+            <p><a th:href="@{/login}">Faça login na sua conta</a></p>
+        </div>
+        <div class="login-footer">
+            <p><a th:href="@{/resetPassword}">Esqueci minha senha</a></p>
+        </div>
+        <div class="login-footer">
+            <p><a th:href="@{/resetTotp}">Esqueci minha semente</a></p>
+        </div>
+    </article>
+</section>
+</body>
+</html>

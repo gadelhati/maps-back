@@ -1,0 +1,68 @@
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Upload</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/upload.css}" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" th:href="@{/image/lock.png}">
+</head>
+<body>
+
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+
+<div>
+    <form method="POST" enctype="multipart/form-data" action="/">
+        <table>
+            <tr><td>File to upload:</td><td><input type="file" name="file" multiple /></td></tr>
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        </table>
+    </form>
+</div>
+
+<div>
+    <ul>
+        <li th:each="file : ${files}">
+            <a th:href="${file}" th:text="${file}" />
+        </li>
+    </ul>
+</div>
+<div>
+    <h2>Welcome</h2>
+    <p>Spring Security Thymeleaf tutorial</p>
+    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
+    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+    <div sec:authorize="isAuthenticated()">
+        Text visible only to authenticated users.
+    </div>
+    Authenticated username:
+    <div sec:authentication="name"></div>
+    Authenticated user roles:
+    <div sec:authentication="principal.authorities"></div>
+<!--    <ul>-->
+<!--        <li sec:authorize="isAnonymous()"><a class="nav-link" href="/login">Login</a></li>-->
+<!--        <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></li>-->
+<!--        <li sec:authorize="isAuthenticated()">Wellcome, <span sec:authentication="name"></span></li>-->
+<!--    </ul>-->
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        This content is only shown to authenticated users.-->
+<!--    </div>-->
+<!--    <div sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--        This content is only shown to administrators.-->
+<!--    </div>-->
+<!--    <div sec:authorize="hasRole('ROLE_USER')">-->
+<!--        This content is only shown to users.-->
+<!--    </div>-->
+</div>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = /*[[${token}]]*/ null;
+        if (token) {
+            localStorage.setItem('token', token);
+            // Redirecionar após armazenar o token se necessário
+            // window.location.href = '/dashboard';
+        }
+    });
+</script>
+</body>
+</html>
