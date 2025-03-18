@@ -13,22 +13,16 @@ import com.maps.persistence.repository.RepositoryUser;
 import com.maps.utils.E2EE;
 import com.maps.utils.Information;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.*;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
-
-import static org.springframework.data.domain.ExampleMatcher.matching;
 
 /**
  * @author	Marcelo Ribeiro Gadelha

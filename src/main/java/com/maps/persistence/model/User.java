@@ -23,7 +23,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(indexes = @Index(columnList = "name"), uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(indexes = @Index(columnList = "username"), uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class User extends GenericAuditEntity {
 
     private String username;
