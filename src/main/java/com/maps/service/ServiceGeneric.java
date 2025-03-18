@@ -56,19 +56,19 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
             setMethod.invoke(object, value);
             Example<T> example = Example.of(object, exampleMatcher);
             return repositoryGeneric.findAll(example, pageable).map(object1->
-                    mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().toLowerCase()).slash(object1.getId()).withSelfRel()));
+                    mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
         } catch (NoSuchMethodException exception) {
             try {
                 LOGGER.warn("No setter method found for property.");
                 return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(object1->
-                        mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().toLowerCase()).slash(object1.getId()).withSelfRel()));
+                        mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
             } catch (Exception e) {
                 return repositoryGeneric.findAll(pageable).map(object1->
-                        mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().toLowerCase()).slash(object1.getId()).withSelfRel()));
+                        mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
             }
         } catch (Exception e) {
             return repositoryGeneric.findAll(pageable).map(object1->
-                    mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().toLowerCase()).slash(object1.getId()).withSelfRel()));
+                    mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
         }
     }
     @Transactional
