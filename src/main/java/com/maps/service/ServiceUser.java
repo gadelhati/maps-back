@@ -1,0 +1,157 @@
+package com.maps.service;
+
+import com.maps.MapsApplication;
+import com.maps.persistence.MapStruct;
+import com.maps.persistence.MapperInterface;
+import com.maps.persistence.model.User;
+import com.maps.persistence.payload.request.DTORequestUser;
+import com.maps.persistence.payload.request.DTORequestUserPassword;
+import com.maps.persistence.payload.response.DTOResponseUser;
+import com.maps.persistence.repository.RepositoryGeneric;
+import com.maps.persistence.repository.RepositoryRole;
+import com.maps.persistence.repository.RepositoryUser;
+import com.maps.utils.E2EE;
+import com.maps.utils.Information;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.data.domain.*;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.UUID;
+
+import static org.springframework.data.domain.ExampleMatcher.matching;
+
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Service
+public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTOResponseUser> {
+
+    private Information information;
+    private final RepositoryUser repositoryUser;
+    private final RepositoryRole repositoryRole;
+    private final ServiceUserTOTP serviceUserTOTP;
+    private final ServiceEmail serviceEmail;
+    private final Environment env;
+    private final PasswordEncoder passwordEncoder;
+    private final E2EE e2EE;
+    private final MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface;
+    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
+
+    public ServiceUser(RepositoryGeneric<User> repositoryGeneric, MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface, RepositoryUser repositoryUser, Information information, ServiceUserTOTP serviceUserTOTP, Environment env, PasswordEncoder passwordEncoder, E2EE e2EE, RepositoryRole repositoryRole, ServiceEmail serviceEmail) {
+        super(new Information(), repositoryGeneric, mapperInterface);
+        this.repositoryUser = repositoryUser;
+        this.mapperInterface = mapperInterface;
+        this.serviceUserTOTP = serviceUserTOTP;
+        this.information = information;
+        this.env = env;
+        this.passwordEncoder = passwordEncoder;
+        this.e2EE = e2EE;
+        this.repositoryRole = repositoryRole;
+        this.serviceEmail = serviceEmail;
+    }
+    @Override @Transactional
+    public DTOResponseUser create(DTORequestUser created){
+//        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
+        User user = MapStruct.MAPPER.toObject(created);
+        String totpKey = serviceUserTOTP.generateSecret();
+        user.setPassword(passwordEncoder.encode(created.getPassword()));
+        try {
+            user.setSecret(e2EE.encrypt(totpKey));
+        } catch (Exception e) {
+            LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
+            throw new BadCredentialsException("Invalid secret");
+        }
+        user.setRoles(repositoryRole.findByName("USER"));
+        serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + created.getPassword() + "\nTotpKey: " + totpKey);
+        return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
+    }
+    @Override @Transactional
+    public DTOResponseUser update(DTORequestUser updated){
+        User user = MapStruct.MAPPER.toObject(updated);
+        if (!repositoryUser.existsById(updated.getId())) {
+            throw new RuntimeException("ID " + updated.getId() + " not found");
+        }
+        try {
+            user.setSecret(e2EE.encrypt(updated.getSecret()));
+        } catch (Exception e) {
+            throw new BadCredentialsException("Invalid secret");
+        }
+        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
+        return MapStruct.MAPPER.toDTO(repositoryUser.save(MapStruct.MAPPER.toObject(updated)));
+    }
+    //    @Transactional
+//    public DTOResponseUser delete(UUID id){
+//        User entity = repositoryUser.findById(id).orElseThrow(() -> new RuntimeException("Resource not found"));
+//        LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser(), id);
+//        repositoryUser.deleteById(id);
+//        return MapStruct.MAPPER.toDTO(entity);
+//    }
+    public boolean existsByUsername(String value) {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("Value must not be null or empty.");
+        }
+        return repositoryUser.existsByUsernameIgnoreCase(value);
+    }
+    public boolean existsByUsernameAndIdNot(String value, UUID id) {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("Value must not be null or empty.");
+        }
+        if (id == null) {
+            throw new IllegalArgumentException("ID must not be null.");
+        }
+        return repositoryUser.existsByUsernameIgnoreCaseAndIdNot(value, id);
+    }
+    public boolean existsByEmail(String value) {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("Value must not be null or empty.");
+        }
+        return repositoryUser.existsByEmailIgnoreCase(value);
+    }
+    public boolean existsByEmailAndIdNot(String value, UUID id) {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("Value must not be null or empty.");
+        }
+        return repositoryUser.existsByEmailIgnoreCaseAndIdNot(value, id);
+    }
+    @Transactional
+    public DTOResponseUser changePassword(DTORequestUserPassword updated){
+        User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new RuntimeException("Resource not found"));
+        User userCurrent = repositoryUser.findByUsername(String.valueOf(information.getCurrentUser())).orElseThrow(() -> new RuntimeException("Current user not found"));
+        if(userCurrent.getUsername() != null && user.getUsername() != null &&
+                userCurrent.getUsername().equals(user.getUsername()) ||
+                userCurrent.getRoles().getClass().getName().contains("ADMIN")  ){
+            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
+            user = repositoryUser.save(user);
+        }
+        return MapStruct.MAPPER.toDTO(user);
+    }
+    @Transactional
+    public String resetTOTP(String userName) {
+        try {
+            User user = repositoryUser.findByUsername(userName).orElseThrow(() -> new RuntimeException("Resource not found"));
+            User userCurrent = repositoryUser.findByUsername(String.valueOf(information.getCurrentUser())).orElseThrow(() -> new RuntimeException("Current user not found"));
+            if(userCurrent.getUsername() != null && user.getUsername() != null &&
+                    userCurrent.getUsername().equals(user.getUsername()) ||
+                    userCurrent.getRoles().getClass().getName().contains("ADMIN")  ){
+                Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
+                repositoryUser.save(user);
+            }
+            return String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", userName, userName + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name"));
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to reset TOTP for user: " + userName);
+        }
+    }
+}

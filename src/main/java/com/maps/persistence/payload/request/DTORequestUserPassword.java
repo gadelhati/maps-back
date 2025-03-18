@@ -1,0 +1,29 @@
+package com.maps.persistence.payload.request;
+
+import com.maps.exception.annotation.*;
+import lombok.Getter;
+
+import jakarta.validation.constraints.*;
+
+import java.util.UUID;
+
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Getter
+@UniqueEmail
+@UniqueUsername
+public class DTORequestUserPassword extends Identifiable {
+
+    private UUID id;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    @HasDigit
+    @HasLetter
+    @HasUpperCase
+    @HasLowerCase
+    @HasLength
+    private String password;
+}
