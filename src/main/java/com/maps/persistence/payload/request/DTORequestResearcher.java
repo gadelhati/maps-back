@@ -1,5 +1,6 @@
 package com.maps.persistence.payload.request;
 
+import com.maps.exception.annotation.UniqueNameResearcher;
 import com.maps.persistence.model.State;
 import com.maps.persistence.payload.response.DTOResponseResearcher;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * @link	www.gadelha.eti.br
  **/
 
-@Getter
+@Getter @UniqueNameResearcher(label = "name")
 public class DTORequestResearcher extends Identifiable {
 
     private int code;
