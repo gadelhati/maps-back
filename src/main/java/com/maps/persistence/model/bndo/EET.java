@@ -1,6 +1,8 @@
 package com.maps.persistence.model.bndo;
 
+import com.maps.persistence.model.Commission;
 import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

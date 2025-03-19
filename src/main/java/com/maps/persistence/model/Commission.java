@@ -1,6 +1,8 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model;
 
-import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.bndo.Harbor;
+import com.maps.persistence.model.bndo.HydrographicSurvey;
+import com.maps.persistence.model.bndo.Project;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +13,12 @@ import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Commission extends GenericAuditEntity {
 
     private Integer code;
@@ -35,7 +42,7 @@ public class Commission extends GenericAuditEntity {
     private String maximumCollectionDepth;
     private String minimumCollectionDepth;
     private String totalSizeMedia;
-    private String qualificacao_dados;//se cada equipamento validou os dados
+    private String dataQualification;
     private String hFolder;
     private String obs;
 

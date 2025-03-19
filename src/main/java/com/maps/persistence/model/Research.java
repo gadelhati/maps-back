@@ -1,6 +1,6 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model;
 
-import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.bndo.Module;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,12 @@ import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Research extends GenericAuditEntity {
 
     private LocalDateTime start;
