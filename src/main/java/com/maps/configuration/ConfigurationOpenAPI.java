@@ -12,7 +12,14 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@Configuration @RequiredArgsConstructor
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Configuration
+@RequiredArgsConstructor
 public class ConfigurationOpenAPI {
     @Value("${gadelha.openapi.homolog-url}")
     private String homologUrl;
