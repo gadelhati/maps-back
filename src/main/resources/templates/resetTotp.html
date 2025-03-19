@@ -9,7 +9,7 @@
     <link th:href="@{/js/script.js}">
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdZ7ewqAAAAAFTOYdUFjV_UoC2YLTgn1_k0-acm"></script>
+    <script src="@{'https://www.google.com/recaptcha/api.js?render=' + ${@environment.getProperty('recaptcha.site')}}"></script>
 </head>
 <body>
 <section class="login-container">
