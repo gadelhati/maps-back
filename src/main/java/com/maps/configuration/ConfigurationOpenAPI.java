@@ -21,9 +21,9 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class ConfigurationOpenAPI {
-    @Value("${gadelha.openapi.homolog-url}")
+    @Value("${maps.openapi.homolog-url}")
     private String homologUrl;
-    @Value("${gadelha.openapi.prod-url}")
+    @Value("${maps.openapi.prod-url}")
     private String prodUrl;
 
     @Bean
