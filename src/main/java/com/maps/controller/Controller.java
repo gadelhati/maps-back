@@ -38,7 +38,7 @@ public class Controller {
     public ModelAndView signIn(@RequestParam String username, @RequestParam String password, @RequestParam String totpKey, @RequestParam String captchaToken) {
         try {
             DTOResponseToken token = serviceUserAuth.login(new DTORequestUserAuth(username, password, Integer.parseInt(totpKey), captchaToken));
-            ModelAndView modelAndView = new ModelAndView("upload");
+            ModelAndView modelAndView = new ModelAndView("list");
             modelAndView.addObject("token", token.toString());
             return modelAndView;
         } catch (Exception e) {
