@@ -23,5 +23,5 @@ public class DTOResponseUser extends RepresentationModel<DTOResponseUser> {
     private String email;
     private Integer attempt;
     private Boolean active;
-    private Collection<Role> role;
+    private Collection<Role> roles;
 }
