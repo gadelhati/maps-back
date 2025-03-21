@@ -56,7 +56,7 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
             setMethod.invoke(object, value);
             Example<T> example = Example.of(object, exampleMatcher);
             return repositoryGeneric.findAll(example, pageable).map(element-> addHateoas(element, entityClass));
-        } catch (NoSuchMethodException exception) {
+        } catch (IllegalArgumentException exception) {
             LOGGER.warn("No setter method found for property.");
             return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(element-> addHateoas(element, entityClass));
         } catch (Exception e) {
