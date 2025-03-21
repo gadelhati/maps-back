@@ -12,5 +12,6 @@ import java.util.UUID;
 
 @Data
 public class Identifiable {
+
     private UUID id;
 }

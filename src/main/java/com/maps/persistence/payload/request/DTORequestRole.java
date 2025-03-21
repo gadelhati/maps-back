@@ -8,7 +8,6 @@ import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -20,7 +19,6 @@ import java.util.UUID;
 @UniqueNameRole(label = "name")
 public class DTORequestRole extends Identifiable {
 
-    private UUID id;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private Set<Privilege> privileges = new HashSet<>();

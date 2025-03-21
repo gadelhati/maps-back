@@ -5,8 +5,6 @@ import lombok.Getter;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 
-import java.util.UUID;
-
 /**
  * @author	Marcelo Ribeiro Gadelha
  * @mail	gadelha.ti@gmail.com
@@ -17,7 +15,6 @@ import java.util.UUID;
 @UniqueNameMaritimeArea
 public class DTORequestMaritimeArea extends Identifiable {
 
-    private UUID id;
     private String code;
     private String name;
     private String start;

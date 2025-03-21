@@ -7,7 +7,6 @@ import org.locationtech.jts.geom.Polygon;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -19,7 +18,6 @@ import java.util.UUID;
 @UniqueNameCountry
 public class DTORequestInternationalChart extends Identifiable {
 
-    private UUID id;
     private String number;
     private String title;
     private Integer scale;

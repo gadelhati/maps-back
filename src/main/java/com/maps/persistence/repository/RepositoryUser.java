@@ -12,10 +12,10 @@ import java.util.UUID;
 public interface RepositoryUser extends RepositoryGeneric<User> {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    Optional<User> findByUsername(String name);
+    Optional<User> findByUsername(String username);
     boolean existsByEmailIgnoreCase(String email);
     boolean existsByEmailIgnoreCaseAndIdNot(String email, UUID id);
-    boolean existsByUsernameIgnoreCase(String value);
+    boolean existsByUsernameIgnoreCase(String username);
     boolean existsByUsernameIgnoreCaseAndIdNot(String username, UUID id);
     Page<User> findById(Pageable pageable, UUID uuid);
 }

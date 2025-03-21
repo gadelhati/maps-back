@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface RepositoryCity extends RepositoryGeneric<City> {
 
-    boolean existsByNameIgnoreCase(String value);
+    boolean existsByNameIgnoreCase(String name);
     boolean existsByNameIgnoreCaseAndIdNot(String name, UUID id);
 }

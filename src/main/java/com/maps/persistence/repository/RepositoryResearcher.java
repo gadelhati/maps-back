@@ -17,6 +17,6 @@ public interface RepositoryResearcher extends RepositoryGeneric<Researcher> {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     Set<Researcher> findByName(String name);
-    boolean existsByNameIgnoreCaseAndIdNot(String username, UUID id);
-    boolean existsByNameIgnoreCase(String value);
+    boolean existsByNameIgnoreCaseAndIdNot(String name, UUID id);
+    boolean existsByNameIgnoreCase(String name);
 }

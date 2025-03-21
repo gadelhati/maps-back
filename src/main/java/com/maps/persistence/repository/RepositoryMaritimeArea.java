@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface RepositoryMaritimeArea extends RepositoryGeneric<MaritimeArea> {
 
-    boolean existsByNameIgnoreCase(String value);
+    boolean existsByNameIgnoreCase(String name);
     boolean existsByNameIgnoreCaseAndIdNot(String name, UUID id);
 }

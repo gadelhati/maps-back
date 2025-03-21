@@ -6,8 +6,6 @@ import com.maps.persistence.model.State;
 import lombok.Getter;
 import org.locationtech.jts.geom.*;
 
-import java.util.UUID;
-
 /**
  * @author	Marcelo Ribeiro Gadelha
  * @mail	gadelha.ti@gmail.com
@@ -18,7 +16,6 @@ import java.util.UUID;
 @UniqueNameGaugeStation
 public class DTORequestGaugeStation extends Identifiable {
 
-    private UUID id;
     private String number;
     private String title;
     private Point point;

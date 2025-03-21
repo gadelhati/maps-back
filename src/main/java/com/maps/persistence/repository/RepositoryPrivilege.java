@@ -11,6 +11,6 @@ public interface RepositoryPrivilege extends RepositoryGeneric<Privilege> {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     Set<Privilege> findByName(String name);
-    boolean existsByNameIgnoreCaseAndIdNot(String username, UUID id);
+    boolean existsByNameIgnoreCaseAndIdNot(String value, UUID id);
     boolean existsByNameIgnoreCase(String value);
 }

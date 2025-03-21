@@ -2,13 +2,11 @@ package com.maps.persistence.payload.request;
 
 import com.maps.exception.annotation.UniqueNameCountry;
 import com.maps.persistence.model.ChartArea;
-import com.maps.persistence.payload.response.DTOResponseChart;
 import lombok.Getter;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -20,7 +18,6 @@ import java.util.UUID;
 @UniqueNameCountry
 public class DTORequestChart extends Identifiable {
 
-    private UUID id;
     private String number;
     private String title;
     private Integer scale;

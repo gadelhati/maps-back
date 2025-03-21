@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface RepositoryGaugeStation extends RepositoryGeneric<GaugeStation> {
 
-    boolean existsByNumberIgnoreCase(String value);
+    boolean existsByNumberIgnoreCase(String number);
     boolean existsByNumberIgnoreCaseAndIdNot(String number, UUID id);
 }
