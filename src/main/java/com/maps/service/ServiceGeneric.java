@@ -71,6 +71,12 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
                     mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
         }
     }
+    public DTOResponse addHateoas(T object, Class<T> entityClass) {
+        return mapperInterface.toDTO(object).add(
+                linkTo(ServiceUser.class)
+                        .slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1))
+                        .slash(object.getId()).withSelfRel());
+    }
     @Transactional
     public Optional<DTOResponse> retrieve(UUID id, Class<T> entityClass){
         repositoryGeneric.findById(id);
