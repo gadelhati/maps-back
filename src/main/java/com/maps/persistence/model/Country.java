@@ -23,6 +23,6 @@ import jakarta.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Country extends GenericAuditEntity {
 
-    private int code;
+    private Integer code;
     private String name;
 }

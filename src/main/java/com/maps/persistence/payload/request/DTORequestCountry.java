@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
 @UniqueNameCountry
 public class DTORequestCountry extends Identifiable {
 
+    private Integer code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
 }

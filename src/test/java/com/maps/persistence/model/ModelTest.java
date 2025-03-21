@@ -38,7 +38,7 @@ class ModelTest {
         linearRing = geometryFactory.createLinearRing();
 
         country = new Country((int)(Math.random() * Math.random()), "Gadelha");
-        state = new State("code", "Gadelha", country);
+        state = new State(0, "Gadelha", country);
         chartArea = new ChartArea("Gadelha");
     }
     @Test
@@ -59,7 +59,7 @@ class ModelTest {
     }
     @Test
     public void CityTest() {
-        City city = new City("code", "Gadelha", state);
+        City city = new City(0, "Gadelha", state);
         assertEquals("Gadelha", city.getName());
     }
     @Test

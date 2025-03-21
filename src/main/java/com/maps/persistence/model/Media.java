@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class Media extends GenericAuditEntity {
 
-    private int code;
+    private String code;
 //    private int codInstituicao;
 //    private int codTipoMidia;
     private String identification;

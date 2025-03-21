@@ -52,23 +52,15 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
             ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
             Method setMethod = object.getClass().getDeclaredMethod("set" + pageable.getSort().stream().findFirst()
                     .map(order -> StringUtils.capitalize(order.getProperty()))
-                    .orElseThrow(() -> new RuntimeException("No sorting property found.")), String.class);
+                    .orElse("Id"), String.class);
             setMethod.invoke(object, value);
             Example<T> example = Example.of(object, exampleMatcher);
-            return repositoryGeneric.findAll(example, pageable).map(object1->
-                    mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
+            return repositoryGeneric.findAll(example, pageable).map(element-> addHateoas(element, entityClass));
         } catch (NoSuchMethodException exception) {
-            try {
-                LOGGER.warn("No setter method found for property.");
-                return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(object1->
-                        mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
-            } catch (Exception e) {
-                return repositoryGeneric.findAll(pageable).map(object1->
-                        mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
-            }
+            LOGGER.warn("No setter method found for property.");
+            return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(element-> addHateoas(element, entityClass));
         } catch (Exception e) {
-            return repositoryGeneric.findAll(pageable).map(object1->
-                    mapperInterface.toDTO(object1).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1)).slash(object1.getId()).withSelfRel()));
+            return repositoryGeneric.findAll(pageable).map(element-> addHateoas(element, entityClass));
         }
     }
     public DTOResponse addHateoas(T object, Class<T> entityClass) {

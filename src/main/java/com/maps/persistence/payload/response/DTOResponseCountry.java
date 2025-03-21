@@ -17,5 +17,6 @@ import java.util.UUID;
 public class DTOResponseCountry extends RepresentationModel<DTOResponseCountry> {
 
     private UUID id;
+    private Integer code;
     private String name;
 }

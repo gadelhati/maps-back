@@ -18,7 +18,7 @@ import java.util.UUID;
 public class DTOResponseState extends RepresentationModel<DTOResponseState> {
 
     private UUID id;
-    private String code;
+    private Integer code;
     private String name;
     private Country country;
 }

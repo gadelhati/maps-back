@@ -15,7 +15,7 @@ import org.hibernate.envers.Audited;
 @EqualsAndHashCode(callSuper = true)
 public class Researcher extends GenericAuditEntity {
 
-    private int code;
+    private String code;
     private String name;
     private String email;
     private String address;

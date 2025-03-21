@@ -22,7 +22,7 @@ import jakarta.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 public class City extends GenericAuditEntity {
 
-    private String code;
+    private Integer code;
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

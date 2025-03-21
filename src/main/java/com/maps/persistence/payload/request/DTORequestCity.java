@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotNull;
 @Getter
 public class DTORequestCity extends Identifiable {
 
-    private String code;
+    private Integer code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private State state;
