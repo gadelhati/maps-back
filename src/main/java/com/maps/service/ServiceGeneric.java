@@ -8,16 +8,16 @@ import com.maps.persistence.repository.RepositoryGeneric;
 import com.maps.utils.Information;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,16 +50,19 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
         try {
             T object = entityClass.getDeclaredConstructor().newInstance();
             ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-            Method setMethod = object.getClass().getDeclaredMethod("set" + pageable.getSort().stream().findFirst()
-                    .map(order -> StringUtils.capitalize(order.getProperty()))
-                    .orElse("Id"), String.class);
-            setMethod.invoke(object, value);
+            String propertyName = pageable.getSort().stream().findFirst()
+                    .map(Sort.Order::getProperty)
+                    .orElse("Id");
+            Field field = ReflectionUtils.findField(entityClass, propertyName);
+            Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(propertyName), field.getType());
+            Object convertedValue = ConvertUtils.convert(value, field.getType());
+            setMethod.invoke(object, convertedValue);
             Example<T> example = Example.of(object, exampleMatcher);
             return repositoryGeneric.findAll(example, pageable).map(element-> addHateoas(element, entityClass));
         } catch (IllegalArgumentException exception) {
             LOGGER.warn("No setter method found for property.");
             return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(element-> addHateoas(element, entityClass));
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return repositoryGeneric.findAll(pageable).map(element-> addHateoas(element, entityClass));
         }
     }
