@@ -31,5 +31,5 @@ public class Role extends GenericAuditEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "role_privileges", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
-    private Set<Privilege> privileges = new HashSet<>();
+    private Set<Privilege> privilege = new HashSet<>();
 }
