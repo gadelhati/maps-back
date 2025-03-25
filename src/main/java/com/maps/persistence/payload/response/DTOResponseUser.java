@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -23,5 +23,5 @@ public class DTOResponseUser extends RepresentationModel<DTOResponseUser> {
     private String email;
     private Integer attempt;
     private Boolean active;
-    private Collection<Role> roles;
+    private Set<Role> role;
 }

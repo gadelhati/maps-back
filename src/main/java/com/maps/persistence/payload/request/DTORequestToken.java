@@ -19,5 +19,5 @@ public class DTORequestToken extends Identifiable {
     private String accessToken;
     @NotNull
     private UUID refreshToken;
-    private Set<String> roles;
+    private Set<String> role;
 }

@@ -55,15 +55,15 @@ public class CacheConfig {
     }
     private Set<String> loadUserRoles(String username) {
         return repositoryUser.findByUsername(username)
-                .map(user -> user.getRoles().stream()
+                .map(user -> user.getRole().stream()
                         .map(Role::getName)
                         .collect(Collectors.toSet()))
                 .orElse(Collections.emptySet());
     }
     private Set<String> loadUserPermissions(String username) {
         return repositoryUser.findByUsername(username)
-                .map(user -> user.getRoles().stream()
-                        .flatMap(role -> role.getPrivileges().stream())
+                .map(user -> user.getRole().stream()
+                        .flatMap(role -> role.getPrivilege().stream())
                         .map(Privilege::getName)
                         .collect(Collectors.toSet()))
                 .orElse(Collections.emptySet());

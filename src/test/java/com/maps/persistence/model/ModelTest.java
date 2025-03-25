@@ -92,8 +92,8 @@ class ModelTest {
     }
     @Test
     public void RoleTest() {
-        Set<Privilege> privileges = new HashSet<>();
-        Role role = new Role("Gadelha", privileges);
+        Set<Privilege> privilege = new HashSet<>();
+        Role role = new Role("Gadelha", privilege);
         assertEquals("Gadelha", role.getName());
     }
     @Test
@@ -105,15 +105,13 @@ class ModelTest {
     }
     @Test
     public void UserTest() {
-        Set<Role> roles = new HashSet<>();
-//        User user = new User("Gadelha", "email", "password", true, roles);
+        Set<Role> role = new HashSet<>();
         User user = new User();
         assertEquals("Gadelha", user.getUsername());
     }
     @Test
     public void UserDTOTest() {
-        Set<Role> roles = new HashSet<>();
-//        User user = new User("Gadelha", "email", "password", true, roles, "");
+        Set<Role> role = new HashSet<>();
         User user = new User();
         assertEquals("Gadelha", user.getUsername());
     }

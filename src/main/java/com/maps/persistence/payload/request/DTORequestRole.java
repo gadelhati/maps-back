@@ -21,5 +21,5 @@ public class DTORequestRole extends Identifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
-    private Set<Privilege> privileges = new HashSet<>();
+    private Set<Privilege> privilege = new HashSet<>();
 }

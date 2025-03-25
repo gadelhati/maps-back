@@ -23,10 +23,10 @@ public class ServiceCustomUserDetails implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = repositoryUser.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Resource not found"));
-        return new org.springframework.security.core.userdetails.User(Objects.requireNonNull(user).getUsername(), user.getPassword(), getAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(Objects.requireNonNull(user).getUsername(), user.getPassword(), getAuthorities(user.getRole()));
     }
-    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
-        return getGrantedAuthorities(getPrivileges(roles));
+    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> role) {
+        return getGrantedAuthorities(getPrivilege(role));
     }
     private Set<GrantedAuthority> getGrantedAuthorities(Set<String> privileges) {
         Set<GrantedAuthority> authorities = new HashSet<>();
@@ -35,12 +35,12 @@ public class ServiceCustomUserDetails implements UserDetailsService {
         }
         return authorities;
     }
-    private Set<String> getPrivileges(Collection<Role> roles) {
+    private Set<String> getPrivilege(Collection<Role> roles) {
         Set<String> permissions = new HashSet<>();
         Set<Privilege> collection = new HashSet<>();
         for (Role role : roles) {
             permissions.add(role.getName());
-            collection.addAll(role.getPrivileges());
+            collection.addAll(role.getPrivilege());
         }
         for (Privilege item : collection) {
             permissions.add(item.getName());

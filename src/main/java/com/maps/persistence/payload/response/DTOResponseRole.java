@@ -21,5 +21,5 @@ public class DTOResponseRole extends RepresentationModel<DTOResponseRole> {
 
     private UUID id;
     private String name;
-    private Set<Privilege> privileges = new HashSet<>();
+    private Set<Privilege> privilege = new HashSet<>();
 }
