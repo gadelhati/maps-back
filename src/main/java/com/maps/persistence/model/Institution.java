@@ -1,6 +1,9 @@
 package com.maps.persistence.model;
 
+import com.maps.exception.annotation.UniqueNameCountry;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,9 +16,11 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@UniqueNameCountry
 public class Institution extends GenericAuditEntity {
 
     private String code;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private boolean mb;
 

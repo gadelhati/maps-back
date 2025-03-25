@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DTORequestUserAuth extends Identifiable {
+public class DTORequestUserAuth {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String username;

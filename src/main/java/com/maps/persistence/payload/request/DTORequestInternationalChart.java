@@ -15,7 +15,6 @@ import java.util.Collection;
  **/
 
 @Getter
-@UniqueNameCountry
 public class DTORequestInternationalChart extends Identifiable {
 
     private String number;

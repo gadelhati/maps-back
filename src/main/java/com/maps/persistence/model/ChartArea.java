@@ -1,5 +1,6 @@
 package com.maps.persistence.model;
 
+import com.maps.exception.annotation.UniqueNameChartArea;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@UniqueNameChartArea
 public class ChartArea extends GenericAuditEntity {
 
     private String name;

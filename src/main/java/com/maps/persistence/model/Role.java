@@ -1,5 +1,8 @@
 package com.maps.persistence.model;
 
+import com.maps.exception.annotation.UniqueNameRole;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -24,8 +27,10 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(indexes = @Index(columnList = "name"), uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@UniqueNameRole(label = "name")
 public class Role extends GenericAuditEntity {
 
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
