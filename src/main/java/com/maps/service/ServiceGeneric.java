@@ -42,7 +42,7 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
 
     @Transactional
     public DTOResponse create(DTORequest created){
-        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
+//        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
         return mapperInterface.toDTO(repositoryGeneric.save(mapperInterface.toObject(created)));
     }
     @Transactional

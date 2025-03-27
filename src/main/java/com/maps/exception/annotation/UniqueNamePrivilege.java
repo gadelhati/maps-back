@@ -1,6 +1,5 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestPrivilege;
 import com.maps.service.ServicePrivilege;
 import jakarta.validation.Constraint;
@@ -40,8 +39,15 @@ public @interface UniqueNamePrivilege {
         }
         @Override
         public boolean isValid(DTORequestPrivilege value, ConstraintValidatorContext context) {
-            return !Validator.isNull(value.getName()) && !servicePrivilege.existsByName(value.getName()) ||
-                    !Validator.isNull(value.getName()) && !Validator.isNull(value.getId()) && !servicePrivilege.existsByNameAndIdNot(value.getName(), value.getId());
+            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+                return false;
+            }
+            String normalizedName = value.getName().trim();
+            if (value.getId() == null) {
+                return !servicePrivilege.existsByName(normalizedName);
+            } else {
+                return !servicePrivilege.existsByNameAndIdNot(normalizedName, value.getId());
+            }
         }
     }
 }

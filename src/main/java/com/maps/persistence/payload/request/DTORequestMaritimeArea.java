@@ -12,7 +12,7 @@ import org.locationtech.jts.geom.Polygon;
  **/
 
 @Getter
-@UniqueNameMaritimeArea
+@UniqueNameMaritimeArea(label = "name")
 public class DTORequestMaritimeArea extends Identifiable {
 
     private String code;

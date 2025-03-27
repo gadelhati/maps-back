@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @Getter
 @UniqueEmail
-@UniqueUsername
+@UniqueNameUser(label = "username")
 public class DTORequestUserTOTP {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

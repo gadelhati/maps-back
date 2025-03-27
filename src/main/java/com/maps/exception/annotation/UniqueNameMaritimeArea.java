@@ -1,14 +1,13 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestMaritimeArea;
 import com.maps.service.ServiceMaritimeArea;
+import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 /**
@@ -26,22 +25,28 @@ public @interface UniqueNameMaritimeArea {
     String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
+    String label();
 
-    public class ValidatorUniqueNameMaritimeArea implements ConstraintValidator<UniqueNameMaritimeArea, DTORequestMaritimeArea> {
+    class ValidatorUniqueNameMaritimeArea implements ConstraintValidator<UniqueNameMaritimeArea, DTORequestMaritimeArea> {
 
+        private String values;
         @Autowired
         private ServiceMaritimeArea serviceMaritimeArea;
 
         @Override
         public void initialize(UniqueNameMaritimeArea constraintAnnotation) {
+            this.values = constraintAnnotation.label();
         }
         @Override
         public boolean isValid(DTORequestMaritimeArea value, ConstraintValidatorContext context) {
-            if (!Validator.isNull(value.getName()) && !serviceMaritimeArea.existsByName(value.getName()) ||
-                    !Validator.isNull(value.getName()) && !Validator.isNull(value.getId()) && !serviceMaritimeArea.existsByNameAndIdNot(value.getName(), value.getId()) ) {
-                return true;
-            } else {
+            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
                 return false;
+            }
+            String normalizedName = value.getName().trim();
+            if (value.getId() == null) {
+                return !serviceMaritimeArea.existsByName(normalizedName);
+            } else {
+                return !serviceMaritimeArea.existsByNameAndIdNot(normalizedName, value.getId());
             }
         }
     }

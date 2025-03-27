@@ -1,6 +1,5 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.exception.annotation.UniqueNameCountry;
 import com.maps.persistence.model.ChartArea;
 import lombok.Getter;
 import org.locationtech.jts.geom.Polygon;

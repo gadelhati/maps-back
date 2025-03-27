@@ -1,6 +1,5 @@
 package com.maps.persistence.model;
 
-import com.maps.exception.annotation.UniqueNameCountry;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@UniqueNameCountry
 public class State extends GenericAuditEntity {
 
     private Integer code;

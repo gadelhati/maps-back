@@ -1,6 +1,5 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestResearcher;
 import com.maps.service.ServiceResearcher;
 import jakarta.validation.Constraint;
@@ -40,8 +39,15 @@ public @interface UniqueNameResearcher {
         }
         @Override
         public boolean isValid(DTORequestResearcher value, ConstraintValidatorContext context) {
-            return !Validator.isNull(value.getName()) && !serviceResearcher.existsByName(value.getName()) ||
-                    !Validator.isNull(value.getName()) && !Validator.isNull(value.getId()) && !serviceResearcher.existsByNameAndIdNot(value.getName(), value.getId());
+            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+                return false;
+            }
+            String normalizedName = value.getName().trim();
+            if (value.getId() == null) {
+                return !serviceResearcher.existsByName(normalizedName);
+            } else {
+                return !serviceResearcher.existsByNameAndIdNot(normalizedName, value.getId());
+            }
         }
     }
 }

@@ -25,24 +25,37 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAllUncaughtExceptions(Exception exception, WebRequest webRequest) {
+        List<ValidationError> validationErrors = new ArrayList<>();
+        validationErrors.add(new ValidationError(
+                "globalError",
+                null,
+                exception.getMessage()
+        ));
         ApiError apiError = new ApiError(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "An unexpected error occurred",
-                webRequest.getDescription(false)
+                webRequest.getDescription(false),
+                validationErrors
         );
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiError> handleRuntimeException(RuntimeException runtimeException) {
+        List<ValidationError> validationErrors = new ArrayList<>();
+        validationErrors.add(new ValidationError(
+                "runtimeError",
+                null,
+                runtimeException.getMessage()
+        ));
         ApiError apiError = new ApiError(
                 HttpStatus.NOT_FOUND,
                 "Resource not found",
-                runtimeException.getMessage()
+                runtimeException.getMessage(),
+                validationErrors
         );
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
-    @Override
-    @NonNull
+    @Override @NonNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             @NonNull HttpHeaders httpHeaders,

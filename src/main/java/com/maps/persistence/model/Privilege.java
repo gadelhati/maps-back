@@ -1,6 +1,5 @@
 package com.maps.persistence.model;
 
-import com.maps.exception.annotation.UniqueNamePrivilege;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +22,6 @@ import org.hibernate.envers.Audited;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(indexes = @Index(columnList = "name"), uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
-@UniqueNamePrivilege(label = "name")
 public class Privilege extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

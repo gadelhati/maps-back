@@ -1,6 +1,6 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.exception.annotation.UniqueNameCountry;
+import com.maps.exception.annotation.UniqueNameChartArea;
 import com.maps.persistence.model.ChartArea;
 import lombok.Getter;
 import org.locationtech.jts.geom.Point;
@@ -15,6 +15,7 @@ import java.util.Collection;
  **/
 
 @Getter
+@UniqueNameChartArea(label = "number")
 public class DTORequestChart extends Identifiable {
 
     private String number;

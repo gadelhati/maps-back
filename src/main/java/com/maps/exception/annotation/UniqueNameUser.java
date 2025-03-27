@@ -1,6 +1,5 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestUser;
 import com.maps.service.ServiceUser;
 import jakarta.validation.Constraint;
@@ -19,23 +18,36 @@ import java.lang.annotation.*;
 
 @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = { UniqueUsername.ValidatorUniqueUsername.class })
+@Constraint(validatedBy = { UniqueNameUser.ValidatorUniqueNameNameUser.class })
 @Documented
-public @interface UniqueUsername {
+public @interface UniqueNameUser {
 
     String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
+    String label();
 
-    class ValidatorUniqueUsername implements ConstraintValidator<UniqueUsername, DTORequestUser> {
+    class ValidatorUniqueNameNameUser implements ConstraintValidator<UniqueNameUser, DTORequestUser> {
 
+        private String values;
         @Autowired
         private ServiceUser serviceUser;
 
         @Override
+        public void initialize(UniqueNameUser constraintAnnotation) {
+            this.values = constraintAnnotation.label();
+        }
+        @Override
         public boolean isValid(DTORequestUser value, ConstraintValidatorContext context) {
-            return !Validator.isNull(value.getUsername()) && !serviceUser.existsByUsername(value.getUsername()) ||
-                    !Validator.isNull(value.getUsername()) && !Validator.isNull(value.getId()) && !serviceUser.existsByUsernameAndIdNot(value.getUsername(), value.getId());
+            if (value == null || value.getUsername() == null || value.getUsername().trim().isEmpty()) {
+                return false;
+            }
+            String normalizedName = value.getUsername().trim();
+            if (value.getId() == null) {
+                return !serviceUser.existsByUsername(normalizedName);
+            } else {
+                return !serviceUser.existsByUsernameAndIdNot(normalizedName, value.getId());
+            }
         }
     }
 }

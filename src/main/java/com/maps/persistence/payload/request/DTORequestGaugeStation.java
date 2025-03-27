@@ -13,7 +13,7 @@ import org.locationtech.jts.geom.*;
  **/
 
 @Getter
-@UniqueNameGaugeStation
+@UniqueNameGaugeStation(label = "number")
 public class DTORequestGaugeStation extends Identifiable {
 
     private String number;

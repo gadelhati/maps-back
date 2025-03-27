@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
  **/
 
 @Getter
-@UniqueNameCountry
+@UniqueNameCountry(label = "name")
 public class DTORequestCountry extends Identifiable {
 
     private Integer code;

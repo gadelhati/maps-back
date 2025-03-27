@@ -13,7 +13,7 @@ import lombok.Getter;
  **/
 
 @Getter
-@UniqueNameChartArea
+@UniqueNameChartArea(label = "name")
 public class DTORequestChartArea extends Identifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

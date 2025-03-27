@@ -1,6 +1,5 @@
 package com.maps.persistence.model;
 
-import com.maps.exception.annotation.UniqueUsername;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,7 +26,6 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(indexes = @Index(columnList = "username"), uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
-@UniqueUsername
 public class User extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Getter
 @UniqueEmail
-@UniqueUsername
+@UniqueNameUser(label = "username")
 public class DTORequestUser extends Identifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}") @HasLength

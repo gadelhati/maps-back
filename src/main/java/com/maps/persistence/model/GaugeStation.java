@@ -1,6 +1,5 @@
 package com.maps.persistence.model;
 
-import com.maps.exception.annotation.UniqueNameMaritimeArea;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +20,6 @@ import org.locationtech.jts.geom.Point;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@UniqueNameMaritimeArea
 public class GaugeStation extends GenericAuditEntity {
 
     private String number;

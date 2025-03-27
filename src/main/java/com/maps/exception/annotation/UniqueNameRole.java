@@ -1,6 +1,5 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestRole;
 import com.maps.service.ServiceRole;
 import jakarta.validation.Constraint;
@@ -40,8 +39,15 @@ public @interface UniqueNameRole {
         }
         @Override
         public boolean isValid(DTORequestRole value, ConstraintValidatorContext context) {
-            return !Validator.isNull(value.getName()) && !serviceRole.existsByName(value.getName()) ||
-                    !Validator.isNull(value.getName()) && !Validator.isNull(value.getId()) && !serviceRole.existsByNameAndIdNot(value.getName(), value.getId());
+            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+                return false;
+            }
+            String normalizedName = value.getName().trim();
+            if (value.getId() == null) {
+                return !serviceRole.existsByName(normalizedName);
+            } else {
+                return !serviceRole.existsByNameAndIdNot(normalizedName, value.getId());
+            }
         }
     }
 }

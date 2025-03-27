@@ -1,6 +1,5 @@
 package com.maps.persistence.model;
 
-import com.maps.exception.annotation.UniqueNameMaritimeArea;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +24,6 @@ import org.locationtech.jts.geom.Polygon;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@UniqueNameMaritimeArea
 public class MaritimeArea extends GenericAuditEntity {
 
     private String code;

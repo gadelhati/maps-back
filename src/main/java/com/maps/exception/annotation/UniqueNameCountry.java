@@ -1,14 +1,13 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestCountry;
 import com.maps.service.ServiceCountry;
+import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 /**
@@ -26,22 +25,28 @@ public @interface UniqueNameCountry {
     String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
+    String label();
 
-    public class ValidatorUniqueNameCountry implements ConstraintValidator<UniqueNameCountry, DTORequestCountry> {
+    class ValidatorUniqueNameCountry implements ConstraintValidator<UniqueNameCountry, DTORequestCountry> {
 
+        private String values;
         @Autowired
         private ServiceCountry serviceCountry;
 
         @Override
         public void initialize(UniqueNameCountry constraintAnnotation) {
+            this.values = constraintAnnotation.label();
         }
         @Override
         public boolean isValid(DTORequestCountry value, ConstraintValidatorContext context) {
-            if (!Validator.isNull(value.getName()) && !serviceCountry.existsByName(value.getName()) ||
-                    !Validator.isNull(value.getName()) && !Validator.isNull(value.getId()) && !serviceCountry.existsByNameAndIdNot(value.getName(), value.getId()) ) {
-                return true;
-            } else {
+            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
                 return false;
+            }
+            String normalizedName = value.getName().trim();
+            if (value.getId() == null) {
+                return !serviceCountry.existsByName(normalizedName);
+            } else {
+                return !serviceCountry.existsByNameAndIdNot(normalizedName, value.getId());
             }
         }
     }

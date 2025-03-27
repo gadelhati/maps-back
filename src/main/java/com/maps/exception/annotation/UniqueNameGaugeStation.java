@@ -1,14 +1,13 @@
 package com.maps.exception.annotation;
 
-import com.maps.exception.Validator;
 import com.maps.persistence.payload.request.DTORequestGaugeStation;
 import com.maps.service.ServiceGaugeStation;
+import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 /**
@@ -26,22 +25,28 @@ public @interface UniqueNameGaugeStation {
     String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
+    String label();
 
-    public class ValidatorUniqueNameGaugeStation implements ConstraintValidator<UniqueNameGaugeStation, DTORequestGaugeStation> {
+    class ValidatorUniqueNameGaugeStation implements ConstraintValidator<UniqueNameGaugeStation, DTORequestGaugeStation> {
 
+        private String values;
         @Autowired
         private ServiceGaugeStation serviceGaugeStation;
 
         @Override
         public void initialize(UniqueNameGaugeStation constraintAnnotation) {
+            this.values = constraintAnnotation.label();
         }
         @Override
         public boolean isValid(DTORequestGaugeStation value, ConstraintValidatorContext context) {
-            if (!Validator.isNull(value.getTitle()) && !serviceGaugeStation.existsByNumber(value.getTitle()) ||
-                    !Validator.isNull(value.getTitle()) && !Validator.isNull(value.getId()) && !serviceGaugeStation.existsByNumberAndIdNot(value.getTitle(), value.getId()) ) {
-                return true;
-            } else {
+            if (value == null || value.getNumber() == null || value.getNumber().trim().isEmpty()) {
                 return false;
+            }
+            String normalizedName = value.getTitle().trim();
+            if (value.getId() == null) {
+                return !serviceGaugeStation.existsByNumber(normalizedName);
+            } else {
+                return !serviceGaugeStation.existsByNumberAndIdNot(normalizedName, value.getId());
             }
         }
     }
