@@ -17,9 +17,9 @@ public class MapsApplication {
 	private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
 	public static void main(String[] args) {
-		LOGGER.info("Starting mfa api");
+		LOGGER.info("Starting maps api");
 		SpringApplication.run(MapsApplication.class, args);
-		LOGGER.info("mfa api started");
+		LOGGER.info("maps api started");
 	}
 
 }
