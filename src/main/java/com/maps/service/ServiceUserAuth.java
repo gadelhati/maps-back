@@ -57,7 +57,7 @@ public class ServiceUserAuth {
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
     public DTOResponseToken login(DTORequestUserAuth dtoRequestUserAuth) {
-        captchaTest(dtoRequestUserAuth.getCaptchaToken());
+//        captchaTest(dtoRequestUserAuth.getCaptchaToken());
         try {
             UserDetails userDetails = serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
@@ -121,16 +121,16 @@ public class ServiceUserAuth {
         if(!entity.getActive()) throw new RuntimeException("User blocked");
     }
     public void register(String username, String email, String password, String captchaToken) {
-        captchaTest(captchaToken);
+//        captchaTest(captchaToken);
         serviceUser.create(new DTORequestUser(username, email, password));
     }
     public void resetPassword(String username, String captchaToken) {
-        captchaTest(captchaToken);
+//        captchaTest(captchaToken);
         User entity = repositoryUser.findByUsername(username).orElseThrow(() -> new RuntimeException("Resource not found"));
         serviceEmail.sendSimpleMessage(entity.getEmail(), "Recovery password", entity.getPassword());
     }
     public void resetTotp(String username, String captchaToken) throws Exception {
-        captchaTest(captchaToken);
+//        captchaTest(captchaToken);
         User entity = repositoryUser.findByUsername(username).orElseThrow(() -> new RuntimeException("Resource not found"));
         serviceEmail.sendSimpleMessage(entity.getEmail(), "Recovery totp", e2EE.decrypt(entity.getSecret()));
     }
