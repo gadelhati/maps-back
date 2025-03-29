@@ -13,4 +13,4 @@ EXPOSE 8080
 
 COPY --from=build /target/maps-back.jar app.jar
 
-ENTRYPOINT [ "java", "-jar", "app.jar", "--server.port=10000" ]
+ENTRYPOINT [ "java", "-Dserver.port=$PORT", "-jar", "app.jar", "--server.port=10000" ]
