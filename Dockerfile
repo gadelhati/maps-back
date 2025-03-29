@@ -11,6 +11,6 @@ FROM openjdk:17-jdk-slim
 
 EXPOSE 3122
 
-COPY --from=build /target/maps.jar app.jar
+COPY --from=build /target/maps-back.jar app.jar
 
 ENTRYPOINT [ "java", "-jar", "app.jar" ]
