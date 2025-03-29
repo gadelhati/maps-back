@@ -45,11 +45,11 @@
 			<version>${springframework.version}</version>
 		</dependency>
 		<!--  https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web  -->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-web</artifactId>-->
-<!--			<version>${springframework.version}</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
 		<!--  https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -277,6 +277,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<finalName>${name}</finalName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -314,5 +315,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
