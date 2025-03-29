@@ -9,7 +9,7 @@ RUN mvn clean install -DiskipTests
 
 FROM openjdk:17-jdk-slim
 
-EXPOSE 10000
+EXPOSE 3122
 
 COPY --from=build /target/maps-back.jar app.jar
 
