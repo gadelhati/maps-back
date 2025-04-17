@@ -47,22 +47,25 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
     }
     @Transactional
     public Page<DTOResponse> retrieve(Pageable pageable, String value, Class<T> entityClass) {
+        String propertyName = pageable.getSort().stream().findFirst()
+                .map(Sort.Order::getProperty)
+                .orElse("id");
+        if ("id".equalsIgnoreCase(propertyName)) {
+            try {
+                return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(element -> addHateoas(element, entityClass));
+            } catch (IllegalArgumentException e){}
+        }
         try {
             T object = entityClass.getDeclaredConstructor().newInstance();
             ExampleMatcher exampleMatcher = matching().withIgnoreNullValues().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-            String propertyName = pageable.getSort().stream().findFirst()
-                    .map(Sort.Order::getProperty)
-                    .orElse("Id");
             Field field = ReflectionUtils.findField(entityClass, propertyName);
             Method setMethod = object.getClass().getDeclaredMethod("set" + StringUtils.capitalize(propertyName), field.getType());
             Object convertedValue = ConvertUtils.convert(value, field.getType());
             setMethod.invoke(object, convertedValue);
             Example<T> example = Example.of(object, exampleMatcher);
             return repositoryGeneric.findAll(example, pageable).map(element-> addHateoas(element, entityClass));
-        } catch (IllegalArgumentException exception) {
-            LOGGER.warn("No setter method found for property.");
-            return repositoryGeneric.findById(pageable, UUID.fromString(value)).map(element-> addHateoas(element, entityClass));
         } catch (Exception exception) {
+            LOGGER.warn("Error on searching: " + exception.getMessage());
             return repositoryGeneric.findAll(pageable).map(element-> addHateoas(element, entityClass));
         }
     }
