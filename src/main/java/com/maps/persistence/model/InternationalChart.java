@@ -22,4 +22,5 @@ import org.hibernate.envers.Audited;
 public class InternationalChart extends Chart {
 
     private String internationalNumber;
+//    private String category;//[ COSTEIRA | OCEÂNICA ]
 }

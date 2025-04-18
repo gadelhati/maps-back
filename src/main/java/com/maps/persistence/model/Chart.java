@@ -30,6 +30,7 @@ public class Chart extends GenericAuditEntity {
     private String title;
     private Integer scale;
     private Collection<LocalDateTime> edition;
+    private String category;//[ COSTEIRA | OCEÂNICA ] | [ ACESSO | PORTOS | TERMINAIS ]
     @Column(columnDefinition = "geography")
     private Point ne;
     @Column(columnDefinition = "geography")

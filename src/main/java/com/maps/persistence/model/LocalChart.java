@@ -24,7 +24,5 @@ import org.locationtech.jts.geom.Point;
 public class LocalChart extends Chart {
 
     private String name;
-    private String areaType; //[ ACESSO | PORTOS | TERMINAIS ]
-    @Column(columnDefinition = "geography")
-    private Point point;
+//    private String category;//[ ACESSO | PORTOS | TERMINAIS ]
 }
