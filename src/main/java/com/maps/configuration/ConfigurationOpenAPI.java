@@ -30,7 +30,7 @@ public class ConfigurationOpenAPI {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API Maps")
+                        .title("Maps API")
                         .version("0.0.1")
                         .contact(new Contact()
                                 .email("gadelha.ti@gmail.com")
