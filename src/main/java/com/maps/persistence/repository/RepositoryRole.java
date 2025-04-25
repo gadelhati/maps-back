@@ -15,8 +15,7 @@ import java.util.UUID;
 
 public interface RepositoryRole extends RepositoryGeneric<Role> {
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    Set<Role> findByName(String name);
+    Role findByName(String name);
     boolean existsByNameIgnoreCaseAndIdNot(String name, UUID id);
     boolean existsByNameIgnoreCase(String name);
 }

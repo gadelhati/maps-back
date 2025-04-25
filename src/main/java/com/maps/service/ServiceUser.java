@@ -69,7 +69,9 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
             throw new BadCredentialsException("Invalid secret");
         }
-        user.setRole((Set<Role>)repositoryRole.findByName("USER"));
+        Set<Role> roles = new HashSet<>();
+        roles.add(repositoryRole.findByName("VIEWER"));
+        user.setRole(roles);
         serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + password + "\nTotpKey: " + totpKey);
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
