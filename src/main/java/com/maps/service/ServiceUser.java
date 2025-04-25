@@ -26,9 +26,9 @@ import java.security.SecureRandom;
 import java.util.*;
 
 /**
- * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @author Marcelo Ribeiro Gadelha
+ * @mail gadelha.ti@gmail.com
+ * @link www.gadelha.eti.br
  **/
 
 @Service
@@ -78,15 +78,12 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     }
     @Override @Transactional
     public DTOResponseUser update(DTORequestUser updated){
-        User user = MapStruct.MAPPER.toObject(updated);
+        User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new RuntimeException("Resource not found"));
         user.setUsername(updated.getUsername());
         user.setEmail(updated.getEmail());
         user.setRole(updated.getRole());
-        if (!repositoryUser.existsById(updated.getId())) {
-            throw new RuntimeException("ID " + updated.getId() + " not found");
-        }
         LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
-        return MapStruct.MAPPER.toDTO(repositoryUser.save(MapStruct.MAPPER.toObject(updated)));
+        return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     @Override @Transactional
     public DTOResponseUser delete(UUID id){
