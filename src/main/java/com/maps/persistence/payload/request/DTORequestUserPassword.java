@@ -12,7 +12,7 @@ import jakarta.validation.constraints.*;
  **/
 
 @Getter
-@UniqueEmail
+@UniqueEmail(label = "email")
 @UniqueNameUser(label = "username")
 public class DTORequestUserPassword extends Identifiable {
 

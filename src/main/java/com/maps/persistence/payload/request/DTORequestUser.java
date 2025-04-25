@@ -14,7 +14,7 @@ import java.util.Set;
  **/
 
 @Getter
-@UniqueEmail
+@UniqueEmail(label = "email")
 @UniqueNameUser(label = "username")
 public class DTORequestUser extends Identifiable {
 

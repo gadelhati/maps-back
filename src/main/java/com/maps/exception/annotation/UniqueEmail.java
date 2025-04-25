@@ -27,16 +27,29 @@ public @interface UniqueEmail {
     String message() default "{unique}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
+    String label();
 
     class ValidatorUniqueEmail implements ConstraintValidator<UniqueEmail, DTORequestUser> {
 
+        private String values;
         @Autowired
         private ServiceUser serviceUser;
 
         @Override
+        public void initialize(UniqueEmail constraintAnnotation) {
+            this.values = constraintAnnotation.label();
+        }
+        @Override
         public boolean isValid(DTORequestUser value, ConstraintValidatorContext context) {
-            return !isNull(value.getEmail()) && !serviceUser.existsByEmail(value.getEmail()) ||
-                    !isNull(value.getEmail()) && !isNull(value.getId()) && !serviceUser.existsByEmailAndIdNot(value.getEmail(), value.getId());
+            if (value == null || value.getEmail() == null || value.getEmail().trim().isEmpty()) {
+                return false;
+            }
+            String normalizedName = value.getEmail().trim();
+            if (value.getId() == null) {
+                return !serviceUser.existsByEmail(normalizedName);
+            } else {
+                return !serviceUser.existsByEmailAndIdNot(normalizedName, value.getId());
+            }
         }
     }
 }
