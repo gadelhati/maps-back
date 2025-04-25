@@ -85,13 +85,6 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
-    @Override @Transactional
-    public DTOResponseUser delete(UUID id){
-        User entity = repositoryUser.findById(id).orElseThrow(() -> new RuntimeException("Resource not found"));
-        LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser(), id);
-        repositoryUser.deleteById(id);
-        return MapStruct.MAPPER.toDTO(entity);
-    }
     public boolean existsByUsername(String value) {
         if (!StringUtils.hasText(value)) {
             throw new IllegalArgumentException("Value must not be null or empty.");
