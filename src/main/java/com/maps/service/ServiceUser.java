@@ -115,13 +115,13 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     @Transactional
     public DTOResponseUser changePassword(DTORequestUserPassword updated){
         User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new RuntimeException("Resource not found"));
-        User userCurrent = repositoryUser.findByUsername(String.valueOf(information.getCurrentUser())).orElseThrow(() -> new RuntimeException("Current user not found"));
-        if(userCurrent.getUsername() != null && user.getUsername() != null &&
-                userCurrent.getUsername().equals(user.getUsername()) ||
-                userCurrent.getRole().getClass().getName().contains("ADMIN")  ){
-            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
+//        User userCurrent = repositoryUser.findByUsername(String.valueOf(information.getCurrentUser())).orElseThrow(() -> new RuntimeException("Current user not found"));
+//        if(userCurrent.getUsername() != null && user.getUsername() != null &&
+//                userCurrent.getUsername().equals(user.getUsername()) ||
+//                userCurrent.getRole().getClass().getName().contains("ADMIN")  ){
+//            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
             user = repositoryUser.save(user);
-        }
+//        }
         return MapStruct.MAPPER.toDTO(user);
     }
     @Transactional

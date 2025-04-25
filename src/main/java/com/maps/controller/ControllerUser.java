@@ -36,6 +36,7 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
         return User.class;
     }
     @PutMapping("/changePassword")
+    @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:update')")
     public ResponseEntity<DTOResponseUser> changePassword(@RequestBody @Valid DTORequestUserPassword updated){
         try {
             return new ResponseEntity<>(serviceUser.changePassword(updated), HttpStatus.OK);
@@ -45,7 +46,7 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
         }
     }
     @PutMapping("/totp")
-    @PreAuthorize("hasAnyRole('8652ec73-0a53-433c-93be-420f1d90c681')")
+    @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:update')")
     public String resetTOTP(@Valid @RequestBody DTORequestUserTOTP userTOTP) {
         return serviceUser.resetTOTP(userTOTP.getUsername());
     }
