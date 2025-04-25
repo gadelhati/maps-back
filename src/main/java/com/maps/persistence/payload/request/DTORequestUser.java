@@ -22,9 +22,6 @@ public class DTORequestUser extends Identifiable {
     private String username;
     @NotBlank(message = "{not.blank}") @Size(max = 50) @Email
     private String email;
-    @NotNull(message = "{user.active.not.null}")
-    private boolean active;
-    private String secret;
     private Set<Role> role;
     public DTORequestUser(String username, String email, String password) {
         this.username = username;

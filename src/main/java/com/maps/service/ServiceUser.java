@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
@@ -60,7 +61,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     public DTOResponseUser create(DTORequestUser created){
 //        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
         User user = MapStruct.MAPPER.toObject(created);
-        String password = UUID.randomUUID().toString();
+        String password = generateSecurePassword();
         String totpKey = serviceUserTOTP.generateSecret();
         user.setPassword(passwordEncoder.encode(password));
         try {
@@ -78,24 +79,22 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     @Override @Transactional
     public DTOResponseUser update(DTORequestUser updated){
         User user = MapStruct.MAPPER.toObject(updated);
+        user.setUsername(updated.getUsername());
+        user.setEmail(updated.getEmail());
+        user.setRole(updated.getRole());
         if (!repositoryUser.existsById(updated.getId())) {
             throw new RuntimeException("ID " + updated.getId() + " not found");
-        }
-        try {
-            user.setSecret(e2EE.encrypt(updated.getSecret()));
-        } catch (Exception e) {
-            throw new BadCredentialsException("Invalid secret");
         }
         LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
         return MapStruct.MAPPER.toDTO(repositoryUser.save(MapStruct.MAPPER.toObject(updated)));
     }
-    //    @Transactional
-//    public DTOResponseUser delete(UUID id){
-//        User entity = repositoryUser.findById(id).orElseThrow(() -> new RuntimeException("Resource not found"));
-//        LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser(), id);
-//        repositoryUser.deleteById(id);
-//        return MapStruct.MAPPER.toDTO(entity);
-//    }
+    @Override @Transactional
+    public DTOResponseUser delete(UUID id){
+        User entity = repositoryUser.findById(id).orElseThrow(() -> new RuntimeException("Resource not found"));
+        LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser(), id);
+        repositoryUser.deleteById(id);
+        return MapStruct.MAPPER.toDTO(entity);
+    }
     public boolean existsByUsername(String value) {
         if (!StringUtils.hasText(value)) {
             throw new IllegalArgumentException("Value must not be null or empty.");
@@ -150,5 +149,32 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         } catch (Exception e) {
             throw new IllegalStateException("Failed to reset TOTP for user: " + userName);
         }
+    }
+    @Transactional
+    public String generateSecurePassword() {
+        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lower = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+        String special = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+
+        password.append(upper.charAt(random.nextInt(upper.length())));
+        password.append(lower.charAt(random.nextInt(lower.length())));
+        password.append(digits.charAt(random.nextInt(digits.length())));
+        password.append(special.charAt(random.nextInt(special.length())));
+        String allChars = upper + lower + digits + special;
+        for (int i = 4; i < 8; i++) {
+            password.append(allChars.charAt(random.nextInt(allChars.length())));
+        }
+        char[] chars = password.toString().toCharArray();
+        for (int i = chars.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+        }
+        return new String(chars);
     }
 }
