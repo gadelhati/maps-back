@@ -3,6 +3,7 @@ package com.maps.service;
 import com.maps.MapsApplication;
 import com.maps.persistence.MapStruct;
 import com.maps.persistence.MapperInterface;
+import com.maps.persistence.model.Role;
 import com.maps.persistence.model.User;
 import com.maps.persistence.payload.request.DTORequestUser;
 import com.maps.persistence.payload.request.DTORequestUserPassword;
@@ -21,8 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -60,16 +60,17 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     public DTOResponseUser create(DTORequestUser created){
 //        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
         User user = MapStruct.MAPPER.toObject(created);
+        String password = UUID.randomUUID().toString();
         String totpKey = serviceUserTOTP.generateSecret();
-        user.setPassword(passwordEncoder.encode(created.getPassword()));
+        user.setPassword(passwordEncoder.encode(password));
         try {
             user.setSecret(e2EE.encrypt(totpKey));
         } catch (Exception e) {
             LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
             throw new BadCredentialsException("Invalid secret");
         }
-        user.setRole(repositoryRole.findByName("USER"));
-        serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + created.getPassword() + "\nTotpKey: " + totpKey);
+        user.setRole((Set<Role>)repositoryRole.findByName("USER"));
+        serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + password + "\nTotpKey: " + totpKey);
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     @Override @Transactional
