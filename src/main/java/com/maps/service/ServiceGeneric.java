@@ -43,7 +43,7 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
 
     @Transactional
     public DTOResponse create(DTORequest created){
-//        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
+        LOGGER.info("{} creating a new resource", information.getCurrentUser().orElse("Unknown User"));
         return mapperInterface.toDTO(repositoryGeneric.save(mapperInterface.toObject(created)));
     }
     @Transactional
@@ -70,6 +70,11 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
             return repositoryGeneric.findAll(pageable).map(element-> addHateoas(element, entityClass));
         }
     }
+    @Transactional
+    public Optional<DTOResponse> retrieve(UUID id, Class<T> entityClass){
+        T entity = repositoryGeneric.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
+        return Optional.of(addHateoas(entity, entityClass));
+    }
     public DTOResponse addHateoas(T object, Class<T> entityClass) {
         return mapperInterface.toDTO(object).add(
                 linkTo(ServiceUser.class)
@@ -77,20 +82,14 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
                         .slash(object.getId()).withSelfRel());
     }
     @Transactional
-    public Optional<DTOResponse> retrieve(UUID id, Class<T> entityClass){
-        repositoryGeneric.findById(id);
-        T entity = repositoryGeneric.findById(id).orElseThrow(() -> new RuntimeException("Resource not found"));
-        return Optional.of(mapperInterface.toDTO(entity).add(linkTo(ServiceUser.class).slash(entityClass.getSimpleName().toLowerCase()).slash(entity.getId()).withSelfRel()));
-    }
-    @Transactional
     public DTOResponse update(DTORequest updated){
-        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
+        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.getId());
         return mapperInterface.toDTO(repositoryGeneric.save(mapperInterface.toObject(updated)));
     }
     @Transactional
     public DTOResponse delete(UUID id){
         T entity = repositoryGeneric.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-        LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser(), id);
+        LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
         repositoryGeneric.delete(entity);
         return mapperInterface.toDTO(entity);
     }
