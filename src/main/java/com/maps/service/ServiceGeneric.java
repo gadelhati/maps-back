@@ -6,6 +6,7 @@ import com.maps.persistence.model.GenericAuditEntity;
 import com.maps.persistence.payload.request.Identifiable;
 import com.maps.persistence.repository.RepositoryGeneric;
 import com.maps.utils.Information;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -83,17 +84,14 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
     }
     @Transactional
     public DTOResponse update(DTORequest updated){
-        if (!repositoryGeneric.existsById(updated.getId())) {
-            throw new RuntimeException("ID " + updated.getId() + " not found");
-        }
         LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
         return mapperInterface.toDTO(repositoryGeneric.save(mapperInterface.toObject(updated)));
     }
     @Transactional
     public DTOResponse delete(UUID id){
-        T entity = repositoryGeneric.findById(id).orElseThrow(() -> new RuntimeException("Resource not found"));
+        T entity = repositoryGeneric.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
         LOGGER.info("{} deleting entity with ID: {}", information.getCurrentUser(), id);
-        repositoryGeneric.deleteById(id);
+        repositoryGeneric.delete(entity);
         return mapperInterface.toDTO(entity);
     }
 //    @Transactional
