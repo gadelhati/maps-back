@@ -13,6 +13,7 @@ import com.maps.persistence.repository.RepositoryRole;
 import com.maps.persistence.repository.RepositoryUser;
 import com.maps.utils.E2EE;
 import com.maps.utils.Information;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ import java.util.*;
 @Service
 public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTOResponseUser> {
 
-    private Information information;
+    private final Information information;
     private final RepositoryUser repositoryUser;
     private final RepositoryRole repositoryRole;
     private final ServiceUserTOTP serviceUserTOTP;
@@ -59,7 +60,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     }
     @Override @Transactional
     public DTOResponseUser create(DTORequestUser created){
-//        LOGGER.info("{} creating a new user: {}", information.getCurrentUser(), created);
+        LOGGER.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
         User user = MapStruct.MAPPER.toObject(created);
         String password = generateSecurePassword();
         String totpKey = serviceUserTOTP.generateSecret();
@@ -78,11 +79,11 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     }
     @Override @Transactional
     public DTOResponseUser update(DTORequestUser updated){
-        User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new RuntimeException("Resource not found"));
+        User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
         user.setUsername(updated.getUsername());
         user.setEmail(updated.getEmail());
         user.setRole(updated.getRole());
-        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser(), updated.getId());
+        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.getId());
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     public boolean existsByUsername(String value) {
