@@ -119,7 +119,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
 //        if(userCurrent.getUsername() != null && user.getUsername() != null &&
 //                userCurrent.getUsername().equals(user.getUsername()) ||
 //                userCurrent.getRole().getClass().getName().contains("ADMIN")  ){
-//            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
+            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
             user = repositoryUser.save(user);
 //        }
         return MapStruct.MAPPER.toDTO(user);
