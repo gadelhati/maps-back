@@ -117,7 +117,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     @Transactional
     public DTOResponseUser changePassword(DTORequestUserPassword updated){
         User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-        User userCurrent = repositoryUser.findByUsername(String.valueOf(information.getCurrentUser().orElse("Unknown User"))).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
+        User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
         if(userCurrent.getUsername() != null && user.getUsername() != null &&
                 userCurrent.getUsername().equals(user.getUsername()) ||
                 userCurrent.getRole().getClass().getName().contains("ADMIN")  ){
@@ -131,10 +131,10 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     public String resetTOTP(String userName) {
         try {
             User user = repositoryUser.findByUsername(userName).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-            User userCurrent = repositoryUser.findByUsername(String.valueOf(information.getCurrentUser())).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
-            if(userCurrent.getUsername() != null && user.getUsername() != null &&
+            User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
+            if (userCurrent.getUsername() != null && user.getUsername() != null &&
                     userCurrent.getUsername().equals(user.getUsername()) ||
-                    userCurrent.getRole().getClass().getName().contains("ADMIN")  ){
+                    userCurrent.getRole().getClass().getName().contains("ADMIN")) {
                 Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
                 repositoryUser.save(user);
             }
