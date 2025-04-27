@@ -38,12 +38,7 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
     @PutMapping("/changePassword")
     @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:update')")
     public ResponseEntity<DTOResponseUser> changePassword(@RequestBody @Valid DTORequestUserPassword updated){
-        try {
-            return new ResponseEntity<>(serviceUser.changePassword(updated), HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error("Error while changing password for user", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(serviceUser.changePassword(updated), HttpStatus.OK);
     }
     @PutMapping("/totp")
     @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:update')")
