@@ -30,7 +30,6 @@ public abstract class ControllerGeneric<T extends GenericAuditEntity, I extends 
 
     protected abstract Class<T> getEntityClass();
 //    @RateLimit(requests = 100, period = "1m")
-//    @RequiresPermission(permissions = {EnumPermission.CREATE}, role = {"ROLE_ADMIN"}, type = EnumRequirementType.ALL)
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:create')")
     public ResponseEntity<O> create(@RequestBody @Valid I created){
