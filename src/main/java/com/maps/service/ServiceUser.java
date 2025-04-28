@@ -60,21 +60,21 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     }
     @Override @Transactional
     public DTOResponseUser create(DTORequestUser created){
-        LOGGER.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
         User user = MapStruct.MAPPER.toObject(created);
         String password = generateSecurePassword();
-        String totpKey = serviceUserTOTP.generateSecret();
+        String secret = serviceUserTOTP.generateSecret();
         user.setPassword(passwordEncoder.encode(password));
         try {
-            user.setSecret(e2EE.encrypt(totpKey));
+            user.setSecret(e2EE.encrypt(secret));
+            Set<Role> roles = new HashSet<>();
+            roles.add(repositoryRole.findByName("VIEWER"));
+            user.setRole(roles);
+            serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + password + "\nSecret: " + secret + "\nTotpKey: " +
+                    String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
         } catch (Exception e) {
             LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
             throw new BadCredentialsException("Invalid secret");
         }
-        Set<Role> roles = new HashSet<>();
-        roles.add(repositoryRole.findByName("VIEWER"));
-        user.setRole(roles);
-        serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + password + "\nTotpKey: " + totpKey);
         LOGGER.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
@@ -84,6 +84,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         user.setUsername(updated.getUsername());
         user.setEmail(updated.getEmail());
         user.setRole(updated.getRole());
+        user.setActive(true);
         LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.getId());
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
@@ -116,32 +117,66 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     }
     @Transactional
     public DTOResponseUser changePassword(DTORequestUserPassword updated){
-        User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-        User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
-        if(userCurrent.getUsername() != null && user.getUsername() != null &&
-                userCurrent.getUsername().equals(user.getUsername()) ||
-                userCurrent.getRole().getClass().getName().contains("ADMIN")  ){
+        User user = isValidToChange(updated.getId());
+        try {
             Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
-            user = repositoryUser.save(user);
+            repositoryUser.save(user);
+            serviceEmail.sendSimpleMessage(
+                    user.getEmail(),
+                    "Change password requested",
+                    "Username: " + user.getUsername() + "\nPassword: " + updated.getPassword() + "\nSecret: " + e2EE.decrypt(user.getSecret()) + "\nTotpKey: " +
+                    String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
+            return MapStruct.MAPPER.toDTO(user);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to reset password for user: " + user.getUsername());
         }
-        LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.getId());
-        return MapStruct.MAPPER.toDTO(user);
     }
     @Transactional
-    public String resetTOTP(String userName) {
+    public DTOResponseUser resetPassword(UUID id) {
+        User user = isValidToChange(id);
         try {
-            User user = repositoryUser.findByUsername(userName).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-            User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
-            if (userCurrent.getUsername() != null && user.getUsername() != null &&
-                    userCurrent.getUsername().equals(user.getUsername()) ||
-                    userCurrent.getRole().getClass().getName().contains("ADMIN")) {
-                Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
-                repositoryUser.save(user);
-            }
-            LOGGER.info("{} resetting user totp with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
-            return String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", userName, userName + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name"));
+            String password = generateSecurePassword();
+            user.setPassword(passwordEncoder.encode(password));
+            repositoryUser.save(user);
+            serviceEmail.sendSimpleMessage(
+                    user.getEmail(),
+                    "Reset password requested",
+                    "Username: " + user.getUsername() + "\nPassword: " + password + "\nSecret: " + e2EE.decrypt(user.getSecret()) + "\nTotpKey: " +
+                            String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
+            return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to reset TOTP for user: " + userName);
+            throw new IllegalStateException("Failed to reset password for user: " + user.getUsername());
+        }
+    }
+    @Transactional
+    public DTOResponseUser resetSecret(UUID id) {
+        User user = isValidToChange(id);
+        try {
+            Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
+            repositoryUser.save(user);
+            serviceEmail.sendSimpleMessage(
+                    user.getEmail(),
+                    "Reset TOTP requested",
+                    "Username: " + user.getUsername() + "\nSecret: " + e2EE.decrypt(user.getSecret()) + "\nTotpKey: " +
+                    String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            LOGGER.info("{} resetting user totp with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
+            return MapStruct.MAPPER.toDTO(user);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to reset TOTP for user: " + user.getUsername());
+        }
+    }
+    public User isValidToChange(UUID id) {
+        User user = repositoryUser.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
+        User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
+        if (userCurrent.getUsername() != null && user.getUsername() != null &&
+                userCurrent.getUsername().equals(user.getUsername()) ||
+                userCurrent.getRole().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
+            return user;
+        } else {
+            LOGGER.warn("{} attempted unauthorized access to user with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
+            throw new EntityNotFoundException("i Resource not found");
         }
     }
     @Transactional
