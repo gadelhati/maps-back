@@ -42,7 +42,7 @@
 <!--    <ul>-->
 <!--        <li sec:authorize="isAnonymous()"><a class="nav-link" href="/login">Login</a></li>-->
 <!--        <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></li>-->
-<!--        <li sec:authorize="isAuthenticated()">Wellcome, <span sec:authentication="name"></span></li>-->
+<!--        <li sec:authorize="isAuthenticated()">Welcome, <span sec:authentication="name"></span></li>-->
 <!--    </ul>-->
 <!--    <div sec:authorize="isAuthenticated()">-->
 <!--        This content is only shown to authenticated users.-->
@@ -58,7 +58,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const token = /*[[${token}]]*/ null;
         if (token) {
-            localStorage.setItem('token', token);
+            localStorage.setItem('token', JSON.stringify(token));
             // Redirecionar após armazenar o token se necessário
             // window.location.href = '/dashboard';
         }

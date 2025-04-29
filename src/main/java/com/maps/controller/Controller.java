@@ -39,7 +39,7 @@ public class Controller {
         try {
             DTOResponseToken token = serviceUserAuth.login(new DTORequestUserAuth(username, password, Integer.parseInt(totpKey), captchaToken));
             ModelAndView modelAndView = new ModelAndView("upload");
-            modelAndView.addObject("token", token.toString());
+            modelAndView.addObject("token", token);
             return modelAndView;
         } catch (Exception e) {
             ModelAndView modelAndView = new ModelAndView("login");
