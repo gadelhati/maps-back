@@ -25,12 +25,12 @@ public class ControllerAuth {
     private final ServiceUserAuth serviceUserAuth;
 
     @PostMapping("/login")
-    public @ResponseBody DTOResponseToken login(@RequestBody @Valid DTORequestUserAuth value){
-        return serviceUserAuth.login(value);
+    public ResponseEntity<DTOResponseToken> login(@RequestBody @Valid DTORequestUserAuth value){
+        return ResponseEntity.ok().body(serviceUserAuth.login(value));
     }
     @PostMapping("/refresh")
-    public @ResponseBody DTOResponseToken refresh(@RequestBody @Valid DTORequestToken value){
-        return serviceUserAuth.refresh(value);
+    public ResponseEntity<DTOResponseToken> refresh(@RequestBody @Valid DTORequestToken value){
+        return ResponseEntity.accepted().body(serviceUserAuth.refresh(value));
     }
     @DeleteMapping("/logout/{refreshToken}")
     public ResponseEntity<DTOResponseToken> logout(@PathVariable("refreshToken") UUID refreshToken) {

@@ -37,7 +37,7 @@ public class ServiceUserTOTP {
     private final E2EE e2EE;
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
-    public boolean validateTOTP(String userName, Integer totpKey) {
+    public void validateTOTP(String userName, Integer totpKey) {
         LOGGER.info("Validating TOTP for user: {}", userName);
         User user = repositoryUser.findByUsername(userName).orElseThrow(() -> new BadCredentialsException("User not found"));
         String secret = user.getSecret();
@@ -60,7 +60,6 @@ public class ServiceUserTOTP {
                 throw new MissingTOTPKeyAuthenticatorException("TOTP code is mandatory");
             }
         }
-        return true;
     }
     public String generateSecret() {
         byte[] buffer = new byte[10];

@@ -59,9 +59,9 @@ public class ServiceUserAuth {
     public DTOResponseToken login(DTORequestUserAuth dtoRequestUserAuth) {
 //        captchaTest(dtoRequestUserAuth.getCaptchaToken());
         try {
-            UserDetails userDetails = serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
+            serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
-            serviceUserTOTP.validateTOTP(authentication.getName(), dtoRequestUserAuth.getTotpKey());
+            serviceUserTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtGenerator.generateToken(authentication.getName());
             UUID refreshToken = UUID.randomUUID();
