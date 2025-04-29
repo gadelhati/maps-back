@@ -36,6 +36,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class ConfigurationSecurity {
 
     public final JWTGenerator jwtGenerator;
+    public final RateLimitingFilter rateLimitingFilter;
     public final ServiceCustomUserDetails serviceCustomUserDetails;
 
     @Bean
@@ -52,7 +53,7 @@ public class ConfigurationSecurity {
                         .requestMatchers("/upload/**", "/chart/**", "/chartArea/**", "/city/**", "/gaugeStation/**", "/internationalChart/**", "/maritimeArea/**", "/privilege/**", "/research/**", "/researcher/**", "/role/**", "/state/**", "/user/**").permitAll()
                         .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(new RateLimitingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin((login) -> login
                         .loginPage("/login")
                         .defaultSuccessUrl("/")

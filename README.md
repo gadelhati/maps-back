@@ -17,7 +17,7 @@ CRUD service from a datatable.
 
 ### Roadmap
 #### in development
-- [x] send refresh token when you have a rejected request or revoke
+- [ ] 
 
 #### in concept
 - [ ] streaming message between api: [HTTP request] OpenFeign, [Queue] Apache Kafka ou RabbitMQ
