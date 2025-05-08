@@ -12,16 +12,16 @@ import org.locationtech.jts.geom.Point;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class Seismic extends GenericAuditEntity {
 
-    private int point;
-    private int latitude;
-    private int longitude;
+    private Integer point;
+    private Integer latitude;
+    private Integer longitude;
     @Column(columnDefinition = "geography")
     private Point latitudeP;
     @Column(columnDefinition = "geography")
     private Point longitudeP;
-    private int qualityControlPosition;
+    private String qualityControl;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "eet", nullable = true)
-    private EET eet;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @JoinColumn(name = "eet", nullable = true)
+//    private EET eet;
 }

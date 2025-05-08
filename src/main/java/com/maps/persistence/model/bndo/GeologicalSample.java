@@ -1,6 +1,7 @@
 package com.maps.persistence.model.bndo;
 
 import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,41 +9,52 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class GeologicalSample extends GenericAuditEntity {
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
 
-    private int cod_amostr_geolog;
-    private int cod_estacao;
-    private int area_origem;
-    private int arrasto_velocidade;
-    private int arrasto_direcao;
-    private int arrasto_duracao;
-    private int foto_amostra;
-    private int foto_fundo;
-    private int side_scan;
-    private int tipo_amostra;
-    private int volume_amostra;
-    private int peso_amostra;
-    private int cor_amostra;
-    private int textura_amostra;
-    private boolean concrecoes;
-    private boolean conchas;
-    private boolean plantas;
-    private boolean animais;
-    private int poluicao;
-    private int tenca_principal;
-    private int tenca_complementar;
-    private int tenca_amostra;
-    private int obs_analise_preliminar;
-    private int obs_identificacao;
-    private int sondagem;
-    private int estrutura;
-    private int num_sec_amostra;
-    private int comprimento_testemunho;
-    private int cor_fundo;
-    private int cor_topo;
-    private int numnac;
-    private int ctrlqc_geo;
-    private int grau_selecao;
-    private int grau_arredondamento;
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class GeologicalSample extends GenericAuditEntity {
+    private Integer codGeologicalSample;
+    private Integer codStation;
+    private Integer areaOrigin;
+    private Integer dragVelocity;
+    private Integer dragDirection;
+    private Integer dragDuration;
+    private Boolean photoSample;
+    private Boolean photoFloor;
+    private String sideScan;//null, N, S, O
+    private Integer sampleType;
+    private Float sampleVolume;
+    private Float sampleWeight;
+    private String sampleColor;
+    private String sampleTexture;
+    private Boolean concretions;
+    private Boolean shells;
+    private Boolean plants;
+    private Boolean animals;
+    private String pollution;//null, N, O, 0, 1, 2, 3, 4
+    private Integer principalSeabed;
+    private Integer complementarySeabed;
+    private String sampleSeabed;//null, 0, 1, 2, 3
+    @Column(length = 300)
+    private String preliminaryAnalysis;
+    private String identification;
+    private Integer sondagem;
+    private Integer structure;
+    private String sampleSequence;
+    private Integer comprimentoTestemunho;
+    private Integer bottomColor;
+    private Integer topColor;
+    private Integer numnac;
+    private Integer qualityControl;
+    private Integer selectionDegree;
+    private Integer roundingDegree;
 }

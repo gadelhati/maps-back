@@ -19,10 +19,8 @@ import java.time.LocalDateTime;
 public class Media extends GenericAuditEntity {
 
     private String code;
-//    private int codInstituicao;
-//    private int codTipoMidia;
     private String identification;
-//    private int sequential;
+    private Integer sequential;//0
     private LocalDateTime receipt;
     private LocalDateTime shipping;
     private String obs;

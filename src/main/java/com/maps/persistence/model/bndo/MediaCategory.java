@@ -11,6 +11,6 @@ import org.hibernate.envers.Audited;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class MediaCategory extends GenericAuditEntity {
 
-    private int code;
+    private Integer code;
     private String name;
 }

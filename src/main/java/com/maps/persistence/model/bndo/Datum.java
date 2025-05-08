@@ -11,8 +11,8 @@ import org.hibernate.envers.Audited;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class Datum extends GenericAuditEntity {
 
-    private int code;
+    private Integer code;
     private String name;
     private Integer ae;
-    private Float umF;//?
+    private Float umF;
 }
