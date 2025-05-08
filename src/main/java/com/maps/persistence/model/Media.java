@@ -10,6 +10,12 @@ import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
 @Data
 @Entity
 @Audited
