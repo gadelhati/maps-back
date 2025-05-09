@@ -27,6 +27,6 @@ public class Equipment extends GenericAuditEntity {
     @JoinColumn(name = "manufacturer", nullable = true)
     private Manufacturer manufacturer;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "equipmentMethod", nullable = true)
-    private EquipmentMethod equipmentMethod;
+    @JoinColumn(name = "sampleMethod", nullable = true)
+    private SampleMethod sampleMethod;
 }

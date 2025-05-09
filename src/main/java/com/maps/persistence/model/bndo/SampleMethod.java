@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class EquipmentMethod extends GenericAuditEntity {
+public class SampleMethod extends GenericAuditEntity {
 
     private String name;
 }

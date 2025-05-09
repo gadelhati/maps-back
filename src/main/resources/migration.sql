@@ -58,7 +58,7 @@ FROM sisbndo.tb_projeto ON CONFLICT DO NOTHING;
 INSERT INTO maps.researcher
 (id, created_at, updated_at, code, name, email, address)
 SELECT uuid_generate_v4()::UUID, now(), now(), cod_pesquisador::INTEGER, TRIM(nome_pesquisador), TRIM(endereco_eletronico), TRIM(endereco_pesquisador)
-FROM sisbndo.tb_pesquisador ON CONFLICT DO NOTHING;
+FROM sisbndo.tb_pesquisador ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO maps.hydrographic_survey
 (id, created_at, updated_at, code, name)
@@ -66,16 +66,67 @@ SELECT uuid_generate_v4()::UUID, now(), now(), cod_levantamento::INTEGER, TRIM(n
 FROM sisbndo.tb_levantamento ON CONFLICT DO NOTHING;
 
 INSERT INTO maps.commission
-(id, created_at, updated_at, code, identification, sequential, receipt, shipping, obs, institution, media_category)
-SELECT uuid_generate_v4()::UUID, now(), now(), tm.cod_midia::INTEGER, TRIM(tm.identificacao), tm.sequencial::INTEGER, tm.data_recebimento, tm.data_remessa, TRIM(tm.obs), i.id, mc.id
-FROM sisbndo.tb_midia tm LEFT JOIN maps.institution i ON tm.cod_instituicao = i.code::BIGINT LEFT JOIN maps.media_category mc ON tm.cod_tipo_midia = mc.code::BIGINT ON CONFLICT DO NOTHING;
-
-INSERT INTO maps.commission
-(id, created_at, updated_at, code, cruise_name, cruise_number, name, description, start, finish, latitude_bottom_most, latitude_top_most, ne, longitude_left_most, longitude_right_most, sw, area_name, maximum_depth_area, minimum_depth_area, maximum_collection_depth, minimum_collection_depth, total_size_media, data_qualification, h_folder, obs, project, hydrographic_survey, coordinator, responsible, harbor_arrived, harbor_departure)
-SELECT uuid_generate_v4()::UUID, now(), now(), tc.cod_comissao::INTEGER, p.id, hsa.id, ic.id, ir.id, tc.nome_cruzeiro, tc.num_cruzeiro, tc.nome_comissao, tc.descricao_comissao, tc.data_inicio, tc.data_fim, tc.lat_bottommost, tc.lat_topmost, tc.long_leftmost, tc.long_rightmost, tc.porto_partida, tc.porto_chegada, tc.nome_area_comissao, tc.profundidade_maxima_area, tc.profundidade_minima_area, tc.profundidade_maxima_coleta, tc.profundidade_minima_coleta, tc.tamanho_total_midia, tc.qualificacao_dados, tc.pasta_h, tc.obs
+(id, created_at, updated_at, code, cruise_name, cruise_number, name, description, start, finish, latitude_bottom_most, latitude_top_most, longitude_left_most, longitude_right_most, area_name, maximum_depth_area, minimum_depth_area, maximum_collection_depth, minimum_collection_depth, total_size_media, data_qualification, h_folder, obs, project, hydrographic_survey, coordinator, responsible, harbor_arrived, harbor_departure)
+SELECT uuid_generate_v4()::UUID, now(), now(), tc.cod_comissao::INTEGER, TRIM(tc.nome_cruzeiro), TRIM(tc.num_cruzeiro), TRIM(tc.nome_comissao), TRIM(tc.descricao_comissao), tc.data_inicio, tc.data_fim, tc.lat_bottommost, tc.lat_topmost::FLOAT, tc.long_leftmost::FLOAT, tc.long_rightmost::FLOAT, tc.nome_area_comissao, tc.profundidade_maxima_area::FLOAT, tc.profundidade_minima_area::FLOAT, tc.profundidade_maxima_coleta::FLOAT, tc.profundidade_minima_coleta::FLOAT, tc.tamanho_total_midia::FLOAT, TRIM(tc.qualificacao_dados), TRIM(tc.pasta_h), TRIM(tc.obs), p.id::UUID, hsa.id::UUID, ic.id::UUID, ir.id::UUID, ha.id::UUID, hd.id::UUID
 FROM sisbndo.tb_comissao tc
  LEFT JOIN maps.project p ON tc.cod_projeto = p.code::BIGINT
  LEFT JOIN maps.hydrographic_survey hsa ON tc.cod_levantamento = hsa.code::BIGINT
  LEFT JOIN maps.institution ic ON tc.cod_instituicao_coordenadora  = ic.code::BIGINT
  LEFT JOIN maps.institution ir ON tc.cod_instituicao_responsavel = ir.code::BIGINT
+ LEFT JOIN maps.harbor ha ON tc.porto_chegada = ha.name
+ LEFT JOIN maps.harbor hd ON tc.porto_partida = hd.name
 ON CONFLICT DO NOTHING;
+--num_cruzeiro: leg 8, null, espaço
+
+INSERT INTO maps.harbor (id, created_at, updated_at, name)
+SELECT
+    uuid_generate_v4()::UUID,
+    now(),
+    now(),
+    nome
+FROM (
+    SELECT DISTINCT initcap(TRIM(split_part(porto_chegada, '/', 1))) AS nome
+    FROM sisbndo.tb_comissao
+    WHERE porto_chegada IS NOT NULL
+
+    UNION
+
+    SELECT DISTINCT initcap(TRIM(split_part(porto_partida, '/', 1))) AS nome
+    FROM sisbndo.tb_comissao
+    WHERE porto_partida IS NOT NULL
+) AS nomes
+ON CONFLICT DO NOTHING;
+--Rio e Rio De Janeiro
+
+INSERT INTO maps.sample_method
+(id, created_at, updated_at, name)
+SELECT uuid_generate_v4()::UUID, now(), now(), nome
+FROM (
+	SELECT DISTINCT initcap(TRIM(metodo_amostragem)) AS nome
+	FROM sisbndo.tb_equipamento te
+	WHERE metodo_amostragem IS NOT NULL
+) AS nomes
+ON CONFLICT DO NOTHING;
+--amostador/amostrador
+--amostagem/amostragem
+
+INSERT INTO maps.equipment
+(id, created_at, updated_at, code, number, model, frequency, range, calibration, equipment_category, manufacturer, sample_method)
+SELECT uuid_generate_v4()::UUID, now(), now(), te.cod_equipamento::INTEGER, TRIM(te.num_serie), TRIM(te.modelo), te.frequencia::INTEGER, te.alcance::INTEGER, te.ultima_calibracao, ec.id, m.id, sm.id
+FROM sisbndo.tb_equipamento te
+LEFT JOIN maps.equipment_category ec ON te.cod_tipo_equipamento = ec.code
+LEFT JOIN maps.manufacturer m ON te.fabricante = m.name
+LEFT JOIN maps.sample_method sm ON te.metodo_amostragem = sm.name
+ON CONFLICT DO NOTHING;
+
+INSERT INTO maps.media
+(id, created_at, updated_at, code, institution, media_category, identification, sequential, receipt, shipping, obs)
+SELECT uuid_generate_v4()::UUID, now(), now(), tm.cod_midia::INTEGER, i.id, mc.id, TRIM(tm.identificacao), tm.sequencial::INTEGER, tm.data_recebimento, tm.data_remessa, tm.obs
+FROM sisbndo.tb_midia tm
+LEFT JOIN maps.institution i ON tm.cod_instituicao = i.code::BIGINT
+LEFT JOIN maps.media_category mc ON tm.cod_tipo_midia = mc.code
+ON CONFLICT (id) DO NOTHING;
+
+--tb_midia_equipamento      //só adiciona o bruto 7 tuplas com valor 1
+--tb_plataforma_comissao    //
+--tb_equipamento_comissao   //só replica a ultima calibração
