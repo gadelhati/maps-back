@@ -22,8 +22,13 @@ FROM sisbndo.tb_tipo_plataforma ON CONFLICT DO NOTHING;
 
 INSERT INTO maps.module
 (id, created_at, updated_at, name)
-SELECT uuid_generate_v4()::UUID, now(), now(), TRIM(modulo_utilizacao)
+SELECT uuid_generate_v4()::UUID, now(), now(), initcap(TRIM(modulo_utilizacao))
 FROM sisbndo.tb_tipo_equipamento ON CONFLICT DO NOTHING;
+
+INSERT INTO maps.module
+(id, created_at, updated_at, name)
+SELECT uuid_generate_v4()::UUID, now(), now(), initcap(TRIM(cod_area_resp))
+FROM sisbndo.tb_pesquisador_comissao ON CONFLICT DO NOTHING;
 
 INSERT INTO maps.equipment_category
 (id, created_at, updated_at, code, acronym, name, description, module)
@@ -130,3 +135,43 @@ ON CONFLICT (id) DO NOTHING;
 --tb_midia_equipamento      //só adiciona o bruto 7 tuplas com valor 1
 --tb_plataforma_comissao    //
 --tb_equipamento_comissao   //só replica a ultima calibração
+
+INSERT INTO maps.research
+(id, created_at, updated_at, start, finish, researcher, commission, module)
+SELECT uuid_generate_v4()::UUID, now(), now(), tpc.data_inicio_resp, tpc.data_fim_resp, r.id, c.id, m.id
+FROM sisbndo.tb_pesquisador_comissao tpc
+LEFT JOIN maps.researcher r ON tpc.cod_pesquisador = r.code::BIGINT
+LEFT JOIN maps.commission c ON tpc.cod_comissao = c.code::BIGINT
+LEFT JOIN maps.module m  ON initcap(TRIM(tpc.cod_area_resp)) = initcap(TRIM(m.name))
+ON CONFLICT (id) DO NOTHING;
+
+--ADD BATHYMETRIC PLATFORM BEFORE
+
+INSERT INTO maps.eet
+(id, created_at, updated_at, code, start, finish, latitude_bottom_most, latitude_top_most, longitude_left_most, longitude_right_most, fb, platform_bathymetric, secrecy_code, obs, equipment_depth, local_depth, name_seismic_line, start_seismic_line_data, end_seismic_line_data, station_category, commission, platform, equipment, media, datum)
+SELECT uuid_generate_v4()::UUID, now(), now(), teet.cod_estacao_espaco_tempo, teet.data_hora_fim, teet.data_hora_fim, teet.lat_bottommost, teet.lat_topmost, teet.long_leftmost, teet.long_rightmost, teet.fb, teet.plataforma_batimetrica, teet.cod_sigilo, teet.obs, teet.prof_eqpto, teet.prof_local, teet.nome_linha_sism, teet.data_ini_linha_sism, teet.data_fim_linha_sism, sc.id, c.id, p.id, e.id, m.id, d.id
+FROM sisbndo.tb_estacao_espaco_tempo teet
+LEFT JOIN maps.station_category sc ON teet.cod_tipo_estacao = sc.code::BIGINT
+LEFT JOIN maps.commission c ON teet.cod_comissao = c.code::BIGINT
+LEFT JOIN maps.platform p ON teet.cod_plataforma = p.code::BIGINT
+LEFT JOIN maps.equipment e ON teet.cod_equipamento = e.code::BIGINT
+LEFT JOIN maps.media m ON teet.cod_midia = m.code::BIGINT
+LEFT JOIN maps.datum d ON teet.cod_datum = d.code::BIGINT
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO maps.seismic
+(id, created_at, updated_at, point, latitude, longitude, quality_control, eet)
+SELECT uuid_generate_v4()::UUID, now(), now(), ts.id_pto, ts.latitude, ts.longitude, ts.ctrlqc_posicao, e.id
+FROM sisbndo.tb_sismica ts
+LEFT JOIN maps.eet e ON ts.cod_estacao_espaco_tempo = e.code::BIGINT
+ON CONFLICT (id) DO NOTHING;
+
+UPDATE maps.media mm
+SET equipment = e.id, commission = c.id, bruto = tmec.bruto
+--SELECT uuid_generate_v4()::UUID, now(), now(), tmec.cod_equipamento, tmec.cod_midia, tmec.cod_comissao
+FROM sisbndo.tb_midia_equipamento_comissao tmec
+LEFT JOIN maps.equipment e ON tmec.cod_equipamento = e.code
+LEFT JOIN maps.media m ON tmec.cod_midia = m.code::BIGINT
+LEFT JOIN maps.commission c ON tmec.cod_comissao = c.code
+where tmec.cod_midia = m.code::BIGINT
+

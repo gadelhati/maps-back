@@ -34,7 +34,7 @@ public class EET extends GenericAuditEntity {
     @Column(columnDefinition = "geography")
     private Point sw;//lat_bottommost and long_leftmost
     private String fb;
-    private String plataforma_batimetrica;//=~platform
+    private String platformBathymetric;//=~platform
     private String secrecyCode;
     private String obs;
     private Integer equipmentDepth;

@@ -1,5 +1,6 @@
 package com.maps.persistence.model;
 
+import com.maps.persistence.model.bndo.Equipment;
 import com.maps.persistence.model.bndo.MediaCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class Media extends GenericAuditEntity {
     private LocalDateTime receipt;
     private LocalDateTime shipping;
     private String obs;
+    private String bruto;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "institution", nullable = true)
@@ -37,4 +39,10 @@ public class Media extends GenericAuditEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "mediaCategory", nullable = true)
     private MediaCategory mediaCategory;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "equipment", nullable = true)
+    private Equipment equipment;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "commission", nullable = true)
+    private Commission commission;
 }

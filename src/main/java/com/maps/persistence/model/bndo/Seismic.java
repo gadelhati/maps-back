@@ -21,7 +21,7 @@ public class Seismic extends GenericAuditEntity {
     private Point longitudeP;
     private String qualityControl;
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @JoinColumn(name = "eet", nullable = true)
-//    private EET eet;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "eet", nullable = true)
+    private EET eet;
 }
