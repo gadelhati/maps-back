@@ -2,6 +2,7 @@ package com.maps.persistence.model;
 
 import com.maps.persistence.model.bndo.Harbor;
 import com.maps.persistence.model.bndo.HydrographicSurvey;
+import com.maps.persistence.model.bndo.Platform;
 import com.maps.persistence.model.bndo.Project;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -70,4 +71,7 @@ public class Commission extends GenericAuditEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "harborDeparture", nullable = true)
     private Harbor harborDeparture;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "platform", nullable = true)
+    private Platform platform;
 }

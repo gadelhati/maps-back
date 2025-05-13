@@ -166,12 +166,31 @@ FROM sisbndo.tb_sismica ts
 LEFT JOIN maps.eet e ON ts.cod_estacao_espaco_tempo = e.code::BIGINT
 ON CONFLICT (id) DO NOTHING;
 
-UPDATE maps.media mm
+UPDATE maps.media
 SET equipment = e.id, commission = c.id, bruto = tmec.bruto
---SELECT uuid_generate_v4()::UUID, now(), now(), tmec.cod_equipamento, tmec.cod_midia, tmec.cod_comissao
 FROM sisbndo.tb_midia_equipamento_comissao tmec
 LEFT JOIN maps.equipment e ON tmec.cod_equipamento = e.code
 LEFT JOIN maps.media m ON tmec.cod_midia = m.code::BIGINT
 LEFT JOIN maps.commission c ON tmec.cod_comissao = c.code
 where tmec.cod_midia = m.code::BIGINT
 
+UPDATE maps.commission
+SET platform = p.id, harbor_arrived = ha.id, harbor_departure = hd.id, start = tpc.data_inicio, finish = tpc.data_fim
+FROM sisbndo.tb_plataforma_comissao tpc
+LEFT JOIN maps.commission cm ON tpc.cod_comissao  = cm.code
+LEFT JOIN maps.platform p ON tpc.cod_plataforma = p.code::BIGINT
+LEFT JOIN maps.harbor ha ON tpc.cod_comissao = ha.code
+LEFT JOIN maps.harbor hd ON tpc.cod_comissao = hd.code
+where tpc.cod_comissao = cm.code::BIGINT
+
+INSERT INTO maps.station
+(id, created_at, updated_at, code, number, name, date_time, latitude, longitude, quad_marsden, sub_quad_marsden1, quad_wmo, sub_sub_quad_marsden, prof_coleta_geo, obs, cod_sigilo, ctrlqc_posicao, ctrlqc_data_hora, platform, equipment, commission, station_category, media, datum)
+SELECT uuid_generate_v4()::UUID, now(), now(), te.cod_estacao, te.num_estacao, te.nome_estacao, te.data_hora, te.latitude, te.longitude, te.quad_marsden, te.sub_quad_marsden_1, te.quad_wmo, te.sub_sub_quad_marsden, te.prof_coleta_geo, te.obs, te.cod_sigilo, te.ctrlqc_posicao, te.ctrlqc_data_hora, p.id, e.id, c.id, sc.id, m.id, d.id
+FROM sisbndo.tb_estacao te
+LEFT JOIN maps.platform p ON te.cod_plataforma = p.code::BIGINT
+LEFT JOIN maps.equipment e ON te.cod_equipamento = e.code::BIGINT
+LEFT JOIN maps.commission c ON te.cod_comissao = c.code::BIGINT
+LEFT JOIN maps.station_category sc ON te.cod_equipamento = sc.code::BIGINT
+LEFT JOIN maps.media m ON te.cod_midia = m.code::BIGINT
+LEFT JOIN maps.datum d ON te.cod_datum = d.code::BIGINT
+ON CONFLICT (id) DO NOTHING;

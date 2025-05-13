@@ -29,16 +29,16 @@ public class Station extends GenericAuditEntity {
     private Integer longitude;
     @Column(columnDefinition = "geography")
     private Point point;//latitude and longitude
-    private Integer quad_marsden;
-    private Integer sub_quad_marsden_1;
-    private Integer quad_wmo;
-    private Integer sub_sub_quad_marsden;
-    private Integer prof_coleta_geo;
+    private Integer quadMarsden;
+    private Integer subQuadMarsden1;
+    private Integer quadWmo;
+    private Integer subSubQuadMarsden;
+    private Integer profColetaGeo;
     private String obs;
     private String cod_sigilo;
 //    private Integer cod_datum;
-    private Integer ctrlqc_posicao;
-    private Integer ctrlqc_data_hora;
+    private String ctrlqc_posicao;
+    private String ctrlqc_data_hora;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "platform", nullable = true)
