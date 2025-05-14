@@ -14,14 +14,14 @@ import java.awt.*;
 public class Bathymetry extends GenericAuditEntity {
 
 //    private int cod_estacao_espaco_tempo;
-    private int latitude;
-    private int longitude;
+    private Integer latitude;
+    private Integer longitude;
     @Column(columnDefinition = "geography")
     private Point point;
-    private float depth;
+    private Float depth;
 //    private int codDatum;
-    private int qualityControlPosition;
-    private int qualityControlDepth;
+    private String qualityControlPosition;
+    private String qualityControlDepth;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "datum", nullable = true)

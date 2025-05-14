@@ -194,3 +194,19 @@ LEFT JOIN maps.station_category sc ON te.cod_equipamento = sc.code::BIGINT
 LEFT JOIN maps.media m ON te.cod_midia = m.code::BIGINT
 LEFT JOIN maps.datum d ON te.cod_datum = d.code::BIGINT
 ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO maps.upper_air
+(id, created_at, updated_at, station, alt, dbc, pressao, dd, fff, ido, temp, ur, hora, ascensao, orvalho, ctrlqc_pressao, ctrlqc_vento, ctrlqc_temp, ctrlqc_orvalho, ctrlqc_ur, ctrlqc_alt, ctrlqc_dd, ctrlqc_fff)
+SELECT uuid_generate_v4()::UUID, now(), now(), s.id, tas.alt, tas.dbc::INTEGER, tas.pressao, tas.dd, tas.fff, tas.ido::INTEGER, tas.temp, tas.ur, tas.hora::TIME, tas.ascensao, tas.orvalho, tas.ctrlqc_pressao, tas.ctrlqc_vento, tas.ctrlqc_temp, tas.ctrlqc_orvalho, tas.ctrlqc_ur, tas.ctrlqc_alt, tas.ctrlqc_dd, tas.ctrlqc_fff
+FROM sisbndo.tb_ar_superior tas
+LEFT JOIN maps.station s ON tas.cod_estacao = s.code::BIGINT
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO maps.bathymetry
+(id, created_at, updated_at, latitude, longitude, depth, quality_control_position, quality_control_depth, eet, datum)
+SELECT uuid_generate_v4()::UUID, now(), now(), latitude, longitude, profundidade, ctrlqc_posicao, ctrlqc_prof, e.id, d.id
+FROM sisbndo.tb_batimetria tb
+LEFT JOIN maps.eet e ON tb.cod_estacao_espaco_tempo  = e.code::BIGINT
+LEFT JOIN maps.datum d ON tb.cod_datum = d.code::BIGINT
+ON CONFLICT (id) DO NOTHING;
+

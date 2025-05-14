@@ -1,7 +1,7 @@
 select * from maps.geological_sample;
 	select * from sisbndo.tb_analise_sedimentologica;
-	select * from sisbndo.tb_ar_superior;
-	select * from sisbndo.tb_batimetria;
+select * from maps.upper_air;
+select * from sisbndo.tb_batimetria;
 	select * from sisbndo.tb_coleta_perfil;
 	select * from sisbndo.tb_coleta_perfil_espaco_tempo;
 select * from maps.commission;

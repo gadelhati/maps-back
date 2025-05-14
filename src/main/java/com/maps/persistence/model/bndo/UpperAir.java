@@ -1,7 +1,7 @@
 package com.maps.persistence.model.bndo;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class UpperAir extends GenericAuditEntity {
 
-    private Integer cod_estacao;
+//    private Integer cod_estacao;
     private Integer alt;
     private Integer dbc;
     private Integer pressao;
@@ -25,12 +25,16 @@ public class UpperAir extends GenericAuditEntity {
     private LocalTime hora;
     private Integer ascensao;
     private Integer orvalho;
-    private Integer ctrlqc_pressao;
-    private int ctrlqc_vento;
-    private int ctrlqc_temp;
-    private int ctrlqc_orvalho;
-    private int ctrlqc_ur;
-    private int ctrlqc_alt;
-    private int ctrlqc_dd;
-    private int ctrlqc_fff;
+    private String ctrlqc_pressao;
+    private String ctrlqc_vento;
+    private String ctrlqc_temp;
+    private String ctrlqc_orvalho;
+    private String ctrlqc_ur;
+    private String ctrlqc_alt;
+    private String ctrlqc_dd;
+    private String ctrlqc_fff;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "station", nullable = true)
+    private Station station;
 }
