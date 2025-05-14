@@ -1,8 +1,8 @@
 select * from maps.geological_sample;
-	select * from sisbndo.tb_analise_sedimentologica;
+select * from maps.sedimentological_analysis;
 select * from maps.upper_air;
-select * from sisbndo.tb_batimetria;
-	select * from sisbndo.tb_coleta_perfil;
+select * from maps.bathymetry;
+	select * from sisbndo.tb_coleta_perfil;--66 colunas
 	select * from sisbndo.tb_coleta_perfil_espaco_tempo;
 select * from maps.commission;
 	select * from sisbndo.tb_dados_complem_gebco;
@@ -19,7 +19,7 @@ select * from maps.hydrographic_survey;
 --select * from sisbndo.tb_meteorologia;--VAZIA
 --select * from sisbndo.tb_meteorologia_espaco_tempo tmet ;--VAZIA
 select * from maps.media;
---select * from sisbndo.tb_midia_equipamento_comissao;--ADD ON maps.media
+	--select * from sisbndo.tb_midia_equipamento_comissao;--ADD ON maps.media
 --select * from maps.country;
 select * from maps.researcher;
 select * from maps.research;
@@ -32,3 +32,5 @@ select * from maps.equipment_category;
 select * from maps.station_category;
 select * from maps.media_category;
 select * from maps.platform_category;
+
+SELECT * FROM sisbndo.tb_ar_superior WHERE NOT hora ~ '^\d{2}:[0-5][0-9]:[0-5][0-9]$';
