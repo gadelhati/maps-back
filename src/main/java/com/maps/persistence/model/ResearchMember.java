@@ -1,7 +1,6 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model;
 
-import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +19,12 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SampleMethod extends GenericAuditEntity {
+public class ResearchMember extends GenericAuditEntity {
 
-    private String name;
+    private String function;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Research research;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Researcher researcher;
 }

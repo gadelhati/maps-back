@@ -10,10 +10,20 @@ import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Equipment extends GenericAuditEntity {
 
-    private int code;
     private String number;
     private String model;
     private Integer frequency;
@@ -21,12 +31,9 @@ public class Equipment extends GenericAuditEntity {
     private LocalDateTime calibration;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "equipmentCategory", nullable = true)
     private EquipmentCategory equipmentCategory;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "manufacturer", nullable = true)
     private Manufacturer manufacturer;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "sampleMethod", nullable = true)
     private SampleMethod sampleMethod;
 }

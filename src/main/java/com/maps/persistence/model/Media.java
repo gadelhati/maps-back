@@ -1,8 +1,10 @@
 package com.maps.persistence.model;
 
-import com.maps.persistence.model.bndo.Equipment;
+import com.maps.persistence.model.bndo.EquipmentDeployment;
 import com.maps.persistence.model.bndo.MediaCategory;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,24 +27,15 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class Media extends GenericAuditEntity {
 
-    private String code;
-    private String identification;
-    private Integer sequential;//0
-    private LocalDateTime receipt;
-    private LocalDateTime shipping;
-    private String obs;
-    private String bruto;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    private String name;
+    private String description;
+    private String path;
+    private LocalDateTime generatedAt;
+    private LocalDateTime deliveryAt;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "institution", nullable = true)
-    private Institution institution;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "mediaCategory", nullable = true)
     private MediaCategory mediaCategory;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "equipment", nullable = true)
-    private Equipment equipment;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "commission", nullable = true)
-    private Commission commission;
+    private EquipmentDeployment equipmentDeployment;
 }

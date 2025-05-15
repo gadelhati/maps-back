@@ -1,7 +1,6 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model;
 
-import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +19,14 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SampleMethod extends GenericAuditEntity {
+public class Address extends GenericAuditEntity {
 
-    private String name;
+    private String street;
+    private String number;
+    private String cep;
+    private String complement;
+    private String neighbourhood;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private City city;
 }

@@ -23,12 +23,10 @@ import org.hibernate.envers.Audited;
 @EqualsAndHashCode(callSuper = true)
 public class Institution extends GenericAuditEntity {
 
-    private String code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private boolean mb;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "country", nullable = true)
     private Country country;
 }

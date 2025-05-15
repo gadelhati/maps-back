@@ -1,6 +1,6 @@
 package com.maps.persistence.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,9 +23,10 @@ import org.hibernate.envers.Audited;
 @EqualsAndHashCode(callSuper = true)
 public class Researcher extends GenericAuditEntity {
 
-    private String code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private String email;
-    private String address;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Address address;
 }

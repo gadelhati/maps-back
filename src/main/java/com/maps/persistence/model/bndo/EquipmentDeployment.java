@@ -1,9 +1,8 @@
-package com.maps.persistence.model;
+package com.maps.persistence.model.bndo;
 
-import com.maps.persistence.model.bndo.Module;
+import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.Research;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,16 +23,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Research extends GenericAuditEntity {
+public class EquipmentDeployment extends GenericAuditEntity {
 
-    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String name;
-    private String description;
-    private LocalDateTime start;
-    private LocalDateTime finish;
+    private LocalDateTime deployedAt;
+    private LocalDateTime retrievedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Commission commission;
+    private Equipment equipment;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Module module;
+    private Research research;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Platform platform;
 }
