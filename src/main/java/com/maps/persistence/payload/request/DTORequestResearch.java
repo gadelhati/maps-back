@@ -1,8 +1,9 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.persistence.model.Commission;
-import com.maps.persistence.model.Researcher;
-import com.maps.persistence.model.bndo.Module;
+import com.maps.persistence.model.remodel.Commission;
+import com.maps.persistence.model.remodel.Module;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -16,9 +17,12 @@ import java.time.LocalDateTime;
 @Getter
 public class DTORequestResearch extends Identifiable {
 
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    private String name;
+    private String description;
     private LocalDateTime start;
     private LocalDateTime finish;
-    private Researcher researcher;
+
     private Commission commission;
     private Module module;
 }

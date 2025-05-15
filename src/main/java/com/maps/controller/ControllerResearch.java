@@ -1,6 +1,6 @@
 package com.maps.controller;
 
-import com.maps.persistence.model.Research;
+import com.maps.persistence.model.remodel.Research;
 import com.maps.persistence.payload.request.DTORequestResearch;
 import com.maps.persistence.payload.response.DTOResponseResearch;
 import com.maps.service.ServiceResearch;

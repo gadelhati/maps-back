@@ -1,7 +1,7 @@
 package com.maps.service;
 
 import com.maps.persistence.MapperInterface;
-import com.maps.persistence.model.State;
+import com.maps.persistence.model.remodel.State;
 import com.maps.persistence.payload.request.DTORequestState;
 import com.maps.persistence.payload.response.DTOResponseState;
 import com.maps.persistence.repository.RepositoryState;

@@ -1,6 +1,6 @@
 package com.maps.persistence.repository;
 
-import com.maps.persistence.model.Researcher;
+import com.maps.persistence.model.remodel.Researcher;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 

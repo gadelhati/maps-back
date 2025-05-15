@@ -1,14 +1,14 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-
-import java.time.LocalDateTime;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -22,18 +22,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Equipment extends GenericAuditEntity {
+public class Address extends GenericAuditEntity {
 
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    private String street;
+    @NotNull(message = "{not.null}")
     private String number;
-    private String model;
-    private Integer frequency;
-    private Integer range;
-    private LocalDateTime calibration;
+    private String cep;
+    private String complement;
+    private String neighbourhood;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private EquipmentCategory equipmentCategory;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Manufacturer manufacturer;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private SampleMethod sampleMethod;
+    @JoinColumn(name = "city")
+    private City city;
 }

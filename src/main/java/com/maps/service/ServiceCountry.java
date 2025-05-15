@@ -1,7 +1,7 @@
 package com.maps.service;
 
 import com.maps.persistence.MapperInterface;
-import com.maps.persistence.model.Country;
+import com.maps.persistence.model.remodel.Country;
 import com.maps.persistence.payload.request.DTORequestCountry;
 import com.maps.persistence.payload.response.DTOResponseCountry;
 import com.maps.persistence.repository.RepositoryCountry;

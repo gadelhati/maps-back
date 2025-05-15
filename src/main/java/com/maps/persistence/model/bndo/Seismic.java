@@ -1,6 +1,7 @@
 package com.maps.persistence.model.bndo;
 
 import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.remodel.GeoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,15 +11,8 @@ import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class Seismic extends GenericAuditEntity {
+public class Seismic extends GeoEntity {
 
-    private Integer point;
-    private Integer latitude;
-    private Integer longitude;
-    @Column(columnDefinition = "geography")
-    private Point latitudeP;
-    @Column(columnDefinition = "geography")
-    private Point longitudeP;
     private String qualityControl;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

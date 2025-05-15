@@ -1,7 +1,7 @@
 package com.maps.persistence.model.bndo;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.Country;
+import com.maps.persistence.model.remodel.Country;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

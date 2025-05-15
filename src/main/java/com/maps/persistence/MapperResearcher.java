@@ -1,6 +1,6 @@
 package com.maps.persistence;
 
-import com.maps.persistence.model.Researcher;
+import com.maps.persistence.model.remodel.Researcher;
 import com.maps.persistence.payload.request.DTORequestResearcher;
 import com.maps.persistence.payload.response.DTOResponseResearcher;
 import org.mapstruct.Mapper;

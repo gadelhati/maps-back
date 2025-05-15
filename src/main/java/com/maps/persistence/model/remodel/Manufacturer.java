@@ -1,12 +1,15 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -20,7 +23,11 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SampleMethod extends GenericAuditEntity {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class Manufacturer extends GenericAuditEntity {
 
     private String name;
+
+    @OneToMany(mappedBy = "manufacturer", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<Equipment> equipments = new HashSet<>();
 }

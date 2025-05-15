@@ -1,6 +1,8 @@
-package com.maps.persistence.model;
+package com.maps.persistence.model.remodel;
 
+import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -21,12 +26,16 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Institution extends GenericAuditEntity {
+public class Researcher extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
-    private boolean mb;
+    @Email
+    private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Country country;
+    @OneToMany(mappedBy = "researcher", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<ResearchMember> researchMembers = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Address address;
 }

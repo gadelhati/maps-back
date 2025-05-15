@@ -1,34 +1,26 @@
 package com.maps.persistence.model.bndo;
 
-import com.maps.persistence.model.Commission;
-import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.Media;
+import com.maps.persistence.model.remodel.Commission;
+import com.maps.persistence.model.remodel.GeoEntity;
+import com.maps.persistence.model.remodel.Media;
+import com.maps.persistence.model.remodel.Equipment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class Station extends GenericAuditEntity {
+public class Station extends GeoEntity {
 
-    private Integer code;
-//    private Integer cod_plataforma;
-//    private Integer cod_equipamento;
-//    private Integer cod_comissao;
-//    private Integer cod_tipo_estacao;
-//    private Integer cod_midia;
     private String number;
     private String name;
     private LocalDateTime dateTime;
     private Integer latitude;
     private Integer longitude;
-    @Column(columnDefinition = "geography")
-    private Point point;//latitude and longitude
     private Integer quadMarsden;
     private Integer subQuadMarsden1;
     private Integer quadWmo;

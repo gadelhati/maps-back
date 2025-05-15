@@ -1,5 +1,7 @@
-package com.maps.persistence.model;
+package com.maps.persistence.model.remodel;
 
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,7 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -22,13 +25,17 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class State extends GenericAuditEntity {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class EquipmentCategory extends GenericAuditEntity {
 
-    private Integer code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
+    private String description;
+
+    @OneToMany(mappedBy = "equipmentCategory", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<Equipment> equipments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "country", nullable = true)
-    private Country country;
+    @JoinColumn(name = "module")
+    private Module module;
 }

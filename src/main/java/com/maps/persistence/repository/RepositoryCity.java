@@ -1,6 +1,6 @@
 package com.maps.persistence.repository;
 
-import com.maps.persistence.model.City;
+import com.maps.persistence.model.remodel.City;
 
 import java.util.UUID;
 

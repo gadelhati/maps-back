@@ -1,7 +1,7 @@
 package com.maps.service;
 
 import com.maps.persistence.MapperInterface;
-import com.maps.persistence.model.Research;
+import com.maps.persistence.model.remodel.Research;
 import com.maps.persistence.payload.request.DTORequestResearch;
 import com.maps.persistence.payload.response.DTOResponseResearch;
 import com.maps.persistence.repository.RepositoryGeneric;

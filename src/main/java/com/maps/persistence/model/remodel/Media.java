@@ -1,6 +1,6 @@
-package com.maps.persistence.model;
+package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.bndo.EquipmentDeployment;
+import com.maps.persistence.model.GenericAuditEntity;
 import com.maps.persistence.model.bndo.MediaCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +35,9 @@ public class Media extends GenericAuditEntity {
     private LocalDateTime deliveryAt;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "mediaCategory")
     private MediaCategory mediaCategory;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "equipmentDeployment")
     private EquipmentDeployment equipmentDeployment;
 }

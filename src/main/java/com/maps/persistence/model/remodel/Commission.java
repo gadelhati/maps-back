@@ -1,6 +1,6 @@
-package com.maps.persistence.model;
+package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.bndo.Harbor;
+import com.maps.persistence.model.GenericAuditEntity;
 import com.maps.persistence.model.bndo.Platform;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +13,8 @@ import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Commission extends GenericAuditEntity {
 
     private String cruiseName;
@@ -48,14 +51,22 @@ public class Commission extends GenericAuditEntity {
     private String dataQualification;
     private String hFolder;
 
+    @OneToMany(mappedBy = "commission", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<Research> researches = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "coordinator")
     private Institution coordinator;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "responsible")
     private Institution responsible;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "harborArrived")
     private Harbor harborArrived;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "harborDeparture")
     private Harbor harborDeparture;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "platform")
     private Platform platform;
 }

@@ -1,6 +1,6 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.persistence.model.State;
+import com.maps.persistence.model.remodel.State;
 import lombok.Getter;
 
 import jakarta.validation.constraints.NotBlank;
