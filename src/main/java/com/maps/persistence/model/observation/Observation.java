@@ -1,21 +1,27 @@
 package com.maps.persistence.model.observation;
 
-import br.eti.gadelha.persistence.model.File;
-import br.eti.gadelha.persistence.model.GenericEntity;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.springframework.data.geo.Point;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import java.util.Date;
+import java.time.LocalDate;
 
-@Audited @AuditTable(value = "audit_observation")
-@Entity @Table(name="observation")//, schema="shipsynopweb")
-@AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = false) @Data
-public class Observation extends GenericEntity {
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Observation extends GenericAuditEntity {
 
     // https://www.baeldung.com/hibernate-spatial
 //    @Column(columnDefinition = "POINT")
@@ -156,12 +162,11 @@ public class Observation extends GenericEntity {
     private String icq;
 
     private String observador;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataObservacao;
     private String estacao;
+    private LocalDate dataObservacao;
 
-    @Setter
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "file", nullable = true)
-    private File file;
+//    @Setter
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+//    @JoinColumn(name = "file", nullable = true)
+//    private File file;
 }

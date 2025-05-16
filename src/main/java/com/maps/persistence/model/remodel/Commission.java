@@ -13,8 +13,6 @@ import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -50,9 +48,6 @@ public class Commission extends GenericAuditEntity {
     private String totalSizeMedia;
     private String dataQualification;
     private String hFolder;
-
-    @OneToMany(mappedBy = "commission", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Research> researches = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "coordinator")

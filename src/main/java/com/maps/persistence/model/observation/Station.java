@@ -1,10 +1,10 @@
 package com.maps.persistence.model.observation;
 
-import br.eti.gadelha.persistence.model.GenericEntity;
+import com.maps.persistence.model.GenericAuditEntity;
 
 import java.time.LocalDate;
 
-public class Station extends GenericEntity {
+public class Station extends GenericAuditEntity {
 	public LocalDate DATA_HORA;// DATE,
 //            "LATITUDE" NUMBER(9,0),
 //	"LONGITUDE" NUMBER(9,0),

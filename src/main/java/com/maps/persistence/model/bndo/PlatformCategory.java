@@ -11,6 +11,5 @@ import org.hibernate.envers.Audited;
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
 public class PlatformCategory extends GenericAuditEntity {
 
-    private Integer code;
     private String name;
 }

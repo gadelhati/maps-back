@@ -1,14 +1,11 @@
 package com.maps.persistence.model.sailingDirection;
 
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
-
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -16,9 +13,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
  * @link	www.gadelha.eti.br
  **/
 
-@Audited @AuditTable(value = "audit_instalation")
-@Entity @PrimaryKeyJoinColumn(name="id") @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = false) @Data
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Instalation extends Structure {
+
     private String orderNumber;
     private Maintainer maintainer;
 }

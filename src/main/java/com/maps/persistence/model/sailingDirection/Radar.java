@@ -1,15 +1,12 @@
 package com.maps.persistence.model.sailingDirection;
 
-import br.eti.gadelha.persistence.model.GenericEntity;
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -17,9 +14,14 @@ import javax.persistence.Table;
  * @link	www.gadelha.eti.br
  **/
 
-@Audited @AuditTable(value = "audit_radar")
-@Entity @Table @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = false) @Data
-public class Radar extends GenericEntity {
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Radar extends GenericAuditEntity {
+
     private String morse;
     private Structure structure;
 }

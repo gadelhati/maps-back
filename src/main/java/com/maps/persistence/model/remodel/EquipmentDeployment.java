@@ -1,7 +1,6 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.bndo.Platform;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +39,6 @@ public class EquipmentDeployment extends GenericAuditEntity {
     @JoinColumn(name = "research")
     private Research research;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "platform")
-    private Platform platform;
+    @JoinColumn(name = "commission")
+    private Commission commission;
 }

@@ -1,8 +1,8 @@
 package com.maps.persistence.model.observation;
 
-import br.eti.gadelha.persistence.model.GenericEntity;
+import com.maps.persistence.model.GenericAuditEntity;
 
-public class Plataform extends GenericEntity {
+public class Plataform extends GenericAuditEntity {
 	private int COD_PAIS;// NUMBER(5,0),
 	private int COD_TIPO_PLATAFORMA;// NUMBER(3,0),
 	private String INDICATIVO_TELEGRAFICO;// VARCHAR2(8 BYTE),

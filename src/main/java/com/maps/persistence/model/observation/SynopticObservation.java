@@ -1,28 +1,35 @@
 package com.maps.persistence.model.observation;
 
-import br.eti.gadelha.exception.enumeration.EnumMiMiMjMj;
-import br.eti.gadelha.persistence.model.GenericEntity;
+//import br.eti.gadelha.exception.enumeration.EnumMiMiMjMj;
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-//@Audited @AuditTable(value = "audit_synoptic_observation")
-@Entity @Table(name="synoptic_observation")//, schema="shipsynopweb")
-@AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = false) @Data
-public class SynopticObservation extends GenericEntity {
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class SynopticObservation extends GenericAuditEntity {
 
     private String observer;
     private LocalDateTime dateTime;
     private String station;
 
-    private EnumMiMiMjMj MiMiMjMj;//station identification group
+//    private EnumMiMiMjMj MiMiMjMj;//station identification group
     private String DDDDDD;//ship’s call sign
     private String A1;
     private String bw;
