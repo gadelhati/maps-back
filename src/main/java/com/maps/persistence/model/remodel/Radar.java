@@ -1,5 +1,6 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
+import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +20,8 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Lighthouse extends Instalation {
+public class Radar extends GenericAuditEntity {
 
-    private float intenationalNumber;
-    private boolean garnished;
-    private String description;
+    private String morse;
+    private Structure structure;
 }

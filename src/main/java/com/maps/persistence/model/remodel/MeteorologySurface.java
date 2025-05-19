@@ -1,13 +1,16 @@
-package com.maps.persistence.model.observation;
+package com.maps.persistence.model.remodel;
 
-
-import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.*;
-import lombok.*;
+//import br.eti.gadelha.exception.enumeration.EnumMiMiMjMj;
+import com.maps.persistence.model.remodel.Media;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-import org.springframework.data.geo.Point;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -21,13 +24,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Observation extends GenericAuditEntity {
+@DiscriminatorValue("METEOROLOGY_SURFACE")
+public class MeteorologySurface extends Media {
 
-    // https://www.baeldung.com/hibernate-spatial
-//    @Column(columnDefinition = "POINT")
-    private Point coordinates;
+    private String observer;
+    private LocalDateTime dateTime;
+    private String station;
+
     //SECTION 0
-
     //AABB
     private String mimi;
     private String mjmj;
@@ -51,7 +55,6 @@ public class Observation extends GenericAuditEntity {
     private String lolololo;
 
     //SECTION 1
-
     //iRiXhVV
     private String ir;
     private String ix;
@@ -84,7 +87,7 @@ public class Observation extends GenericAuditEntity {
     //7wwW1W2
     private String ww;
     private String w1w2;
-//    private String w1;
+    //    private String w1;
 //    private String w2;
     //7wawaWa1Wa2
     private String wawa;
@@ -99,7 +102,6 @@ public class Observation extends GenericAuditEntity {
     private String gggg;
 
     //SECTION 2
-
     //222DsVs
     private String ds;
     private String vs;
@@ -138,35 +140,24 @@ public class Observation extends GenericAuditEntity {
     private String zi;
 
     //SECTION 3
-
     //333
     //1snTxTxTx
-    private String sn1_3;
-    private String txtxtx;
+//    private String sn1;
+    private String TxTxTx;
     //2snTnTnTn
-    private String sn2_3;
-    private String tntntn;
+//    private String sn2;
+    private String TnTnTn;
     //58/9P24P24P24
     private String ind89;
-    private String p24p24p24;
+    private String P24P24P24;
 
     //SECTION 5
-
     //555
     //chwicMcsicFicpicQ
     private String ichw;
-    private String icm;
+    private String icM;
     private String cs;
-    private String icf;
+    private String icF;
     private String icp;
-    private String icq;
-
-    private String observador;
-    private String estacao;
-    private LocalDate dataObservacao;
-
-//    @Setter
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-//    @JoinColumn(name = "file", nullable = true)
-//    private File file;
+    private String icQ;
 }

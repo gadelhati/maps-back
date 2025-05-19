@@ -1,7 +1,6 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.bndo.Platform;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,11 +32,10 @@ public class Institution extends GenericAuditEntity {
     private boolean mb;
 
     @OneToMany(mappedBy = "coordinator", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Commission> coordinators = new HashSet<>();
+    private Set<Cruise> coordinators = new HashSet<>();
     @OneToMany(mappedBy = "responsible", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Commission> responsible = new HashSet<>();
+    private Set<Cruise> responsible = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "country")
     private Country country;
 }

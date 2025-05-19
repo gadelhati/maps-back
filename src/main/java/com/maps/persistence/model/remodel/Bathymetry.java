@@ -1,6 +1,5 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,11 +7,17 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class MobileStation extends GenericAuditEntity {
+import java.awt.*;
 
-    private Integer code;
+@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
+public class Bathymetry extends Media {
+
+    @Column(columnDefinition = "geography")
+    private Point point;
+    private Float depth;
+    private String qualityControlPosition;
+    private String qualityControlDepth;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "stationCategory", nullable = true)
-    private StationCategory stationCategory;
+    private Datum datum;
 }

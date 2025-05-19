@@ -1,7 +1,6 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.bndo.MediaCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +24,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "media_type")
 public class Media extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -35,9 +36,7 @@ public class Media extends GenericAuditEntity {
     private LocalDateTime deliveryAt;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "mediaCategory")
     private MediaCategory mediaCategory;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "equipmentDeployment")
     private EquipmentDeployment equipmentDeployment;
 }

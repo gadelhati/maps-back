@@ -1,7 +1,8 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +12,20 @@ import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class SedimentologicalAnalysis extends GenericAuditEntity {
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("SEDIMENTOLOGY")
+public class Sedimentology extends Media {
 
     private Integer cod_amostra_geologica;
     private Integer num_analise;

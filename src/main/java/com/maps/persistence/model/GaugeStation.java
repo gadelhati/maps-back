@@ -29,9 +29,7 @@ public class GaugeStation extends GenericAuditEntity {
     private Point point;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "state")
     private State state;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "chartArea")
     private ChartArea chartArea;
 }

@@ -1,7 +1,9 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +23,9 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class GeologicalSample extends GenericAuditEntity {
+@DiscriminatorValue("GEOLOGY")
+public class GeologicalSample extends Media {
+
     private Integer codGeologicalSample;
     private Integer codStation;
     private Integer areaOrigin;

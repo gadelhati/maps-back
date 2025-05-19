@@ -1,7 +1,6 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.bndo.Platform;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -27,15 +27,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
-public class Commission extends GenericAuditEntity {
+public class Cruise extends GenericAuditEntity {
 
-    private String cruiseName;
-    private String cruiseNumber;
-    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}") 
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
+    private String number;
     private String description;
-    private LocalDateTime start;
-    private LocalDateTime finish;
     @Column(columnDefinition = "geography")
     private Point sw;//latBottomMost and longLeftMost
     @Column(columnDefinition = "geography")
@@ -49,19 +46,13 @@ public class Commission extends GenericAuditEntity {
     private String dataQualification;
     private String hFolder;
 
+    @OneToMany(mappedBy = "cruise", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CruiseLeg> cruiseLegs = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "coordinator")
     private Institution coordinator;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "responsible")
     private Institution responsible;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "harborArrived")
-    private Harbor harborArrived;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "harborDeparture")
-    private Harbor harborDeparture;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "platform")
-    private Platform platform;
+    private Structure structure;
 }

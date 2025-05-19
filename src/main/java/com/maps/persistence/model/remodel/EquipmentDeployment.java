@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -26,19 +27,26 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class EquipmentDeployment extends GenericAuditEntity {
 
+    private LocalDateTime start;
+    private LocalDateTime finish;
     private LocalDateTime deployedAt;
     private LocalDateTime retrievedAt;
+    @Column(columnDefinition = "geography")
+    private Point ne;//lat_topmost and long_rightmost
+    @Column(columnDefinition = "geography")
+    private Point sw;//lat_bottommost and long_leftmost
+    private Integer equipmentDepth;
+    private Integer localDepth;
 
     @OneToMany(mappedBy = "equipmentDeployment", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Media> medias = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "equipment")
     private Equipment equipment;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "research")
     private Research research;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "commission")
-    private Commission commission;
+    private CruiseLeg cruiseLeg;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Datum datum;
 }

@@ -1,7 +1,8 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
 import com.maps.persistence.model.remodel.Country;
+import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 @Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class Geologic extends GenericAuditEntity {
+public class Geologic extends Media {
 
-    private Integer code;
-//    private Integer cod_estacao;
 //    private Integer areaOrigin;
     private Integer dragSpeed;
     private Integer dragDirection;
@@ -50,9 +49,5 @@ public class Geologic extends GenericAuditEntity {
     private Integer gradeRounding;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "station", nullable = true)
-    private Station station;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "country", nullable = true)
     private Country country;
 }

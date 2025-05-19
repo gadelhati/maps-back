@@ -41,6 +41,5 @@ public class Research extends GenericAuditEntity {
 //    private Set<EquipmentDeployment> equipmentDeployment = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "module")
     private Module module;
 }

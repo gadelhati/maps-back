@@ -1,4 +1,4 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.Entity;

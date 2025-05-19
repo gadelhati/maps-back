@@ -1,4 +1,4 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,9 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Blind extends Instalation {
+public class Lighthouse extends Installation {
 
-    private String category;
+    private float internationalNumber;
+    private boolean garnished;
+    private String description;
 }

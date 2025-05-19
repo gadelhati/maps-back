@@ -1,4 +1,4 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Instalation extends Structure {
+public class Installation extends Structure {
 
     private String orderNumber;
     private Maintainer maintainer;

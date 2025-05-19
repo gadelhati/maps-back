@@ -1,14 +1,15 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -27,19 +28,25 @@ public class Structure extends GenericAuditEntity {
 
     private float altitude;
     private float height;
-    private float calado;//sem tradução conhecida
-    private float circuloDeGiro;//sem tradução conhecida
+    private float draft;
+    private float swingingCircle;
     private String color;
     private String buildingMaterial;
     private String name;
     private String number;
     private boolean placaDeVisibilidade;//sem tradução conhecida
-    private boolean refletorRadar;//sem tradução conhecida
-    private boolean visivelmenteConspicuo;//sem tradução conhecida
+    private boolean reflectorRadar;
+    private boolean conspicuous;
     private String telegraphCallSign;
     private String internationalCallSign;
     private String visualCallSign;
-
     private EnumFormat format;
-    private Radar radar;
+
+    @OneToMany(mappedBy = "structure", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Cruise> cruises = new HashSet<>();
+
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    private Radar radar;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Country country;
 }

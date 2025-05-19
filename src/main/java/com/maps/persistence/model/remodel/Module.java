@@ -35,4 +35,6 @@ public class Module extends GenericAuditEntity {
     private Set<Research> researches = new HashSet<>();
 //    @OneToMany(mappedBy = "module", cascade = CascadeType.MERGE, orphanRemoval = true)
 //    private Set<EquipmentCategory> equipmentCategories = new HashSet<>();
+//    @OneToMany(mappedBy = "module", cascade = CascadeType.MERGE, orphanRemoval = true)
+//    private Set<Equipment> equipments = new HashSet<>();
 }

@@ -1,9 +1,6 @@
 package com.maps.persistence.model.remodel;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,15 +24,18 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Harbor extends GeoEntity {
+public class Port extends GeoEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private String chartNumber;
     private Integer reference;
 
-    @OneToMany(mappedBy = "harborArrived", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Commission> commissionsArrived = new HashSet<>();
-    @OneToMany(mappedBy = "harborDeparture", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Commission> commissionsDeparture = new HashSet<>();
+    @OneToMany(mappedBy = "portArrived", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<CruiseLeg> portsArrived = new HashSet<>();
+    @OneToMany(mappedBy = "portDeparture", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<CruiseLeg> portsDeparture = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Address address;
 }

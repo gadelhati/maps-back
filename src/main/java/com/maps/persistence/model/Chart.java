@@ -37,6 +37,5 @@ public class Chart extends GenericAuditEntity {
     private Point sw;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "chartArea")
     private ChartArea chartArea;
 }

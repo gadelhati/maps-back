@@ -1,6 +1,6 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.persistence.model.remodel.Commission;
+import com.maps.persistence.model.remodel.Cruise;
 import com.maps.persistence.model.remodel.Module;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +23,6 @@ public class DTORequestResearch extends Identifiable {
     private LocalDateTime start;
     private LocalDateTime finish;
 
-    private Commission commission;
+    private Cruise cruise;
     private Module module;
 }

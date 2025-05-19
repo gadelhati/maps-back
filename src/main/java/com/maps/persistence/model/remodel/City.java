@@ -36,6 +36,5 @@ public class City extends GenericAuditEntity {
     private Set<Address> addresses = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "state")
     private State state;
 }

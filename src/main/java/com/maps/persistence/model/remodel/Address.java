@@ -33,6 +33,5 @@ public class Address extends GenericAuditEntity {
     private String neighbourhood;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "city")
     private City city;
 }

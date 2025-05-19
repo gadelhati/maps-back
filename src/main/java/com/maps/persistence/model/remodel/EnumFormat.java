@@ -1,4 +1,4 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

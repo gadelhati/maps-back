@@ -1,6 +1,6 @@
 package com.maps.persistence.payload.response;
 
-import com.maps.persistence.model.remodel.Commission;
+import com.maps.persistence.model.remodel.Cruise;
 import com.maps.persistence.model.remodel.Module;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +25,6 @@ public class DTOResponseResearch extends RepresentationModel<DTOResponseResearch
     private LocalDateTime start;
     private LocalDateTime finish;
 
-    private Commission commission;
+    private Cruise cruise;
     private Module module;
 }

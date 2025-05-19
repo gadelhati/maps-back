@@ -1,12 +1,18 @@
-package com.maps.persistence.model.sailingDirection;
+package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.remodel.Media;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -20,8 +26,10 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Radar extends GenericAuditEntity {
+public class MediaCategory extends GenericAuditEntity {
 
-    private String morse;
-    private Structure structure;
+    private String name;
+
+    @OneToMany(mappedBy = "mediaCategory", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<Media> media = new HashSet<>();
 }

@@ -36,6 +36,5 @@ public class EquipmentCategory extends GenericAuditEntity {
     private Set<Equipment> equipments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "module")
     private Module module;
 }

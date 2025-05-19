@@ -32,9 +32,7 @@ public class BlindSignal extends GenericAuditEntity {
     private String observation;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "chartArea", nullable = true)
     private ChartArea chartArea;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "state", nullable = true)
     private State state;
 }

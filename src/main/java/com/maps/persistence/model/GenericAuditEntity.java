@@ -33,10 +33,8 @@ public abstract class GenericAuditEntity implements Serializable {
     private LocalDateTime updatedAt;
     @CreatedBy
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "createdBy")
     private User createdBy;
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "modifiedBy")
     private User modifiedBy;
 }

@@ -1,6 +1,6 @@
-package com.maps.persistence.model.bndo;
+package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.GenericAuditEntity;
+import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +10,20 @@ import org.hibernate.envers.Audited;
 
 import java.time.LocalTime;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
-public class UpperAir extends GenericAuditEntity {
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("METEOROLOGY_UPPER_AIR")
+public class MeteorologyUpperAir extends Media {
 
 //    private Integer cod_estacao;
     private Integer alt;
@@ -34,7 +46,6 @@ public class UpperAir extends GenericAuditEntity {
     private String ctrlqc_dd;
     private String ctrlqc_fff;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "station", nullable = true)
-    private Station station;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    private Station station;
 }
