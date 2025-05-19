@@ -34,7 +34,4 @@ public class EquipmentCategory extends GenericAuditEntity {
 
     @OneToMany(mappedBy = "equipmentCategory", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Equipment> equipments = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Module module;
 }

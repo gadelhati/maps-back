@@ -9,7 +9,18 @@ import org.hibernate.envers.Audited;
 
 import java.awt.*;
 
-@Audited @Entity @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true)
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @mail	gadelha.ti@gmail.com
+ * @link	www.gadelha.eti.br
+ **/
+
+@Data
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Bathymetry extends Media {
 
     @Column(columnDefinition = "geography")
@@ -17,7 +28,4 @@ public class Bathymetry extends Media {
     private Float depth;
     private String qualityControlPosition;
     private String qualityControlDepth;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Datum datum;
 }

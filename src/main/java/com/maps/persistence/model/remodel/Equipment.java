@@ -40,8 +40,6 @@ public class Equipment extends GenericAuditEntity {
     private Set<EquipmentDeployment> equipmentsDeployment = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Module module;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Manufacturer manufacturer;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private EquipmentCategory equipmentCategory;

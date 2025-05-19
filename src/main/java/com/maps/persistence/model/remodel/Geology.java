@@ -1,7 +1,5 @@
 package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -24,19 +22,17 @@ import org.hibernate.envers.Audited;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("GEOLOGY")
-public class GeologicalSample extends Media {
+public class Geology extends Media {
 
-    private Integer codGeologicalSample;
-    private Integer codStation;
-    private Integer areaOrigin;
+//    private Integer areaOrigin;
     private Integer dragVelocity;
     private Integer dragDirection;
     private Integer dragDuration;
     private Boolean photoSample;
     private Boolean photoFloor;
     private String sideScan;//null, N, S, O
-    private Integer sampleType;
-    private Float sampleVolume;
+    private Integer sampleCategory;//?
+    private Float sampleSize;
     private Float sampleWeight;
     private String sampleColor;
     private String sampleTexture;
@@ -45,20 +41,20 @@ public class GeologicalSample extends Media {
     private Boolean plants;
     private Boolean animals;
     private String pollution;//null, N, O, 0, 1, 2, 3, 4
-    private Integer principalSeabed;
-    private Integer complementarySeabed;
-    private String sampleSeabed;//null, 0, 1, 2, 3
+    private Integer tenseMain;
+    private Integer tenseComplementary;
+    private String tenseSample;//null, 0, 1, 2, 3
     @Column(length = 300)
     private String preliminaryAnalysis;
-    private String identification;
-    private Integer sondagem;
+    private String analysis;
+    private Integer survey;
     private Integer structure;
     private String sampleSequence;
-    private Integer comprimentoTestemunho;
-    private Integer bottomColor;
-    private Integer topColor;
-    private Integer numnac;
+    private Integer lengthMark;
+    private Integer colorBottom;
+    private Integer colorTop;
+    private Integer numnac;//?
     private Integer qualityControl;
-    private Integer selectionDegree;
-    private Integer roundingDegree;
+    private Integer DegreeSelection;
+    private Integer DegreeRounding;
 }

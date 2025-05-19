@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,6 +22,9 @@ public class CruiseLeg extends GenericAuditEntity {
 
     private LocalDateTime start;
     private LocalDateTime finish;
+
+    @OneToMany(mappedBy = "cruiseLeg", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EquipmentDeployment> equipmentsDeployment = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Cruise cruise;
