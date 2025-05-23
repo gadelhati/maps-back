@@ -23,7 +23,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "manufacturer", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Manufacturer extends GenericAuditEntity {
 
     private String name;

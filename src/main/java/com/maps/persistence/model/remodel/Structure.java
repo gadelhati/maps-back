@@ -1,15 +1,12 @@
 package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -18,35 +15,31 @@ import java.util.Set;
  **/
 
 @Data
-@Entity
 @Audited
+@MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Structure extends GenericAuditEntity {
+@Table(name = "structures")
+public class Structure extends GeoEntity {
 
-    private float altitude;
-    private float height;
-    private float draft;
-    private float swingingCircle;
-    private String color;
-    private String buildingMaterial;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
-    private String number;
-    private boolean placaDeVisibilidade;//sem tradução conhecida
-    private boolean reflectorRadar;
-    private boolean conspicuous;
+    private Double length;// Comprimento
+    private Double beam;// Boca (largura)
+    private Double draft;// Calado
+    private Float swingingCircle;
+    private Float altitude;
+    private Float height;
+    private String buildingMaterial;
     private String telegraphCallSign;
     private String internationalCallSign;
     private String visualCallSign;
-    private EnumFormat format;
+    private String number;
+    private boolean radarReflector;
+    private boolean conspicuous;
+    @Enumerated(EnumType.STRING)
+    private StructureFormat format;
 
-    @OneToMany(mappedBy = "structure", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Cruise> cruises = new HashSet<>();
-
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    private Radar radar;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Country country;
 }

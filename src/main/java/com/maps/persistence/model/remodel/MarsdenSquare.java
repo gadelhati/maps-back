@@ -3,6 +3,7 @@ package com.maps.persistence.model.remodel;
 import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import org.locationtech.jts.geom.Point;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "marsdenSquares")
 public class MarsdenSquare extends GenericAuditEntity {
 
     public String number;

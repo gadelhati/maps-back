@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "modules", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Module extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -33,4 +34,18 @@ public class Module extends GenericAuditEntity {
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Research> researches = new HashSet<>();
+
+    public Set<Research> getResearches() {
+        return Collections.unmodifiableSet(researches);
+    }
+
+    public void addResearch(Research research) {
+        researches.add(research);
+        research.setModule(this);
+    }
+
+    public void removeResearch(Research research) {
+        researches.remove(research);
+        research.setModule(null);
+    }
 }

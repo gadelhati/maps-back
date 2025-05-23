@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "researches", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Research extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -37,9 +38,37 @@ public class Research extends GenericAuditEntity {
 
     @OneToMany(mappedBy = "research", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<ResearchMember> researchMembers = new HashSet<>();
-//    @OneToMany(mappedBy = "research", cascade = CascadeType.MERGE, orphanRemoval = true)
-//    private Set<EquipmentDeployment> equipmentDeployment = new HashSet<>();
+    @OneToMany(mappedBy = "research", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<EquipmentDeployment> equipmentDeployments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Module module;
+
+    public Set<ResearchMember> getResearchMembers() {
+        return Collections.unmodifiableSet(researchMembers);
+    }
+
+    public void addResearchMember(ResearchMember member) {
+        researchMembers.add(member);
+        member.setResearch(this);
+    }
+
+    public void removeResearchMember(ResearchMember member) {
+        researchMembers.remove(member);
+        member.setResearch(null);
+    }
+
+    public Set<EquipmentDeployment> getEquipmentDeployments() {
+        return Collections.unmodifiableSet(equipmentDeployments);
+    }
+
+    public void addEquipmentDeployment(EquipmentDeployment deployment) {
+        equipmentDeployments.add(deployment);
+        deployment.setResearch(this);
+    }
+
+    public void removeEquipmentDeployment(EquipmentDeployment deployment) {
+        equipmentDeployments.remove(deployment);
+        deployment.setResearch(null);
+    }
 }

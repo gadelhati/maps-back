@@ -26,7 +26,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(indexes = @Index(columnList = "name, state_id"), uniqueConstraints = @UniqueConstraint(columnNames = {"name", "state_id"}))
+@Table(name = "cities", indexes = @Index(columnList = "name, state_id"), uniqueConstraints = @UniqueConstraint(columnNames = {"name", "state_id"}))
 public class City extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

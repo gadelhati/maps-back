@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"number"}))
+@Table(name = "equipments", uniqueConstraints = @UniqueConstraint(columnNames = {"number"}))
 public class Equipment extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -37,12 +38,24 @@ public class Equipment extends GenericAuditEntity {
     private LocalDateTime calibration;
 
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<EquipmentDeployment> equipmentsDeployment = new HashSet<>();
+    private Set<EquipmentDeployment> equipmentDeployments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Manufacturer manufacturer;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private EquipmentCategory equipmentCategory;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private SampleMethod sampleMethod;
+
+    public Set<EquipmentDeployment> getEquipmentDeployments() {
+        return Collections.unmodifiableSet(equipmentDeployments);
+    }
+
+    public void addEquipmentDeployment(EquipmentDeployment deployment) {
+        equipmentDeployments.add(deployment);
+        deployment.setEquipment(this);
+    }
+
+    public void removeEquipmentDeployment(EquipmentDeployment deployment) {
+        equipmentDeployments.remove(deployment);
+        deployment.setEquipment(null);
+    }
 }

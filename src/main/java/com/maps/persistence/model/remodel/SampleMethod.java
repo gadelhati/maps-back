@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "sample_methods", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class SampleMethod extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -33,4 +34,18 @@ public class SampleMethod extends GenericAuditEntity {
 
     @OneToMany(mappedBy = "sampleMethod", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Equipment> equipments = new HashSet<>();
+
+    public Set<Equipment> getEquipments() {
+        return Collections.unmodifiableSet(equipments);
+    }
+
+    public void addEquipment(Equipment equipment) {
+        equipments.add(equipment);
+        equipment.setSampleMethod(this);
+    }
+
+    public void removeEquipment(Equipment equipment) {
+        equipments.remove(equipment);
+        equipment.setSampleMethod(null);
+    }
 }

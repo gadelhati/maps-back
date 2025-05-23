@@ -4,6 +4,7 @@ import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("SEDIMENTOLOGY")
+@Table(name = "sedimentologies")
 public class Sedimentology extends Media {
 
     private Integer cod_amostra_geologica;

@@ -10,28 +10,24 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
- **/
-
 @Data
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
-public class EquipmentCategory extends GenericAuditEntity {
+@Table(name = "lightCharacteristics")
+public class LightCharacteristic extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String name;
-    private String description;
+    private String typeAbbreviation; // e.g., "Lp.", "R (2)"
+    private String period; // e.g., "10s"
+    private String detailedPhase; // e.g., "B. 0,5 – Ecl. 9,5"
+    private Integer rangeLuminous;
+    private Integer rangeGeographic;
+    @Enumerated(EnumType.STRING)
+    private LightColor color;
 
-    @OneToMany(mappedBy = "equipmentCategory", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Equipment> equipments = new HashSet<>();
+    @OneToOne(mappedBy = "lightCharacteristic")
+    private NavigationAid navigationAid;
 }

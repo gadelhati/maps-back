@@ -24,6 +24,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "ports")
 public class Port extends GeoEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

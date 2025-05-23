@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "cruises", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Cruise extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -42,9 +43,6 @@ public class Cruise extends GenericAuditEntity {
     private String minimumDepthArea;
     private String maximumCollectionDepth;
     private String minimumCollectionDepth;
-    private String totalSizeMedia;
-    private String dataQualification;
-    private String hFolder;
 
     @OneToMany(mappedBy = "cruise", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CruiseLeg> cruiseLegs = new HashSet<>();
@@ -54,5 +52,19 @@ public class Cruise extends GenericAuditEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Institution responsible;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Structure structure;
+    private Vessel vessel;
+
+    public Set<CruiseLeg> getCruiseLegs() {
+        return Collections.unmodifiableSet(cruiseLegs);
+    }
+
+    public void addCruiseLeg(CruiseLeg leg) {
+        cruiseLegs.add(leg);
+        leg.setCruise(this);
+    }
+
+    public void removeCruiseLeg(CruiseLeg leg) {
+        cruiseLegs.remove(leg);
+        leg.setCruise(null);
+    }
 }

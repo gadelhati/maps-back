@@ -3,6 +3,7 @@ package com.maps.persistence.model.remodel;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +23,7 @@ import org.hibernate.envers.Audited;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("GEOLOGY")
+@Table(name = "geologies")
 public class Geology extends Media {
 
 //    private Integer areaOrigin;

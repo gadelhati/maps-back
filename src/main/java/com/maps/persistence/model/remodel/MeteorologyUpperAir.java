@@ -23,6 +23,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("METEOROLOGY_UPPER_AIR")
+@Table(name = "meteorologyUpperAirs")
 public class MeteorologyUpperAir extends Media {
 
 //    private Integer cod_estacao;

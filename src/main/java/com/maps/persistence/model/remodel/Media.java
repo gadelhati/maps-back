@@ -26,12 +26,15 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "media_type")
+@Table(name = "medias")
 public class Media extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private String description;
     private String path;
+    private Long length;
+    private String checksum;
     private LocalDateTime generatedAt;
     private LocalDateTime deliveryAt;
 

@@ -27,12 +27,15 @@ public abstract class GenericAuditEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", unique = true, nullable = false)
     private UUID id;
+    @Version
+    private Long version;
     @CreationTimestamp @Column(updatable = false)
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @CreatedBy
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(updatable = false)
     private User createdBy;
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)

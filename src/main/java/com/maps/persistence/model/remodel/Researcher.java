@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "researchers")
 public class Researcher extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
@@ -38,4 +40,18 @@ public class Researcher extends GenericAuditEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Address address;
+
+    public Set<ResearchMember> getResearchMembers() {
+        return Collections.unmodifiableSet(researchMembers);
+    }
+
+    public void addResearchMember(ResearchMember member) {
+        researchMembers.add(member);
+        member.setResearcher(this);
+    }
+
+    public void removeResearchMember(ResearchMember member) {
+        researchMembers.remove(member);
+        member.setResearcher(null);
+    }
 }

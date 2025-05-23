@@ -10,6 +10,7 @@ import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "equipmentDeployments")
 public class EquipmentDeployment extends GenericAuditEntity {
 
     private LocalDateTime start;
@@ -38,6 +40,10 @@ public class EquipmentDeployment extends GenericAuditEntity {
     private Integer equipmentDepth;
     private Integer localDepth;
 
+    private String totalSizeMedia;
+    private String dataQualification;
+    private String hFolder;
+
     @OneToMany(mappedBy = "equipmentDeployment", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Media> medias = new HashSet<>();
 
@@ -49,4 +55,18 @@ public class EquipmentDeployment extends GenericAuditEntity {
     private CruiseLeg cruiseLeg;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Datum datum;
+
+    public Set<Media> getMedias() {
+        return Collections.unmodifiableSet(medias);
+    }
+
+    public void addMedia(Media media) {
+        medias.add(media);
+        media.setEquipmentDeployment(this);
+    }
+
+    public void removeMedia(Media media) {
+        medias.remove(media);
+        media.setEquipmentDeployment(null);
+    }
 }

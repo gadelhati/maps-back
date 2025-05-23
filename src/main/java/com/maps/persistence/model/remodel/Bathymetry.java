@@ -21,6 +21,7 @@ import java.awt.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(name = "bathymetries")
 public class Bathymetry extends Media {
 
     @Column(columnDefinition = "geography")

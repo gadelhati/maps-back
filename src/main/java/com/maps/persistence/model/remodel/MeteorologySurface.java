@@ -1,9 +1,8 @@
 package com.maps.persistence.model.remodel;
 
-//import br.eti.gadelha.exception.enumeration.EnumMiMiMjMj;
-import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +24,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("METEOROLOGY_SURFACE")
+@Table(name = "meteorologySurfaces")
 public class MeteorologySurface extends Media {
 
     private String observer;

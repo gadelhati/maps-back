@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("SEISMIC")
+@Table(name = "seismic")
 public class Seismic extends Media {
 
     private String nameSeismicLine;
