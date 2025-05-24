@@ -23,7 +23,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "vessels")
 public class Vessel extends Structure {
 

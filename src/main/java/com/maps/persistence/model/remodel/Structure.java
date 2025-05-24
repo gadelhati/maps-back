@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -15,12 +16,14 @@ import org.hibernate.envers.Audited;
  **/
 
 @Data
+@Entity
 @Audited
-@MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "structures")
-public class Structure extends GeoEntity {
+public class Structure extends NavigationAid {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

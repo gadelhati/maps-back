@@ -14,8 +14,9 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "navigationAid")
-public class NavigationAid extends Structure {
+public class NavigationAid extends GeoEntity {
 
     @NotBlank
     private String internationalNumber;
