@@ -1,5 +1,8 @@
 package com.maps.exception;
 
+import jakarta.persistence.OptimisticLockException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.StaleStateException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -23,6 +26,21 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+//    @ExceptionHandler({StaleStateException.class, OptimisticLockException.class})
+//    public ResponseEntity<ApiError> handleOptimisticLockingException(RuntimeException ex, HttpServletRequest request) {
+//        ValidationError validationError = new ValidationError(
+//                "version",
+//                null,
+//                "Outdated version of the registry."
+//        );
+//        ApiError apiError = new ApiError(
+//                HttpStatus.CONFLICT,
+//                "Record has been changed or removed by another process.",
+//                request.getRequestURI(),
+//                List.of(validationError)
+//        );
+//        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+//    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAllUncaughtExceptions(Exception exception, WebRequest webRequest) {
         List<ValidationError> validationErrors = new ArrayList<>();
