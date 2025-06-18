@@ -13,7 +13,7 @@
 |  `pgadmin4`  |        |              pgadmin4-8.6-x64.exe | https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v8.6/windows/pgadmin4-8.6-x64.exe |
 
 ## Description
-CRUD service from a datatable.
+A versatile platform designed for the consolidation of georeferenced data, enabling its use in spatial analysis, monitoring, decision-making, and real-time interdisciplinary applications.
 
 ### Roadmap
 #### in development
