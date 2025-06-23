@@ -1,12 +1,9 @@
 package com.maps.persistence.model.remodel;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -16,14 +13,14 @@ import org.hibernate.envers.Audited;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("GEOLOGY")
 @Table(name = "geologies")
+@PrimaryKeyJoinColumn(name="id")
 public class Geology extends Media {
 
 //    private Integer areaOrigin;

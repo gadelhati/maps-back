@@ -3,8 +3,8 @@ package com.maps.persistence.model.remodel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -14,12 +14,12 @@ import org.hibernate.envers.Audited;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "lighthouses")
 public class Lighthouse extends NavigationAid {
 

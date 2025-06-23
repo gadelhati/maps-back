@@ -1,16 +1,16 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,12 +20,12 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "datums")
 public class Datum extends GenericAuditEntity {
 
@@ -33,6 +33,18 @@ public class Datum extends GenericAuditEntity {
     private Integer ae;
     private Float umF;
 
-    @OneToMany(mappedBy = "datum", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "datum")
     private Set<EquipmentDeployment> equipmentsDeployment = new HashSet<>();
+
+    public Set<EquipmentDeployment> getEquipmentDeployment() {
+        return Collections.unmodifiableSet(equipmentsDeployment);
+    }
+    public void addEquipmentDeployment(EquipmentDeployment equipmentDeployment) {
+        equipmentsDeployment.add(equipmentDeployment);
+        equipmentDeployment.setDatum(this);
+    }
+    public void removeEquipmentDeployment(EquipmentDeployment equipmentDeployment) {
+        equipmentsDeployment.remove(equipmentDeployment);
+        equipmentDeployment.setDatum(null);
+    }
 }

@@ -1,7 +1,13 @@
 package com.maps.persistence.model.remodel;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.envers.Audited;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -10,15 +16,28 @@ import lombok.Getter;
  **/
 
 @Getter
+@Setter
+@Entity
+@Audited
+@NoArgsConstructor
 @AllArgsConstructor
-public enum StructureFormat {
-    SPHERICAL("Spherical"),
-    PILLAR("Pillar"),
-    CIGAR("Cigar"),
-    CONICAL("Conical"),
-    CYLINDRICAL("Cylindrical"),
-    FRUSTUM_CONICAL("Frustum Conical"),
-    QUADRANGULAR("Quadrangular");
+@Table(name = "structuresFormat")
+public class StructureFormat extends GenericAuditEntity {
 
-    private final String name;
+    private String name;
+
+    @OneToMany(mappedBy = "structureFormat", orphanRemoval = true)
+    private Set<Structure> structures = new HashSet<>();
+
+    public Set<Structure> getStructures() {
+        return Collections.unmodifiableSet(structures);
+    }
+    public void addStructure(Structure structure) {
+        structures.add(structure);
+        structure.setStructureFormat(this);
+    }
+    public void removeStructure(Structure structure) {
+        structures.remove(structure);
+        structure.setStructureFormat(null);
+    }
 }

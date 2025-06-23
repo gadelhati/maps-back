@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,24 +20,49 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "institutions")
 public class Institution extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
-    private boolean mb;
+    private boolean brazilianNavy;
 
-    @OneToMany(mappedBy = "coordinator", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "coordinator", orphanRemoval = true)
     private Set<Cruise> coordinators = new HashSet<>();
-    @OneToMany(mappedBy = "responsible", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "responsible", orphanRemoval = true)
     private Set<Cruise> responsible = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
     private Country country;
+
+    public Set<Cruise> getCoordinators() {
+        return Collections.unmodifiableSet(coordinators);
+    }
+    public void addCoordinator(Cruise cruise) {
+        coordinators.add(cruise);
+        cruise.setCoordinator(this);
+    }
+    public void removeCoordinator(Cruise cruise) {
+        coordinators.remove(cruise);
+        cruise.setCoordinator(null);
+    }
+
+    public Set<Cruise> getResponsible() {
+        return Collections.unmodifiableSet(responsible);
+    }
+    public void addResponsible(Cruise cruise) {
+        responsible.add(cruise);
+        cruise.setResponsible(this);
+    }
+    public void removeResponsible(Cruise cruise) {
+        responsible.remove(cruise);
+        cruise.setResponsible(null);
+    }
 }

@@ -2,8 +2,8 @@ package com.maps.persistence.model.remodel;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("SEISMIC")
 @Table(name = "seismic")
+@PrimaryKeyJoinColumn(name="id")
 public class Seismic extends Media {
 
     private String nameSeismicLine;

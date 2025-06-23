@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -20,30 +20,28 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "sample_methods", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class SampleMethod extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
 
-    @OneToMany(mappedBy = "sampleMethod", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "sampleMethod", orphanRemoval = true)
     private Set<Equipment> equipments = new HashSet<>();
 
     public Set<Equipment> getEquipments() {
         return Collections.unmodifiableSet(equipments);
     }
-
     public void addEquipment(Equipment equipment) {
         equipments.add(equipment);
         equipment.setSampleMethod(this);
     }
-
     public void removeEquipment(Equipment equipment) {
         equipments.remove(equipment);
         equipment.setSampleMethod(null);

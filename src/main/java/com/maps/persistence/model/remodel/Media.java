@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 
 /**
@@ -18,17 +19,18 @@ import java.time.LocalDateTime;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "medias", indexes = {@Index(columnList = "point")})
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "media_type")
-@Table(name = "medias")
 public class Media extends GenericAuditEntity {
 
+    @Column(columnDefinition = "geography(Point, 4326)")
+    private Point point;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private String description;
@@ -38,8 +40,10 @@ public class Media extends GenericAuditEntity {
     private LocalDateTime generatedAt;
     private LocalDateTime deliveryAt;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "media_category_id", nullable = false)
     private MediaCategory mediaCategory;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipment_deployment_id")
     private EquipmentDeployment equipmentDeployment;
 }

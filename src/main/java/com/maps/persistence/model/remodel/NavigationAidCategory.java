@@ -1,17 +1,13 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.Audited;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -25,13 +21,10 @@ import java.util.Set;
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "radars", uniqueConstraints = @UniqueConstraint(columnNames = {"morse"}))
-public class Radar extends GenericAuditEntity {
+@Table(name = "navigationAidCategory", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class NavigationAidCategory extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String morse;
-
-    @OneToOne
-    @JoinColumn(name = "vessel_id", nullable = false, unique = true)
-    private Vessel vessel;
+    private String name;
+    private String abbreviation;
 }

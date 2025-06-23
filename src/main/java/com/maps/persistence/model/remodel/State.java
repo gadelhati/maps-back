@@ -4,13 +4,14 @@ import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import jakarta.persistence.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,21 +21,34 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "states", indexes = @Index(columnList = "name, country_id"), uniqueConstraints = @UniqueConstraint(columnNames = {"name", "country_id"}))
+@Table(name = "states", indexes = {@Index(columnList = "name, country_id")}, uniqueConstraints = @UniqueConstraint(columnNames = {"name", "country_id"}))
 public class State extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
 
-    @OneToMany(mappedBy = "state", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "state", orphanRemoval = true)
     private Set<City> cities = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "country_id", nullable = false)
     private Country country;
+
+    public Set<City> getCities() {
+        return Collections.unmodifiableSet(cities);
+    }
+    public void addCity(City city) {
+        cities.add(city);
+        city.setState(this);
+    }
+    public void removeVessel(City city) {
+        cities.remove(city);
+        city.setState(null);
+    }
 }

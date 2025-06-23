@@ -5,17 +5,21 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-@Data
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "lightCharacteristics")
 public class LightCharacteristic extends GenericAuditEntity {
 
@@ -25,9 +29,33 @@ public class LightCharacteristic extends GenericAuditEntity {
     private String detailedPhase; // e.g., "B. 0,5 – Ecl. 9,5"
     private Integer rangeLuminous;
     private Integer rangeGeographic;
-    @Enumerated(EnumType.STRING)
-    private LightColor color;
 
-    @OneToOne(mappedBy = "lightCharacteristic")
-    private NavigationAid navigationAid;
+    @OneToMany(mappedBy = "lightCharacteristic", orphanRemoval = true)
+    private Set<LightColor> lightColors = new HashSet<>();
+    @OneToMany(mappedBy = "lightCharacteristic", orphanRemoval = true)
+    private Set<NavigationAid> navigationAids = new HashSet<>();
+
+    public Set<LightColor> getLightColors() {
+        return Collections.unmodifiableSet(lightColors);
+    }
+    public void addLightColor(LightColor lightColor) {
+        lightColors.add(lightColor);
+        lightColor.setLightCharacteristic(this);
+    }
+    public void removeLightColor(LightColor lightColor) {
+        lightColors.remove(lightColor);
+        lightColor.setLightCharacteristic(null);
+    }
+
+    public Set<NavigationAid> getNavigationAid() {
+        return Collections.unmodifiableSet(navigationAids);
+    }
+    public void addNavigationAid(NavigationAid navigationAid) {
+        navigationAids.add(navigationAid);
+        navigationAid.setLightCharacteristic(this);
+    }
+    public void removeNavigationAid(NavigationAid navigationAid) {
+        navigationAids.remove(navigationAid);
+        navigationAid.setLightCharacteristic(null);
+    }
 }

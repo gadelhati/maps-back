@@ -5,11 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-import org.locationtech.jts.geom.Point;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,12 +20,12 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "cruises", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Cruise extends GenericAuditEntity {
 
@@ -34,35 +33,32 @@ public class Cruise extends GenericAuditEntity {
     private String name;
     private String number;
     private String description;
-    @Column(columnDefinition = "geography")
-    private Point sw;//latBottomMost and longLeftMost
-    @Column(columnDefinition = "geography")
-    private Point ne;//latTopMost and longRightMost
     private String areaName;
     private String maximumDepthArea;
     private String minimumDepthArea;
     private String maximumCollectionDepth;
     private String minimumCollectionDepth;
 
-    @OneToMany(mappedBy = "cruise", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cruise", orphanRemoval = true)
     private Set<CruiseLeg> cruiseLegs = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coordinator_id")
     private Institution coordinator;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responsible_id")
     private Institution responsible;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vessel_id")
     private Vessel vessel;
 
     public Set<CruiseLeg> getCruiseLegs() {
         return Collections.unmodifiableSet(cruiseLegs);
     }
-
     public void addCruiseLeg(CruiseLeg leg) {
         cruiseLegs.add(leg);
         leg.setCruise(this);
     }
-
     public void removeCruiseLeg(CruiseLeg leg) {
         cruiseLegs.remove(leg);
         leg.setCruise(null);

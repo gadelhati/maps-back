@@ -2,8 +2,8 @@ package com.maps.persistence.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -16,7 +16,8 @@ import java.util.Date;
  **/
 
 @IdClass(CompositePK.class)
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor

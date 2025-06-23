@@ -1,10 +1,9 @@
-package com.maps.persistence.model;
+package com.maps.persistence.model.remodel;
 
+import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.*;
 import org.hibernate.envers.Audited;
 
 /**
@@ -19,7 +18,8 @@ import org.hibernate.envers.Audited;
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChartArea extends GenericAuditEntity {
+@Table(name = "format")
+public class Format extends GenericAuditEntity {
 
-    private String name;
+    private String nome;
 }

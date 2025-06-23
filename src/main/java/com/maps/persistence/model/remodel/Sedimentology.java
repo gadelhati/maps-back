@@ -1,13 +1,9 @@
 package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.remodel.Media;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -19,14 +15,14 @@ import java.time.LocalDateTime;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("SEDIMENTOLOGY")
 @Table(name = "sedimentologies")
+@PrimaryKeyJoinColumn(name="id")
 public class Sedimentology extends Media {
 
     private Integer cod_amostra_geologica;

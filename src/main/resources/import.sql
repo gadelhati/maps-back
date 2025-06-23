@@ -6993,3 +6993,67 @@ INSERT INTO maps.maritime_area(created_at, updated_at, id, code, name, start, fi
 INSERT INTO maps.maritime_area(created_at, updated_at, id, code, name, start, finish, polygon) VALUES (NOW(), NOW(), '61d9b927-a531-4344-8f4e-eb05cda5e7c8', 'HT', 'HIDROVIA TIETÊ-PARANÁ', null, null, ('POLYGON((-47 -10, -44.934 -3.508, -37.34833 -5.13556, -35.48333 -5.16667, -40 -15, -42.02806 -22.595, -41.99528 -22.8085, -43.0825 -22.59806, -44.41611 -22.86778, -46.63611 -23.54222, -49.27 -25.42389, -49.38361 -28.88306, -50.37278 -30.2025, -50.68222 -30.86417, -51.41083 -31.64333, -52.04528 -32, -52.28194 -32, -52.28444 -32.2175, -53.36667 -33.75, -57.832 -30.29667, -63.37083 -12.98317, -74 -10, -47 -10))')) ON CONFLICT DO NOTHING;
 INSERT INTO maps.maritime_area(created_at, updated_at, id, code, name, start, finish, polygon) VALUES (NOW(), NOW(), 'f351a21b-ee96-4ed4-b267-663eec1dfc8b', 'NAVAREA V', 'NAVAREA V', null, null, ('POLYGON((-49.46667 7, -20 7, -20 -35.83333, -50.16667 -35.83333, -35 -23.01667, -29.55 -5.16667, -28.91667 -3, -49.46667 7))')) ON CONFLICT DO NOTHING;
 INSERT INTO maps.maritime_area(created_at, updated_at, id, code, name, start, finish, polygon) VALUES (NOW(), NOW(), '07704ff2-25fd-43f8-937b-cb0d24620ef2', 'SAR', 'SAR', null, null, ('POLYGON((-49.46667 7, -20 7, -20 -35.83333, -50.16667 -35.83333, -35 -23.01667, -29.55 -5.16667, -28.91667 -3, -49.46667 7))')) ON CONFLICT DO NOTHING;
+
+-- POPULING hull_material
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'a9803386-91e0-47d7-8d44-066d02d5d8d4', 'madeira') ON CONFLICT DO NOTHING;
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '8e66db4b-fb71-43e6-9e0f-e099b0debbdd', 'aço') ON CONFLICT DO NOTHING;
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '1eb192b9-b42c-4d9d-bd78-86b2e3a67e9d', 'ferro') ON CONFLICT DO NOTHING;
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '95392337-d7c4-424d-b5ab-22c49fd704d3', 'alumínio') ON CONFLICT DO NOTHING;
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'e4300279-5236-4ff4-a8e5-d47494d3efca', 'fibra de vidro') ON CONFLICT DO NOTHING;
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '49182e22-b7f4-4230-a8ef-028ed9077a88', 'concreto armado') ON CONFLICT DO NOTHING;
+INSERT INTO maps.hull_material(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '8136c3ff-c971-4f33-b60a-696f5e421362', 'material composto') ON CONFLICT DO NOTHING;
+
+-- POPULING light_color
+INSERT INTO maps.light_color(created_at, updated_at, id, name, abrevi) VALUES (NOW(), NOW(), 'e6a8669a-a689-4a7a-a833-d6acfbcf5438', 'branca') ON CONFLICT DO NOTHING;
+INSERT INTO maps.light_color(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '6ac9d499-9166-4a74-aca5-e6bf962e9b7a', 'vermelha') ON CONFLICT DO NOTHING;
+INSERT INTO maps.light_color(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'a7eddb39-6d67-49c1-b287-45f951e04453', 'verde') ON CONFLICT DO NOTHING;
+INSERT INTO maps.light_color(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '86d1293b-35a6-4845-9d62-1b359341b8da', 'amarela') ON CONFLICT DO NOTHING;
+INSERT INTO maps.light_color(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '1841fa7a-bd2f-4133-b2c3-d21c0ae7669f', 'azul') ON CONFLICT DO NOTHING;
+
+-- POPULING navigation_aid_category
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '1a5f3bc5-60e7-4b58-bdc9-3fa12a2e04c1', 'Farol', 'F') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '2b6d58f8-0e7f-4f53-9f2b-579c7f14c983', 'Boia', 'B') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '3f462f71-62e7-41d6-9316-6f94943b5a58', 'Baliza', 'Bz') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '4cb18043-f682-439c-b39d-ea070fa36f8c', 'Sinal Cardinal Norte', 'SCN') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '57699cc7-7c9a-4566-818e-6bfa84a6789e', 'Sinal Cardinal Sul', 'SCS') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '6dcf880f-1d90-44e3-a488-d36968ed1110', 'Sinal Cardinal Leste', 'SCE') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '7d96ac47-cf33-4707-88df-3df37933a5f3', 'Sinal Cardinal Oeste', 'SCO') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '82aeb67a-0ed4-434f-a7d4-06e463ec9eec', 'Marca Lateral Bombordo', 'MLB') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), '9475a5e1-84c9-4a37-b5d1-49b342e300ef', 'Marca Lateral Boreste', 'MLBe') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), 'a2dbbf02-fd2f-4600-8911-5d2b9ff6a0ae', 'Marca de Perigo Isolado', 'MPI') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_aid_category(created_at, updated_at, id, name, abbreviation) VALUES (NOW(), NOW(), 'b3c9fd38-319e-4e1d-83f4-e3c21a8b8c38', 'Marca de Água Segura', 'MAS') ON CONFLICT DO NOTHING;
+
+-- POPULING navigation_area
+INSERT INTO maps.navigation_area(created_at, updated_at, id, name, description) VALUES (NOW(), NOW(), '9a7efaa7-5461-4b6a-9e1b-01dd6a6d82a0', 'INTERIOR', 'Rios, lagos e canais') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_area(created_at, updated_at, id, name, description) VALUES (NOW(), NOW(), 'b1d41fc4-f84a-4f9b-b2c4-c46a3f5cb066', 'COSTEIRA', 'Até 20 milhas náuticas da costa') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_area(created_at, updated_at, id, name, description) VALUES (NOW(), NOW(), '3ed1596a-c0cf-4a84-83e2-cdf4d78de6e4', 'CABOTAGEM', 'Entre portos nacionais') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_area(created_at, updated_at, id, name, description) VALUES (NOW(), NOW(), '71880cf3-c276-47b5-bf9f-9138a7763fd5', 'LONGO_CURSO', 'Navegação internacional') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_area(created_at, updated_at, id, name, description) VALUES (NOW(), NOW(), 'e8c8e87f-8f57-419c-83e2-b6e8a8a1a7be', 'APOIO_PORTUARIO', 'Operações portuárias') ON CONFLICT DO NOTHING;
+INSERT INTO maps.navigation_area(created_at, updated_at, id, name, description) VALUES (NOW(), NOW(), 'c5a4f2c6-41cf-43cd-a8ed-e0c98341cd26', 'APOIO_MARITIMO', 'Apoio a plataformas e embarcações') ON CONFLICT DO NOTHING;
+
+-- POPULING propulsion_system
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'f1c62f55-1e3d-49ce-99f2-2aeb4ce891f5', 'Sail') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '5e58261d-b10b-4b5c-9cd0-4ebcfc32fd14', 'Oars') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'ad4c9924-cb97-4b66-9d77-750ef5a00dd7', 'Diesel Engine') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '02f2a71c-dc90-4904-9bd3-d881e3951aa2', 'Gasoline Engine') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '9e6df5c7-9f42-40e4-94cc-8699d884d643', 'Electric Engine') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'd389ce2e-435e-471d-ae9c-8ef93f16ff87', 'Hybrid') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '7284cc7c-d7f4-4d42-84b8-2705f01292ec', 'Nuclear Propulsion') ON CONFLICT DO NOTHING;
+INSERT INTO maps.propulsion_system(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '00e10a80-330b-4f49-8776-77c2ef45f932', 'No Propulsion') ON CONFLICT DO NOTHING;
+
+-- POPULING structure_format
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), '62cbd982-202b-419e-b0ff-1cfac6e8cdd3', 'Spherical') ON CONFLICT DO NOTHING;
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'ad91e5d9-3d11-4b4e-8967-61a1a88d56d2', 'Pillar') ON CONFLICT DO NOTHING;
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'be2fc339-6076-4f35-bc1f-988f7c385f7e', 'Cigar') ON CONFLICT DO NOTHING;
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'dcc4ffb6-622a-4996-9c18-3b95e0896796', 'Conical') ON CONFLICT DO NOTHING;
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'fa7d2f2e-f720-4c77-b086-b55a66ff0aa3', 'Cylindrical') ON CONFLICT DO NOTHING;
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'd1b029eb-6313-4cc1-bc45-eebff6311879', 'Frustum Conical') ON CONFLICT DO NOTHING;
+INSERT INTO maps.structure_format(created_at, updated_at, id, name) VALUES (NOW(), NOW(), 'b9148238-df1c-4f0b-9b64-6ad3cf34b165', 'Quadrangular') ON CONFLICT DO NOTHING;
+
+--POPULING vessel_type
+INSERT INTO maps.vessel_type(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '8d4a9b83-c56d-49fa-aeed-9d9c7dbe279f', 'Warship') ON CONFLICT DO NOTHING;
+INSERT INTO maps.vessel_type(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'a7284d10-dc44-48f2-9fc0-3b54896e2026', 'Merchant Vessel') ON CONFLICT DO NOTHING;
+INSERT INTO maps.vessel_type(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'd0e6e951-60f2-4b37-87a2-12ad6d0bbf63', 'Recreational Vessel') ON CONFLICT DO NOTHING;
+INSERT INTO maps.vessel_type(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'bc33863c-3096-4c3f-956f-cabdc839e64c', 'Special Services') ON CONFLICT DO NOTHING;
+INSERT INTO maps.vessel_type(created_at, updated_at, id, description) VALUES (NOW(), NOW(), '412a32f4-406f-4f3e-8a4f-9e429cdbb574', 'Fishing Vessel') ON CONFLICT DO NOTHING;
+INSERT INTO maps.vessel_type(created_at, updated_at, id, description) VALUES (NOW(), NOW(), 'f5fbe269-7aa5-49f2-92b0-b7ae3fca9be2', 'Research Vessel') ON CONFLICT DO NOTHING;

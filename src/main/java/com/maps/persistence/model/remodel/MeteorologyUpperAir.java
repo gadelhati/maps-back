@@ -1,10 +1,10 @@
 package com.maps.persistence.model.remodel;
 
-import com.maps.persistence.model.remodel.Media;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -16,14 +16,14 @@ import java.time.LocalTime;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("METEOROLOGY_UPPER_AIR")
 @Table(name = "meteorologyUpperAirs")
+@PrimaryKeyJoinColumn(name="id")
 public class MeteorologyUpperAir extends Media {
 
 //    private Integer cod_estacao;
@@ -47,6 +47,7 @@ public class MeteorologyUpperAir extends Media {
     private String ctrlqc_dd;
     private String ctrlqc_fff;
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "station_id")
 //    private Station station;
 }

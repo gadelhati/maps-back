@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -21,12 +21,12 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "researchers")
 public class Researcher extends GenericAuditEntity {
 
@@ -35,21 +35,20 @@ public class Researcher extends GenericAuditEntity {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "researcher", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "researcher", orphanRemoval = true)
     private Set<ResearchMember> researchMembers = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
     private Address address;
 
     public Set<ResearchMember> getResearchMembers() {
         return Collections.unmodifiableSet(researchMembers);
     }
-
     public void addResearchMember(ResearchMember member) {
         researchMembers.add(member);
         member.setResearcher(this);
     }
-
     public void removeResearchMember(ResearchMember member) {
         researchMembers.remove(member);
         member.setResearcher(null);

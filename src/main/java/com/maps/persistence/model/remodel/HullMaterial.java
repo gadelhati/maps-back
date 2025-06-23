@@ -1,7 +1,18 @@
 package com.maps.persistence.model.remodel;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.envers.Audited;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -10,15 +21,29 @@ import lombok.Getter;
  **/
 
 @Getter
+@Setter
+@Entity
+@Audited
+@NoArgsConstructor
 @AllArgsConstructor
-public enum HullMaterial {
-    MADEIRA("Madeira"),
-    ACO("Aço"),
-    FERRO("Ferro"),
-    ALUMINIO("Alumínio"),
-    FIBRA_VIDRO("Fibra de Vidro"),
-    CONCRETO_ARMADO("Concreto Armado"),
-    COMPOSITO("Material Compósito");
+@Table(name = "hullMaterial", uniqueConstraints = @UniqueConstraint(columnNames = {"description"}))
+public class HullMaterial extends GenericAuditEntity {
 
-    private final String descricao;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    private String description;
+
+    @OneToMany(mappedBy = "hullMaterial", orphanRemoval = true)
+    private Set<Vessel> vessels = new HashSet<>();
+
+    public Set<Vessel> getVessels() {
+        return Collections.unmodifiableSet(vessels);
+    }
+    public void addVessel(Vessel vessel) {
+        vessels.add(vessel);
+        vessel.setHullMaterial(this);
+    }
+    public void removeVessel(Vessel vessel) {
+        vessels.remove(vessel);
+        vessel.setHullMaterial(null);
+    }
 }

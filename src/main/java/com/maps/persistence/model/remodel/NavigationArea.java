@@ -1,7 +1,15 @@
 package com.maps.persistence.model.remodel;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.envers.Audited;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -10,15 +18,31 @@ import lombok.Getter;
  **/
 
 @Getter
+@Setter
+@Entity
+@Audited
+@NoArgsConstructor
 @AllArgsConstructor
-public enum NavigationArea {
-    INTERIOR("Navegação Interior", "Rios, lagos e canais"),
-    COSTEIRA("Navegação Costeira", "Até 20 milhas náuticas da costa"),
-    CABOTAGEM("Cabotagem", "Entre portos nacionais"),
-    LONGO_CURSO("Longo Curso", "Navegação internacional"),
-    APOIO_PORTUARIO("Apoio Portuário", "Operações portuárias"),
-    APOIO_MARITIMO("Apoio Marítimo", "Apoio a plataformas e embarcações");
+@Table(name = "navigationArea", indexes = {@Index(columnList = "name, description")}, uniqueConstraints = @UniqueConstraint(columnNames = {"name", "description"}))
+public class NavigationArea extends GenericAuditEntity {
 
-    private final String nome;
-    private final String descricao;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    private String name;
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
+    private String description;
+
+    @OneToMany(mappedBy = "navigationArea", orphanRemoval = true)
+    private Set<Vessel> vessels = new HashSet<>();
+
+    public Set<Vessel> getVessels() {
+        return Collections.unmodifiableSet(vessels);
+    }
+    public void addVessel(Vessel vessel) {
+        vessels.add(vessel);
+        vessel.setNavigationArea(this);
+    }
+    public void removeVessel(Vessel vessel) {
+        vessels.remove(vessel);
+        vessel.setNavigationArea(null);
+    }
 }

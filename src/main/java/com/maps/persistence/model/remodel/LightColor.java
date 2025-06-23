@@ -1,7 +1,9 @@
 package com.maps.persistence.model.remodel;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.maps.persistence.model.GenericAuditEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.envers.Audited;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -10,14 +12,18 @@ import lombok.Getter;
  **/
 
 @Getter
+@Setter
+@Entity
+@Audited
+@NoArgsConstructor
 @AllArgsConstructor
-public enum LightColor {
-    BRANCA("Branca", "B"),
-    VERMELHA("Vermelha", "V"),
-    VERDE("Verde", "Vd"),
-    AMARELA("Amarela", "A"),
-    AZUL("Azul", "Az");
+@Table(name = "lightColor")
+public class LightColor extends GenericAuditEntity {
 
-    private final String nome;
-    private final String abreviacao;
+    private String name;
+    private String abbreviation;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "light_characteristic_id")
+    private LightCharacteristic lightCharacteristic;
 }

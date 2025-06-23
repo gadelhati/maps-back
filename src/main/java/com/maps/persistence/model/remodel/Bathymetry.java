@@ -2,8 +2,8 @@ package com.maps.persistence.model.remodel;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -15,17 +15,16 @@ import java.awt.*;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "bathymetries")
+@PrimaryKeyJoinColumn(name="id")
 public class Bathymetry extends Media {
 
-    @Column(columnDefinition = "geography")
-    private Point point;
     private Float depth;
     private String qualityControlPosition;
     private String qualityControlDepth;

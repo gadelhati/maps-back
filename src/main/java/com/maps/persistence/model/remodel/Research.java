@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -21,12 +21,12 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "researches", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Research extends GenericAuditEntity {
 
@@ -36,23 +36,22 @@ public class Research extends GenericAuditEntity {
     private LocalDateTime start;
     private LocalDateTime finish;
 
-    @OneToMany(mappedBy = "research", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "research", orphanRemoval = true)
     private Set<ResearchMember> researchMembers = new HashSet<>();
-    @OneToMany(mappedBy = "research", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "research", orphanRemoval = true)
     private Set<EquipmentDeployment> equipmentDeployments = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "module_id")
     private Module module;
 
     public Set<ResearchMember> getResearchMembers() {
         return Collections.unmodifiableSet(researchMembers);
     }
-
     public void addResearchMember(ResearchMember member) {
         researchMembers.add(member);
         member.setResearch(this);
     }
-
     public void removeResearchMember(ResearchMember member) {
         researchMembers.remove(member);
         member.setResearch(null);
@@ -61,12 +60,10 @@ public class Research extends GenericAuditEntity {
     public Set<EquipmentDeployment> getEquipmentDeployments() {
         return Collections.unmodifiableSet(equipmentDeployments);
     }
-
     public void addEquipmentDeployment(EquipmentDeployment deployment) {
         equipmentDeployments.add(deployment);
         deployment.setResearch(this);
     }
-
     public void removeEquipmentDeployment(EquipmentDeployment deployment) {
         equipmentDeployments.remove(deployment);
         deployment.setResearch(null);

@@ -1,6 +1,7 @@
 package com.maps.persistence.payload.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -10,7 +11,8 @@ import java.util.UUID;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 public class Identifiable {
 
     private UUID id;

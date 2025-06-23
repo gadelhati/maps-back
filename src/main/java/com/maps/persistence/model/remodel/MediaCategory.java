@@ -1,17 +1,16 @@
 package com.maps.persistence.model.remodel;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.model.remodel.Media;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,17 +20,30 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "mediaCategories")
+@Table(name = "mediaCategories", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class MediaCategory extends GenericAuditEntity {
 
+    @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
 
     @OneToMany(mappedBy = "mediaCategory", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<Media> media = new HashSet<>();
+    private Set<Media> medias = new HashSet<>();
+
+    public Set<Media> getMedias() {
+        return Collections.unmodifiableSet(medias);
+    }
+    public void addMedia(Media media) {
+        medias.add(media);
+        media.setMediaCategory(this);
+    }
+    public void removeMedia(Media media) {
+        medias.remove(media);
+        media.setMediaCategory(null);
+    }
 }

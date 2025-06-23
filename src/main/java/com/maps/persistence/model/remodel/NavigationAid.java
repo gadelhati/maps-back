@@ -1,23 +1,28 @@
 package com.maps.persistence.model.remodel;
 
+import com.maps.persistence.model.GenericAuditEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-@Data
+import java.awt.*;
+
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Table(name = "navigationAids", indexes = {@Index(columnList = "point")})
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "navigationAid")
-public class NavigationAid extends GeoEntity {
+public class NavigationAid extends GenericAuditEntity {
 
+    @Column(columnDefinition = "geography(Point, 4326)")
+    private Point point;
     @NotBlank
     private String internationalNumber;
     @NotBlank
@@ -29,9 +34,10 @@ public class NavigationAid extends GeoEntity {
     private String chartNumber;
     private String observations;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "light_characteristic_id")
     private LightCharacteristic lightCharacteristic; // Nullable for blind signals
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "maintainer_id")
     private Maintainer maintainer;
 }
