@@ -1,7 +1,7 @@
 package com.maps.service;
 
 import com.maps.persistence.MapperInterface;
-import com.maps.persistence.model.City;
+import com.maps.persistence.model.remodel.City;
 import com.maps.persistence.payload.request.DTORequestCity;
 import com.maps.persistence.payload.response.DTOResponseCity;
 import com.maps.persistence.repository.RepositoryCity;

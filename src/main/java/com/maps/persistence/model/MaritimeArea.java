@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.MultiPolygon;
@@ -18,12 +18,12 @@ import org.locationtech.jts.geom.Polygon;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class MaritimeArea extends GenericAuditEntity {
 
     private String code;
@@ -31,8 +31,8 @@ public class MaritimeArea extends GenericAuditEntity {
     private String name;
     private String start;
     private String finish;
-    @Column(columnDefinition = "geography")
+    @Column(columnDefinition = "geography(Point, 4326)")
     private Polygon polygon;
-    @Column(columnDefinition = "geography")
+    @Column(columnDefinition = "geography(Point, 4326)")
     private MultiPolygon multiPolygon;
 }

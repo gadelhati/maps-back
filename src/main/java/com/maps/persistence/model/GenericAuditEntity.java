@@ -1,7 +1,10 @@
 package com.maps.persistence.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
@@ -18,12 +21,15 @@ import java.util.UUID;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public abstract class GenericAuditEntity implements Serializable {
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", unique = true, nullable = false)
     private UUID id;
@@ -33,10 +39,9 @@ public abstract class GenericAuditEntity implements Serializable {
     private LocalDateTime updatedAt;
     @CreatedBy
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "createdBy")
+    @JoinColumn(updatable = false)
     private User createdBy;
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "modifiedBy")
     private User modifiedBy;
 }

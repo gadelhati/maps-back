@@ -3,8 +3,8 @@ package com.maps.persistence.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -16,12 +16,12 @@ import java.util.UUID;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table
 public class Token extends GenericAuditEntity {
 

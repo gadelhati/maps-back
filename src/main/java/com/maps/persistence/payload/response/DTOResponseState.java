@@ -1,6 +1,6 @@
 package com.maps.persistence.payload.response;
 
-import com.maps.persistence.model.Country;
+import com.maps.persistence.model.remodel.Country;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;

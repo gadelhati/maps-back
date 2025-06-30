@@ -3,8 +3,8 @@ package com.maps.persistence.model;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
@@ -19,12 +19,12 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(indexes = @Index(columnList = "username"), uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class User extends GenericAuditEntity {
 

@@ -1,5 +1,6 @@
 package com.maps.persistence.payload.response;
 
+import com.maps.persistence.model.remodel.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
@@ -17,8 +18,7 @@ import java.util.UUID;
 public class DTOResponseResearcher extends RepresentationModel<DTOResponseResearcher> {
 
     private UUID id;
-    private int code;
     private String name;
     private String email;
-    private String address;
+    private Address address;
 }

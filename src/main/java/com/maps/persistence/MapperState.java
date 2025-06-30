@@ -1,6 +1,6 @@
 package com.maps.persistence;
 
-import com.maps.persistence.model.State;
+import com.maps.persistence.model.remodel.State;
 import com.maps.persistence.payload.request.DTORequestState;
 import com.maps.persistence.payload.response.DTOResponseState;
 import org.mapstruct.Mapper;

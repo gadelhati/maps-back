@@ -58,28 +58,18 @@ public class ServiceUserAuth {
 
     public DTOResponseToken login(DTORequestUserAuth dtoRequestUserAuth) {
 //        captchaTest(dtoRequestUserAuth.getCaptchaToken());
-        try {
-            serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
-            serviceUserTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtGenerator.generateToken(authentication.getName());
-            UUID refreshToken = UUID.randomUUID();
-            repositoryToken.save(new Token(refreshToken, true));
-            return new DTOResponseToken(
-                    token,
-                    refreshToken,
-                    authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet())
-            );
-        } catch (BadCredentialsException e) {
-            addAttempt(dtoRequestUserAuth);
-            LOGGER.error("Invalid credentials for user: {}", dtoRequestUserAuth.getUsername());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
-        } catch (AuthenticationException e) {
-            addAttempt(dtoRequestUserAuth);
-            LOGGER.error("Authentication failed for user: {}", dtoRequestUserAuth.getUsername());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication failed");
-        }
+        serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
+        serviceUserTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication.getName());
+        UUID refreshToken = UUID.randomUUID();
+        repositoryToken.save(new Token(refreshToken, true));
+        return new DTOResponseToken(
+            token,
+            refreshToken,
+            authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet())
+        );
     }
 
     public DTOResponseToken refresh(DTORequestToken dtoRequestToken) {

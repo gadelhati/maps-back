@@ -22,8 +22,8 @@ public class DTORequestChart extends Identifiable {
     private String title;
     private Integer scale;
     private Collection<LocalDateTime> edition;
-    private Point ne;
-    private Point sw;
+    private Point northEastPoint;
+    private Point southWestPoint;
 
     private ChartArea chartArea;
 }

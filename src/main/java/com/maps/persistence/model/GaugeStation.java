@@ -1,9 +1,10 @@
 package com.maps.persistence.model;
 
+import com.maps.persistence.model.remodel.State;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
@@ -14,23 +15,21 @@ import org.locationtech.jts.geom.Point;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class GaugeStation extends GenericAuditEntity {
 
     private String number;
     private String title;
-    @Column(columnDefinition = "geography")
+    @Column(columnDefinition = "geography(Point, 4326)")
     private Point point;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "state")
+    @ManyToOne(fetch = FetchType.LAZY)
     private State state;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "chartArea")
+    @ManyToOne(fetch = FetchType.LAZY)
     private ChartArea chartArea;
 }

@@ -1,6 +1,6 @@
 package com.maps.persistence.repository;
 
-import com.maps.persistence.model.State;
+import com.maps.persistence.model.remodel.State;
 
 import java.util.UUID;
 

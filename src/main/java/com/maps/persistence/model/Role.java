@@ -3,10 +3,11 @@ package com.maps.persistence.model;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -19,12 +20,12 @@ import java.util.Set;
  * @link	www.gadelha.eti.br
  **/
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Table(indexes = @Index(columnList = "name"), uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Role extends GenericAuditEntity {
 

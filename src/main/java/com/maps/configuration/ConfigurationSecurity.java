@@ -49,7 +49,7 @@ public class ConfigurationSecurity {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/image/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register", "/login", "/resetPassword", "/resetTotp", "/confirm", "/list").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/**", "/signup", "/signin", "/requiredPassword", "/requiredTotp").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/**", "/signup", "/signin", "/requiredPassword", "/requiredTotp", "/signup2").permitAll()
                         .requestMatchers("/upload/**", "/chart/**", "/chartArea/**", "/city/**", "/gaugeStation/**", "/internationalChart/**", "/maritimeArea/**", "/privilege/**", "/research/**", "/researcher/**", "/role/**", "/state/**", "/user/**").permitAll()
                         .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())

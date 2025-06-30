@@ -1,8 +1,7 @@
 package com.maps.persistence.payload.response;
 
-import com.maps.persistence.model.Commission;
-import com.maps.persistence.model.Researcher;
-import com.maps.persistence.model.bndo.Module;
+import com.maps.persistence.model.remodel.Cruise;
+import com.maps.persistence.model.remodel.Module;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
@@ -21,9 +20,11 @@ import java.util.UUID;
 public class DTOResponseResearch extends RepresentationModel<DTOResponseResearch> {
 
     private UUID id;
+    private String name;
+    private String description;
     private LocalDateTime start;
     private LocalDateTime finish;
-    private Researcher researcher;
-    private Commission commission;
+
+    private Cruise cruise;
     private Module module;
 }

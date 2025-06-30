@@ -1,11 +1,6 @@
 package com.maps.persistence.repository;
 
-import com.maps.persistence.model.Research;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
-import java.util.UUID;
+import com.maps.persistence.model.remodel.Research;
 
 /**
  * @author	Marcelo Ribeiro Gadelha

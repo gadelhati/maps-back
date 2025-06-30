@@ -1,6 +1,9 @@
 package com.maps.persistence;
 
 import com.maps.persistence.model.*;
+import com.maps.persistence.model.remodel.City;
+import com.maps.persistence.model.remodel.Country;
+import com.maps.persistence.model.remodel.State;
 import com.maps.persistence.payload.request.*;
 import com.maps.persistence.payload.response.*;
 import org.mapstruct.Mapper;

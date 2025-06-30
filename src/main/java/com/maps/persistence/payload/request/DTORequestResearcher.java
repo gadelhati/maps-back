@@ -1,6 +1,7 @@
 package com.maps.persistence.payload.request;
 
 import com.maps.exception.annotation.UniqueNameResearcher;
+import com.maps.persistence.model.remodel.Address;
 import lombok.Getter;
 
 import jakarta.validation.constraints.NotBlank;
@@ -16,9 +17,8 @@ import jakarta.validation.constraints.NotNull;
 @UniqueNameResearcher(label = "name")
 public class DTORequestResearcher extends Identifiable {
 
-    private int code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;
     private String email;
-    private String address;
+    private Address address;
 }

@@ -1,9 +1,14 @@
 package com.maps.controller;
 
+import com.maps.exception.ApiError;
+import com.maps.persistence.payload.request.DTORequestUser;
 import com.maps.persistence.payload.request.DTORequestUserAuth;
 import com.maps.persistence.payload.response.DTOResponseToken;
 import com.maps.service.ServiceUserAuth;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +34,11 @@ public class Controller {
     public ModelAndView signUp(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String captchaToken) {
         serviceUserAuth.register(username, email, password, captchaToken);
         return new ModelAndView("confirm");
+    }
+    @PostMapping("/signup2")
+    public ResponseEntity<ApiError> signUp(@RequestBody @Valid DTORequestUser value) {
+        serviceUserAuth.register(value.getUsername(), value.getEmail(), "1234", "");
+        return ResponseEntity.accepted().body(new ApiError(HttpStatus.CREATED, "", ""));
     }
     @GetMapping("/login")
     public ModelAndView login() {
