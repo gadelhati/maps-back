@@ -3,6 +3,7 @@ package com.maps.controller;
 import com.maps.MapsApplication;
 import com.maps.persistence.model.User;
 import com.maps.persistence.payload.request.DTORequestUser;
+import com.maps.persistence.payload.request.DTORequestUserAuth;
 import com.maps.persistence.payload.request.DTORequestUserPassword;
 import com.maps.persistence.payload.response.DTOResponseUser;
 import com.maps.service.ServiceUser;
@@ -40,14 +41,14 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
     public ResponseEntity<DTOResponseUser> changePassword(@RequestBody @Valid DTORequestUserPassword updated){
         return ResponseEntity.accepted().body(serviceUser.changePassword(updated));
     }
-    @PutMapping("/resetPassword/{id}")
+    @PutMapping("/resetPassword")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
-    public ResponseEntity<DTOResponseUser> resetPassword(@PathVariable UUID id) {
-        return ResponseEntity.accepted().body(serviceUser.resetPassword(id));
+    public ResponseEntity<DTOResponseUser> resetPassword(@RequestBody DTORequestUserAuth updated) {
+        return ResponseEntity.accepted().body(serviceUser.resetPassword(updated.getUsername()));
     }
-    @PutMapping("/resetSecret/{id}")
+    @PutMapping("/resetSecret")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
-    public ResponseEntity<DTOResponseUser> resetSecret(@PathVariable UUID id) {
-        return ResponseEntity.accepted().body(serviceUser.resetSecret(id));
+    public ResponseEntity<DTOResponseUser> resetSecret(@RequestBody DTORequestUserAuth updated) {
+        return ResponseEntity.accepted().body(serviceUser.resetSecret(updated.getUsername()));
     }
 }

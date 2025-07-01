@@ -133,8 +133,8 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         }
     }
     @Transactional
-    public DTOResponseUser resetPassword(UUID id) {
-        User user = isValidToChange(id);
+    public DTOResponseUser resetPassword(String username) {
+        User user = isValidToChange(username);
         try {
             String password = generateSecurePassword();
             user.setPassword(passwordEncoder.encode(password));
@@ -149,8 +149,8 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         }
     }
     @Transactional
-    public DTOResponseUser resetSecret(UUID id) {
-        User user = isValidToChange(id);
+    public DTOResponseUser resetSecret(String username) {
+        User user = isValidToChange(username);
         try {
             Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
             repositoryUser.save(user);
@@ -172,6 +172,18 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             return user;
         } else {
             LOGGER.warn("{} attempted unauthorized access to user with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
+            throw new EntityNotFoundException("i Resource not found");
+        }
+    }
+    public User isValidToChange(String username) {
+        User user = repositoryUser.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
+        User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
+        if (userCurrent.getUsername() != null && user.getUsername() != null &&
+                userCurrent.getUsername().equals(user.getUsername()) ||
+                userCurrent.getRole().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
+            return user;
+        } else {
+            LOGGER.warn("{} attempted unauthorized access to user with username: {}", information.getCurrentUser().orElse("Unknown User"), username);
             throw new EntityNotFoundException("i Resource not found");
         }
     }
