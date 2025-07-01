@@ -13,6 +13,7 @@ import com.maps.persistence.repository.RepositoryRole;
 import com.maps.persistence.repository.RepositoryUser;
 import com.maps.utils.E2EE;
 import com.maps.utils.Information;
+import com.maps.utils.QRCode;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -69,8 +70,20 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             Set<Role> roles = new HashSet<>();
             roles.add(repositoryRole.findByName("VIEWER"));
             user.setRole(roles);
-            serviceEmail.sendSimpleMessage(user.getEmail(), "Created requested", "Username: " + created.getUsername() + "\nPassword: " + password + "\nSecret: " + secret + "\nTotpKey: " +
-                    String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            String totpUri = String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s",
+                    user.getUsername(),
+                    user.getUsername() + "@auth.com",
+                    e2EE.decrypt(user.getSecret()),
+                    env.getRequiredProperty("application.name"));
+            byte[] qrCodeBytes = QRCode.generateQRCodeBytes(totpUri, 200);
+            String html = """
+                <p><strong>Username:</strong> %s</p>
+                <p><strong>Password:</strong> %s</p>
+                <p><strong>Secret:</strong> %s</p>
+                <p><strong>TOTP QR Code:</strong> Veja o anexo "qrcode.png"</p>
+                <p>Escaneie o QR Code com seu aplicativo autenticador (Google Authenticator, Authy, etc.)</p>
+            """.formatted(created.getUsername(), password, secret);
+            serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Account Created", html, qrCodeBytes, "qrcode.png", "image/png");
         } catch (Exception e) {
             LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
             throw new BadCredentialsException("Invalid secret");

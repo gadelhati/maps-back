@@ -8,4 +8,6 @@ package com.maps.service;
 
 public interface ServiceEmail {
     void sendSimpleMessage(String to, String subject, String text);
+    void sendHtmlMessageWithAttachment(String to, String subject, String htmlContent,
+                                       byte[] attachmentData, String attachmentName, String mimeType);
 }
