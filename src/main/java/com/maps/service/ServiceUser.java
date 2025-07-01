@@ -70,20 +70,9 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             Set<Role> roles = new HashSet<>();
             roles.add(repositoryRole.findByName("VIEWER"));
             user.setRole(roles);
-            String totpUri = String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s",
-                    user.getUsername(),
-                    user.getUsername() + "@auth.com",
-                    e2EE.decrypt(user.getSecret()),
-                    env.getRequiredProperty("application.name"));
-            byte[] qrCodeBytes = QRCode.generateQRCodeBytes(totpUri, 200);
-            String html = """
-                <p><strong>Username:</strong> %s</p>
-                <p><strong>Password:</strong> %s</p>
-                <p><strong>Secret:</strong> %s</p>
-                <p><strong>TOTP QR Code:</strong> Veja o anexo "qrcode.png"</p>
-                <p>Escaneie o QR Code com seu aplicativo autenticador (Google Authenticator, Authy, etc.)</p>
-            """.formatted(created.getUsername(), password, secret);
-            serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Account Created", html, qrCodeBytes, "qrcode.png", "image/png");
+            byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
+            String emailContent = buildWelcomeEmailContent(user.getUsername(), password, secret);
+            serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Account Created", emailContent, qrCodeBytes, "qrcode.png", "image/png");
         } catch (Exception e) {
             LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
             throw new BadCredentialsException("Invalid secret");
@@ -134,11 +123,9 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         try {
             Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
             repositoryUser.save(user);
-            serviceEmail.sendSimpleMessage(
-                    user.getEmail(),
-                    "Change password requested",
-                    "Username: " + user.getUsername() + "\nPassword: " + updated.getPassword() + "\nSecret: " + e2EE.decrypt(user.getSecret()) + "\nTotpKey: " +
-                    String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
+            String emailContent = buildWelcomeEmailContent(user.getUsername(), updated.getPassword(), e2EE.decrypt(user.getSecret()));
+            serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Change password requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
             LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
@@ -152,11 +139,9 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             String password = generateSecurePassword();
             user.setPassword(passwordEncoder.encode(password));
             repositoryUser.save(user);
-            serviceEmail.sendSimpleMessage(
-                    user.getEmail(),
-                    "Reset password requested",
-                    "Username: " + user.getUsername() + "\nPassword: " + password + "\nSecret: " + e2EE.decrypt(user.getSecret()) + "\nTotpKey: " +
-                            String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
+            String emailContent = buildWelcomeEmailContent(user.getUsername(), password, e2EE.decrypt(user.getSecret()));
+            serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Reset password requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
             LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
@@ -169,11 +154,9 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         try {
             Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
             repositoryUser.save(user);
-            serviceEmail.sendSimpleMessage(
-                    user.getEmail(),
-                    "Reset TOTP requested",
-                    "Username: " + user.getUsername() + "\nSecret: " + e2EE.decrypt(user.getSecret()) + "\nTotpKey: " +
-                    String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", user.getUsername(), user.getUsername() + "@auth.com", e2EE.decrypt(user.getSecret()), env.getRequiredProperty("application.name")));
+            byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
+            String emailContent = buildWelcomeEmailContent(user.getUsername(), "", e2EE.decrypt(user.getSecret()));
+            serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Reset TOTP requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
             LOGGER.info("{} resetting user totp with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
@@ -218,5 +201,23 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             chars[j] = temp;
         }
         return new String(chars);
+    }
+    private String buildTotpUri(String username, String secret) throws Exception {
+        return String.format(
+                "otpauth://totp/%s:%s?secret=%s&issuer=%s",
+                username,
+                username + "@auth.com",
+                e2EE.decrypt(secret),
+                env.getRequiredProperty("application.name")
+        );
+    }
+    private String buildWelcomeEmailContent(String username, String password, String secret) {
+        return String.format("""
+            <p><strong>Username:</strong> %s</p>
+            <p><strong>Password:</strong> %s</p>
+            <p><strong>Secret:</strong> %s</p>
+            <p><strong>TOTP QR Code:</strong> Veja o anexo "qrcode.png"</p>
+            <p>Escaneie o QR Code com seu aplicativo autenticador (Google Authenticator, Authy, etc.)</p>
+            """, username, password, secret);
     }
 }
