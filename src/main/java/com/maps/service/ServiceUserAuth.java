@@ -18,10 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -110,9 +108,9 @@ public class ServiceUserAuth {
         User entity = repositoryUser.findByUsername(username).orElseThrow(() -> new RuntimeException("Resource not found"));
         if(!entity.getActive()) throw new RuntimeException("User blocked");
     }
-    public void register(String username, String email, String password, String captchaToken) {
+    public void register(String username, String email) {
 //        captchaTest(captchaToken);
-        serviceUser.create(new DTORequestUser(username, email, password));
+        serviceUser.create(new DTORequestUser(username, email));
     }
     public void resetPassword(String username, String captchaToken) {
 //        captchaTest(captchaToken);

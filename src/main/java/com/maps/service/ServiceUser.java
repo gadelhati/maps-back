@@ -15,7 +15,6 @@ import com.maps.utils.E2EE;
 import com.maps.utils.Information;
 import com.maps.utils.QRCode;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -59,7 +58,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         this.repositoryRole = repositoryRole;
         this.serviceEmail = serviceEmail;
     }
-    @Override @Transactional
+    @Override
     public DTOResponseUser create(DTORequestUser created){
         User user = MapStruct.MAPPER.toObject(created);
         String password = generateSecurePassword();
@@ -70,6 +69,8 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             Set<Role> roles = new HashSet<>();
             roles.add(repositoryRole.findByName("VIEWER"));
             user.setRole(roles);
+            user.setActive(true);
+            user.setAttempt(0);
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
             String emailContent = buildWelcomeEmailContent(user.getUsername(), password, secret);
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Account Created", emailContent, qrCodeBytes, "qrcode.png", "image/png");
@@ -80,7 +81,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         LOGGER.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
-    @Override @Transactional
+    @Override
     public DTOResponseUser update(DTORequestUser updated){
         User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
         user.setUsername(updated.getUsername());
@@ -117,7 +118,6 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         }
         return repositoryUser.existsByEmailIgnoreCaseAndIdNot(value, id);
     }
-    @Transactional
     public DTOResponseUser changePassword(DTORequestUserPassword updated){
         User user = isValidToChange(updated.getId());
         try {
@@ -132,7 +132,6 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             throw new IllegalStateException("Failed to reset password for user: " + user.getUsername());
         }
     }
-    @Transactional
     public DTOResponseUser resetPassword(String username) {
         User user = isValidToChange(username);
         try {
@@ -148,14 +147,14 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             throw new IllegalStateException("Failed to reset password for user: " + user.getUsername());
         }
     }
-    @Transactional
     public DTOResponseUser resetSecret(String username) {
         User user = isValidToChange(username);
+        String secret = serviceUserTOTP.generateSecret();
         try {
-            Objects.requireNonNull(user).setSecret(e2EE.encrypt(serviceUserTOTP.generateSecret()));
+            Objects.requireNonNull(user).setSecret(e2EE.encrypt(secret));
             repositoryUser.save(user);
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
-            String emailContent = buildWelcomeEmailContent(user.getUsername(), "", e2EE.decrypt(user.getSecret()));
+            String emailContent = buildWelcomeEmailContent(user.getUsername(), "Your password is the same as before", secret);
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Reset TOTP requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
             LOGGER.info("{} resetting user totp with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
@@ -176,18 +175,19 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         }
     }
     public User isValidToChange(String username) {
+        try {
+            repositoryUser.findByUsername(username.trim()).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Resource not found");
+        }
         User user = repositoryUser.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-        User userCurrent = repositoryUser.findByUsername(information.getCurrentUser().orElse("Unknown User")).orElseThrow(() -> new EntityNotFoundException("Current user not found"));
-        if (userCurrent.getUsername() != null && user.getUsername() != null &&
-                userCurrent.getUsername().equals(user.getUsername()) ||
-                userCurrent.getRole().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
+        if (user.getUsername() != null) {
             return user;
         } else {
             LOGGER.warn("{} attempted unauthorized access to user with username: {}", information.getCurrentUser().orElse("Unknown User"), username);
             throw new EntityNotFoundException("i Resource not found");
         }
     }
-    @Transactional
     public String generateSecurePassword() {
         String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lower = "abcdefghijklmnopqrstuvwxyz";

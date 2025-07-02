@@ -23,7 +23,8 @@ public class DTORequestUser extends Identifiable {
     @NotBlank(message = "{not.blank}") @Size(max = 50) @Email
     private String email;
     private Set<Role> role;
-    public DTORequestUser(String username, String email, String password) {
+
+    public DTORequestUser(String username, String email) {
         this.username = username;
         this.email = email;
     }
