@@ -14,13 +14,10 @@
 <body>
 <section class="login-container">
     <article class="login-box">
-        <!-- Cabeçalho -->
         <div class="login-header">
             <h2>Reset de Semente</h2>
             <p>Entre com seu nome de usuário</p>
         </div>
-
-        <!-- Formulário -->
         <form th:action="@{/requiredTotp}" method="post" id="captchaForm">
             <div class="form-group">
                 <input type="text" id="username" name="username" placeholder=" " required
@@ -28,11 +25,9 @@
                 <i class="fas fa-user form-group__icon"></i>
                 <label for="username" class="form-group__label">Nome de usuário</label>
             </div>
-            <input type="hidden" id="captchaToken" name="captchaToken" />
+<!--            <input type="hidden" id="captchaToken" name="captchaToken" />-->
             <button type="submit" class="submit-button">Entrar</button>
         </form>
-
-        <!-- Links de rodapé -->
         <div class="login-footer">
             <p>Não tem uma conta? <a th:href="@{/register}">Cadastre-se</a></p>
         </div>
@@ -44,14 +39,14 @@
         </div>
     </article>
 </section>
-<script th:inline="javascript">
-	// just get the reCAPTCHA token before submitting
-    document.getElementById('captchaForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const captchaToken = await grecaptcha.execute(/*[[${@environment.getProperty('recaptcha.site')}]]*/, {action: 'submit_form'});
-        document.getElementById('captchaToken').value = captchaToken;
-        this.submit();
-    });
-</script>
+<!--<script th:inline="javascript">-->
+<!--	// just get the reCAPTCHA token before submitting-->
+<!--    document.getElementById('captchaForm').addEventListener('submit', async function(event) {-->
+<!--        event.preventDefault();-->
+<!--        const captchaToken = await grecaptcha.execute(/*[[${@environment.getProperty('recaptcha.site')}]]*/, {action: 'submit_form'});-->
+<!--        document.getElementById('captchaToken').value = captchaToken;-->
+<!--        this.submit();-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>

@@ -14,13 +14,10 @@
 <body>
 <section class="login-container">
 	<article class="login-box">
-		<!-- Cabeçalho -->
 		<div class="login-header">
 			<h2>Bem vindo de volta</h2>
 			<p>Entre com suas credenciais</p>
 		</div>
-
-		<!-- Formulário -->
 		<form th:action="@{/signin}" method="post" id="captchaForm">
 			<div class="form-group">
 				<input type="text" id="username" name="username" placeholder=" " required
@@ -41,11 +38,9 @@
 				<i class="fas fa-key form-group__icon"></i>
 				<label for="totpKey" class="form-group__label">Autenticador</label>
 			</div>
-			<input type="hidden" id="captchaToken" name="captchaToken" />
+<!--			<input type="hidden" id="captchaToken" name="captchaToken" />-->
 			<button type="submit" class="submit-button">Entrar</button>
 		</form>
-
-		<!-- Links de rodapé -->
 		<div class="login-footer">
 			<p>Não tem uma conta? <a th:href="@{/register}">Cadastre-se</a></p>
 		</div>
