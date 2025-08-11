@@ -1,16 +1,20 @@
 # _Maps_
-![github](https://img.shields.io/github/stars/gadelhati/maps-back?style=social "Github")
-![java](https://img.shields.io/badge/java-21-2145E8 "Java")
-![postgresql](https://img.shields.io/badge/postgresql-15.1.1-6495ED "PostgreSQL")
-![springboot](https://img.shields.io/badge/springboot-3.2.3-53D05D "Spring Boot")
+![github](https://img.shields.io/github/stars/gadelhati/maps-back "Github")
+![github all releases](https://img.shields.io/github/downloads/gadelhati/maps-back/total?label=Downloads&style=social)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.5-blue?logo=postgresql)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-2025.1.1.1-000000?logo=intellijidea)
+![Java](https://img.shields.io/badge/Java-17-blue?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen?logo=springboot)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-6.2.2-brightgreen?logo=spring)
 
 ### Necessary Tech stack:
-|     Name     | Source |                 File name version | Link for download                                                                 |
-|:------------:|:------:|----------------------------------:|:----------------------------------------------------------------------------------|
-|  `intellij`  |  IDE   |               idealC-2024.1.1.exe | https://www.jetbrains.com/idea/download/download-thanks.html?platform=windows     |
-|    `java`    |  JDK   |        jdk-21_windows-x64_bin.exe | https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.exe             |
-| `postgresql` |  SGBD  | postgresql-16.3.1-windows-x64.exe | https://sbp.enterprisedb.com/getfile.jsp?fileid=1259019                           |
-|  `pgadmin4`  |        |              pgadmin4-8.6-x64.exe | https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v8.6/windows/pgadmin4-8.6-x64.exe |
+|     Name     | Source |              File name version | Link for download                                                                                                                                                                                                                                                                           |
+|:------------:|:------:|-------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  `intellij`  |  IDE   |                  idealC-2025.2 | https://www.jetbrains.com/pt-br/idea/download/download-thanks.html?platform=windows&code=IIC                                                                                                                                                                                                |
+|    `java`    |  JDK   |         jdk-17_windows-x64_bin | https://download.oracle.com/java/17/archive/jdk-17_windows-x64_bin.exe                                                                                                                                                                                                                      |
+| `postgresql` |  SGBD  |  postgresql-17.5-3-windows-x64 | https://sbp.enterprisedb.com/getfile.jsp?fileid=1259622&_gl=1*1swsrzi*_gcl_au*MTQ5MTE0OTUzNC4xNzU0OTI3Nzgx*_ga*R0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuMTI0NTY5NzM4MS4xNzU0OTI3Nzgx*_ga_ND3EP1ME7G*czE3NTQ5Mjc3ODAkbzEkZzEkdDE3NTQ5MjgwNTUkajE0JGwwJGgyMTA2NzUzNjU3 |
+|  `dbeaver`   |        | dbeaver-ce-25.1.4-x86_64-setup | https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe                                                                                                                                                                                                                                 |
 
 ## Description
 A versatile platform designed for the consolidation of georeferenced data, enabling its use in spatial analysis, monitoring, decision-making, and real-time interdisciplinary applications.
@@ -96,149 +100,8 @@ in case:
 jdbc:h2:mem:testdb
 ```
 ### Dependencies
-```xml
-<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>2.2.224</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.7.1</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/net.postgis/postgis-jdbc -->
-		<dependency>
-			<groupId>net.postgis</groupId>
-			<artifactId>postgis-jdbc</artifactId>
-			<version>2023.1.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket -->
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-websocket</artifactId>
-			<version>11.0.0-M15</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${springframework.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<version>6.2.0</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-envers -->
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-envers</artifactId>
-			<version>6.4.0.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
-			<version>0.11.5</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.5</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.5</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>1.5.5.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>6.4.0.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-spatial -->
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-spatial</artifactId>
-			<version>6.4.0.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.locationtech.jts/jts-core -->
-		<dependency>
-			<groupId>org.locationtech.jts</groupId>
-			<artifactId>jts-core</artifactId>
-			<version>1.19.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.graphhopper.external/jackson-datatype-jts -->
-		<dependency>
-			<groupId>com.graphhopper.external</groupId>
-			<artifactId>jackson-datatype-jts</artifactId>
-			<version>2.14</version>
-		</dependency>
-	</dependencies>
+```
+Configure your pom.xml file
 ```
 
 ## Deploy
