@@ -26,8 +26,8 @@ public class Controller {
         return new ModelAndView("register");
     }
     @PostMapping("/signup")
-    public ModelAndView signUp(@RequestParam String username, @RequestParam String email/*, @RequestParam String captchaToken*/) {
-        serviceUserAuth.register(username, email/*, captchaToken*/);
+    public ModelAndView signUp(@RequestParam String username, @RequestParam String email, @RequestParam String captchaToken) {
+        serviceUserAuth.register(username, email, captchaToken);
         return new ModelAndView("confirm");
     }
     @GetMapping("/login")

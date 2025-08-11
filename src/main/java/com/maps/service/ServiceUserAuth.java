@@ -55,7 +55,7 @@ public class ServiceUserAuth {
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
     public DTOResponseToken login(DTORequestUserAuth dtoRequestUserAuth) {
-//        captchaTest(dtoRequestUserAuth.getCaptchaToken());
+        captchaTest(dtoRequestUserAuth.getCaptchaToken());
         serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
         serviceUserTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
@@ -108,17 +108,17 @@ public class ServiceUserAuth {
         User entity = repositoryUser.findByUsername(username).orElseThrow(() -> new RuntimeException("Resource not found"));
         if(!entity.getActive()) throw new RuntimeException("User blocked");
     }
-    public void register(String username, String email) {
-//        captchaTest(captchaToken);
+    public void register(String username, String email, String captchaToken) {
+        captchaTest(captchaToken);
         serviceUser.create(new DTORequestUser(username, email));
     }
     public void resetPassword(String username, String captchaToken) {
-//        captchaTest(captchaToken);
+        captchaTest(captchaToken);
         User entity = repositoryUser.findByUsername(username).orElseThrow(() -> new RuntimeException("Resource not found"));
         serviceEmail.sendSimpleMessage(entity.getEmail(), "Recovery password", entity.getPassword());
     }
     public void resetTotp(String username, String captchaToken) throws Exception {
-//        captchaTest(captchaToken);
+        captchaTest(captchaToken);
         User entity = repositoryUser.findByUsername(username).orElseThrow(() -> new RuntimeException("Resource not found"));
         serviceEmail.sendSimpleMessage(entity.getEmail(), "Recovery totp", e2EE.decrypt(entity.getSecret()));
     }

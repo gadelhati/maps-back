@@ -43,7 +43,7 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
     }
     @PostMapping("/signup")
     public ResponseEntity<ApiError> signUp(@RequestBody @Valid DTORequestUser value) {
-        serviceUserAuth.register(value.getUsername(), value.getEmail());
+//        serviceUserAuth.register(value.getUsername(), value.getEmail());
         return ResponseEntity.accepted().body(new ApiError(HttpStatus.CREATED, "", ""));
     }
     @PutMapping("/changePassword")
