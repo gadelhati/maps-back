@@ -2,11 +2,11 @@ package com.maps.persistence.model;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.CascadeType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,6 +26,15 @@ import java.util.UUID;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@SQLDelete(sql = "UPDATE #{#entityName} SET deleted_at = now() WHERE id = ?")
+@FilterDef(
+        name = "deletedFilter",
+        parameters = @ParamDef(name = "isDeleted", type = Boolean.class)
+)
+@Filter(
+        name = "deletedFilter",
+        condition = "deleted_at IS NULL"
+)
 public abstract class GenericAuditEntity implements Serializable {
 
     @Id
@@ -43,4 +52,6 @@ public abstract class GenericAuditEntity implements Serializable {
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private User modifiedBy;
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 }
