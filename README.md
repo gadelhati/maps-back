@@ -153,14 +153,17 @@ git init
 # clone the project and build locally
 git clone https://github.com/gadelhati/maps-back
 
-# add all files on the staging area
+# adds all modified and new files, but does not remove deleted files
 git add .
+
+# adds all modified and new files, and remove deleted files
+git add -A
 
 # shows tracked files on the staging
 git status
 
 # packs tracked files on the staging
-git commit -m "[ID]<type_of_commit>:<message>"
+git commit -m "[#123]<type_of_commit>:<message>"
 
 # shows commit history
 git log
@@ -174,7 +177,7 @@ git remote add origin https://*.git
 # sends changes to the repository
 git push -u origin <branch_name>
 
-# update branch
+# download changes from remote
 git pull
 
 # create new branch
@@ -190,12 +193,9 @@ git push --delete origin <branch_name>
 git branch
 
 # upload a branch
-git push -u <branch_name>
+git push -u origin <branch_name>
 
-# update branch
-git rebase main
-
-# upload your changes
+# upload your changes, caution: this command may overwrite remote history.
 git push -f
 
 # list tag
