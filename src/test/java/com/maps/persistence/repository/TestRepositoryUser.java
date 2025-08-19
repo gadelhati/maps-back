@@ -8,23 +8,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@ActiveProfiles("test")
 class TestRepositoryUser {
 
-    @Autowired
-    private TestEntityManager entityManager;
-
-    @Autowired
-    private RepositoryUser repositoryUser;
+    @Autowired private TestEntityManager entityManager;
+    @Autowired private RepositoryUser repositoryUser;
 
     private User user1;
     private User user2;
@@ -33,7 +34,10 @@ class TestRepositoryUser {
 
     @BeforeEach
     void setUp() {
-        // Create privileges
+        // Criação do schema
+        entityManager.getEntityManager().createNativeQuery("CREATE SCHEMA IF NOT EXISTS maps").executeUpdate();
+
+        // Criação de privilégios
         Privilege readPrivilege = new Privilege();
         readPrivilege.setName("READ");
         entityManager.persistAndFlush(readPrivilege);
@@ -41,14 +45,14 @@ class TestRepositoryUser {
         Set<Privilege> privileges = new HashSet<>();
         privileges.add(readPrivilege);
 
-        // Create and persist role
-        viewerRole = new Role("UUID.randomUUID()", privileges);
+        // Criação e persistência da role
+        viewerRole = new Role("VIEWER", privileges);
         entityManager.persistAndFlush(viewerRole);
 
         Set<Role> roles = new HashSet<>();
         roles.add(viewerRole);
 
-        // Create active user 1
+        // Usuário ativo 1
         user1 = new User();
         user1.setUsername("testuser1");
         user1.setEmail("test1@example.com");
@@ -58,7 +62,7 @@ class TestRepositoryUser {
         user1.setRole(roles);
         entityManager.persistAndFlush(user1);
 
-        // Create active user 2
+        // Usuário ativo 2
         user2 = new User();
         user2.setUsername("testuser2");
         user2.setEmail("test2@example.com");
@@ -68,7 +72,7 @@ class TestRepositoryUser {
         user2.setRole(roles);
         entityManager.persistAndFlush(user2);
 
-        // Create inactive user for testing
+        // Usuário inativo
         inactiveUser = new User();
         inactiveUser.setUsername("inactiveuser");
         inactiveUser.setEmail("inactive@example.com");
@@ -78,7 +82,6 @@ class TestRepositoryUser {
         inactiveUser.setRole(roles);
         entityManager.persistAndFlush(inactiveUser);
 
-        // Clear the persistence context to ensure fresh queries
         entityManager.clear();
     }
 
@@ -101,18 +104,13 @@ class TestRepositoryUser {
 
     @Test
     void findByUsername_shouldBeCaseInsensitive_ifConfigured() {
-        // This test assumes your repository method is case-insensitive
-        // Remove this test if your findByUsername is case-sensitive
         Optional<User> foundUser = repositoryUser.findByUsername("TESTUSER1");
 
-        // If your repository is case-sensitive, this should be assertFalse
-        // If case-insensitive, this should be assertTrue
-        assertFalse(foundUser.isPresent()); // Adjust based on your implementation
+        assertFalse(foundUser.isPresent());
     }
 
     @Test
     void findByEmail_shouldReturnUser_whenEmailExists() {
-        // Assuming you have this method in your repository
         Optional<User> foundUser = repositoryUser.findByEmail("test1@example.com");
 
         assertTrue(foundUser.isPresent());
@@ -131,7 +129,7 @@ class TestRepositoryUser {
         Pageable pageable = PageRequest.of(0, 10);
         Page<User> users = repositoryUser.findAll(pageable);
 
-        assertEquals(3, users.getTotalElements()); // 2 active + 1 inactive
+        assertEquals(3, users.getTotalElements());
         assertTrue(users.getContent().stream()
                 .anyMatch(user -> "testuser1".equals(user.getUsername())));
         assertTrue(users.getContent().stream()
@@ -142,7 +140,6 @@ class TestRepositoryUser {
 
     @Test
     void findByActive_shouldReturnOnlyActiveUsers() {
-        // Assuming you have this method in your repository
         Page<User> activeUsers = repositoryUser.findByActive(true, PageRequest.of(0, 10));
 
         assertEquals(2, activeUsers.getTotalElements());
@@ -196,7 +193,6 @@ class TestRepositoryUser {
         assertNotNull(savedUser.getId());
         assertEquals("newuser", savedUser.getUsername());
 
-        // Verify it was actually persisted
         Optional<User> foundUser = repositoryUser.findByUsername("newuser");
         assertTrue(foundUser.isPresent());
     }
@@ -206,7 +202,7 @@ class TestRepositoryUser {
         UUID userId = user1.getId();
 
         repositoryUser.delete(user1);
-        entityManager.flush(); // Ensure deletion is flushed to database
+        entityManager.flush();
 
         Optional<User> deletedUser = repositoryUser.findById(userId);
         assertFalse(deletedUser.isPresent());
