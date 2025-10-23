@@ -18,6 +18,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,8 +75,11 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
             String emailContent = buildWelcomeEmailContent(user.getUsername(), password, secret);
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Account Created", emailContent, qrCodeBytes, "qrcode.png", "image/png");
+        } catch (MailException e) {
+            LOGGER.error("Error sending email for {}: {}", user.getUsername(), e.getMessage());
+            throw new BadCredentialsException("Failed to send welcome email");
         } catch (Exception e) {
-            LOGGER.error("Error to {} generating TOTP secret for {}: {}", information.getCurrentUser(), created, e.getMessage());
+            LOGGER.error("Error generating TOTP secret for {}: {}", created, e.getMessage(), e);
             throw new BadCredentialsException("Invalid secret");
         }
         LOGGER.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
