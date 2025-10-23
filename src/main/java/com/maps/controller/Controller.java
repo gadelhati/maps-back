@@ -26,8 +26,8 @@ public class Controller {
         return new ModelAndView("register");
     }
     @PostMapping("/signup")
-    public ModelAndView signUp(@RequestParam String username, @RequestParam String email, @RequestParam String captchaToken) {
-        serviceUserAuth.register(username, email, captchaToken);
+    public ModelAndView signUp(@RequestParam String username, @RequestParam String email/*, @RequestParam String captchaToken*/) {
+        serviceUserAuth.register(username, email/*, captchaToken*/);
         return new ModelAndView("confirm");
     }
     @GetMapping("/login")
@@ -35,9 +35,9 @@ public class Controller {
         return new ModelAndView("login");
     }
     @PostMapping("/signin")
-    public ModelAndView signIn(@RequestParam String username, @RequestParam String password, @RequestParam String totpKey, @RequestParam String captchaToken) {
+    public ModelAndView signIn(@RequestParam String username, @RequestParam String password, @RequestParam String totpKey/*, @RequestParam String captchaToken*/) {
         try {
-            DTOResponseToken token = serviceUserAuth.login(new DTORequestUserAuth(username, password, Integer.parseInt(totpKey), captchaToken));
+            DTOResponseToken token = serviceUserAuth.login(new DTORequestUserAuth(username, password, Integer.parseInt(totpKey), "captchaToken"));
             ModelAndView modelAndView = new ModelAndView("upload");
             modelAndView.addObject("token", token);
             return modelAndView;
@@ -52,8 +52,8 @@ public class Controller {
         return new ModelAndView("resetPassword");
     }
     @PostMapping("/requiredPassword")
-    public ModelAndView resetPassword(@RequestParam String username, @RequestParam String captchaToken) {
-        serviceUserAuth.resetPassword(username, captchaToken);
+    public ModelAndView resetPassword(@RequestParam String username/*, @RequestParam String captchaToken*/) {
+        serviceUserAuth.resetPassword(username/*, captchaToken*/);
         return new ModelAndView("confirm");
     }
     @GetMapping("/resetTotp")
@@ -61,8 +61,8 @@ public class Controller {
         return new ModelAndView("resetTotp");
     }
     @PostMapping("/requiredTotp")
-    public ModelAndView resetTotp(@RequestParam String username, @RequestParam String captchaToken) throws Exception {
-        serviceUserAuth.resetTotp(username, captchaToken);
+    public ModelAndView resetTotp(@RequestParam String username/*, @RequestParam String captchaToken*/) throws Exception {
+        serviceUserAuth.resetTotp(username/*, captchaToken*/);
         return new ModelAndView("confirm");
     }
     @GetMapping("/confirm")
