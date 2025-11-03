@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableCaching
 @RequiredArgsConstructor
-public class CacheConfig {
+public class ConfigurationCache {
     private final RepositoryUser repositoryUser;
 
     @Bean

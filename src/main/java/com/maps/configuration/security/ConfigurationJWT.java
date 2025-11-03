@@ -1,4 +1,4 @@
-package com.maps.security;
+package com.maps.configuration.security;
 
 import com.maps.MapsApplication;
 import io.jsonwebtoken.*;
@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Date;
 
 /**
@@ -18,7 +20,7 @@ import java.util.Date;
  **/
 
 @Component
-public class JWTGenerator {
+public class ConfigurationJWT {
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
     @Value("${application.jwtIssuer}")
     private String issuer;
@@ -26,7 +28,18 @@ public class JWTGenerator {
     private String audience;
     @Value("${application.jwtExpiration}")
     private Integer expiration;
-    private final SecretKey secretKey = new SecretKeySpec(new byte[64], "HmacSHA512");
+    @Value("${application.jwtSecret}")
+    private String secretKey;
+
+    private SecretKey getSigningKey() {
+        if (secretKey == null || secretKey.isBlank()) {
+            LOGGER.warn("JWT secret key not configured. Using random in-memory key");
+            byte[] randomKey = new byte[64];
+            new SecureRandom().nextBytes(randomKey);
+            return new SecretKeySpec(randomKey, "HmacSHA512");
+        }
+        return new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
+    }
 
     public String generateToken(String authentication) {
         return Jwts.builder()
@@ -37,12 +50,12 @@ public class JWTGenerator {
                 .notBefore(new Date())
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + expiration))
-                .signWith(secretKey)
+                .signWith(getSigningKey())
                 .compact();
     }
     public String getUsernameFromJWT(String token) {
         return Jwts.parser()
-                .verifyWith(secretKey).build()
+                .verifyWith(getSigningKey()).build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
@@ -50,7 +63,7 @@ public class JWTGenerator {
     public boolean validateJWT(String token) {
         try {
             Claims claims = Jwts.parser()
-                    .verifyWith(secretKey).build()
+                    .verifyWith(getSigningKey()).build()
                     .parseSignedClaims(token).getPayload();
             return true;
         } catch (SecurityException e) {

@@ -21,17 +21,21 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class ConfigurationOpenAPI {
-    @Value("${maps.openapi.homolog-url}")
-    private String homologUrl;
-    @Value("${maps.openapi.prod-url}")
-    private String prodUrl;
+    @Value("${maps.openapi.dev-url}")
+    private String devUrl;
+    @Value("${maps.openapi.prd-url}")
+    private String prdUrl;
+    @Value("${application.name}")
+    private String name;
+    @Value("${application.version}")
+    private String version;
 
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Maps API")
-                        .version("0.0.1")
+                        .title(name)
+                        .version(version)
                         .contact(new Contact()
                                 .email("gadelha.ti@gmail.com")
                                 .name("Gadelha TI")
@@ -41,7 +45,7 @@ public class ConfigurationOpenAPI {
                                 .name("MIT License")
                                 .url("https://choosealicense.com/licenses/mit/")))
                 .servers(List.of(
-                        new Server().url(homologUrl).description("Server URL in approval environment"),
-                        new Server().url(prodUrl).description("Server URL in Item environment")));
+                        new Server().url(devUrl).description("Server URL in approval environment"),
+                        new Server().url(prdUrl).description("Server URL in Item environment")));
     }
 }

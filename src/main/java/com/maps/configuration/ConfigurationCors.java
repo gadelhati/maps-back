@@ -21,7 +21,7 @@ public class ConfigurationCors {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://maps-front.vercel.app/", "https://maps-front.onrender.com/", "http://localhost:10000", "http://localhost:5173", "https://hoppscotch.io", "https://maps.chm.mb", "https://www.maps.chm.mb")
+                        .allowedOrigins("https://maps-front.vercel.app/", "https://maps-front.onrender.com/", "http://localhost:10000", "http://localhost:5173", "https://hoppscotch.io", "https://maps.chm.mb", "https://www.maps.chm.mb", "moz-extension://c740ec45-5e71-4408-af24-dd6a5b1f37a2")
                         .allowedMethods("POST", "GET", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true)

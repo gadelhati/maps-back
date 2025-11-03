@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("")
 @RequiredArgsConstructor
-public class Controller {
+public class ControllerThymeleaf {
 
     private final ServiceUserAuth serviceUserAuth;
 

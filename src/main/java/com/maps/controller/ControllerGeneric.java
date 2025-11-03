@@ -1,7 +1,8 @@
 package com.maps.controller;
 
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.payload.request.Identifiable;
+import com.maps.persistence.payload.request.DTORequestIdentifiable;
+import com.maps.persistence.payload.response.DTOResponseIdentifiable;
 import com.maps.service.ServiceGeneric;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.UUID;
  **/
 
 @RequiredArgsConstructor
-public abstract class ControllerGeneric<T extends GenericAuditEntity, I extends Identifiable, O extends RepresentationModel<O>> implements ControllerInterface<I, O> {
+public abstract class ControllerGeneric<T extends GenericAuditEntity, I extends DTORequestIdentifiable, O extends RepresentationModel<O>> implements ControllerInterface<I, O> {
 
     private final ServiceGeneric<T, I, O> serviceInterface;
 
@@ -32,9 +33,17 @@ public abstract class ControllerGeneric<T extends GenericAuditEntity, I extends 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:create')")
     public ResponseEntity<O> create(@RequestBody @Valid I created){
+        O body = serviceInterface.create(created);
         String localPath = this.getClass().isAnnotationPresent(RequestMapping.class) ? this.getClass().getAnnotation(RequestMapping.class).value()[0] : "";
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(localPath).toUriString());
-        return ResponseEntity.created(uri).body(serviceInterface.create(created));
+        URI uri;
+        if (body instanceof DTOResponseIdentifiable identifiable) {
+            UUID id = identifiable.getId();
+            String idStr = id != null ? id.toString() : "";
+            uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(localPath + "/" + idStr).toUriString());
+        } else {
+            uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(localPath).toUriString());
+        }
+        return ResponseEntity.created(uri).body(body);
     }
     @GetMapping("")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER') and hasAnyAuthority('user:retrieve')")

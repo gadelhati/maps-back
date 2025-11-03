@@ -1,4 +1,4 @@
-package com.maps.security;
+package com.maps.configuration.security.filter;
 
 import com.maps.MapsApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +28,7 @@ import java.util.concurrent.*;
  **/
 
 @Component
-public class RateLimitingFilter implements Filter {
+public class FilterRateLimiting implements Filter {
     private final ConcurrentMap<String, Bucket> cache = new ConcurrentHashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
     private ScheduledExecutorService scheduler;

@@ -1,4 +1,4 @@
-package com.maps.configuration;
+package com.maps.configuration.interceptor;
 
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;

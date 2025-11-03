@@ -1,8 +1,7 @@
-package com.maps.configuration;
+package com.maps.configuration.security;
 
-import com.maps.security.JWTAuthenticationFilter;
-import com.maps.security.JWTGenerator;
-import com.maps.security.RateLimitingFilter;
+import com.maps.configuration.security.filter.FilterJWT;
+import com.maps.configuration.security.filter.FilterRateLimiting;
 import com.maps.service.ServiceCustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,13 +14,14 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -35,8 +35,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class ConfigurationSecurity {
 
-    public final JWTGenerator jwtGenerator;
-    public final RateLimitingFilter rateLimitingFilter;
+    public final ConfigurationJWT configurationJwt;
+    public final FilterRateLimiting filterRateLimiting;
     public final ServiceCustomUserDetails serviceCustomUserDetails;
 
     @Bean
@@ -46,6 +46,19 @@ public class ConfigurationSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(Customizer.withDefaults())
                 .sessionManagement((session) -> session .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::deny)
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';")
+                        )
+                        .referrerPolicy(referrer -> referrer
+                                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+                        )
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .maxAgeInSeconds(31536000)
+                                .includeSubDomains(true)
+                        )
+                )
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/image/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register", "/login", "/resetPassword", "/resetTotp", "/confirm", "/list").permitAll()
@@ -55,14 +68,14 @@ public class ConfigurationSecurity {
                         .requestMatchers("/upload/**", "/chart/**", "/chartArea/**", "/city/**", "/gaugeStation/**", "/internationalChart/**", "/maritimeArea/**", "/privilege/**", "/research/**", "/researcher/**", "/role/**", "/state/**", "/user/**").permitAll()
                         .requestMatchers("/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterRateLimiting, UsernamePasswordAuthenticationFilter.class)
                 .formLogin((login) -> login
                         .loginPage("/login")
                         .defaultSuccessUrl("/")
                         .failureForwardUrl("/error")
                 )
                 .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
@@ -83,7 +96,7 @@ public class ConfigurationSecurity {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
-        return new JWTAuthenticationFilter(jwtGenerator, serviceCustomUserDetails);
+    public FilterJWT jwtAuthenticationFilter() {
+        return new FilterJWT(configurationJwt, serviceCustomUserDetails);
     }
 }

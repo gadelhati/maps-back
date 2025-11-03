@@ -1,4 +1,4 @@
-package com.maps.configuration;
+package com.maps.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

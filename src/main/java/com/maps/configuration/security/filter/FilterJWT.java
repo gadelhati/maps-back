@@ -1,6 +1,7 @@
-package com.maps.security;
+package com.maps.configuration.security.filter;
 
 import com.maps.MapsApplication;
+import com.maps.configuration.security.ConfigurationJWT;
 import com.maps.service.ServiceCustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,11 +29,11 @@ import java.util.Optional;
  **/
 
 @RequiredArgsConstructor
-public class JWTAuthenticationFilter extends OncePerRequestFilter {
+public class FilterJWT extends OncePerRequestFilter {
 
     @Value("${application.version}")
     private String version;
-    public final JWTGenerator jwtGenerator;
+    public final ConfigurationJWT configurationJwt;
     public final ServiceCustomUserDetails serviceCustomUserDetails;
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
@@ -40,8 +41,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             getJWTFromRequest(request)
-                    .filter(jwtGenerator::validateJWT)
-                    .map(jwtGenerator::getUsernameFromJWT)
+                    .filter(configurationJwt::validateJWT)
+                    .map(configurationJwt::getUsernameFromJWT)
                     .ifPresent(username->authenticateUser(username, request));
         } catch (Exception ex) {
             LOGGER.info("Unable to authenticate user: {}", ex.getMessage());
