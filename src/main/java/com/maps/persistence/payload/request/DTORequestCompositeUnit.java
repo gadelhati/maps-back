@@ -14,7 +14,7 @@ import java.util.Date;
  **/
 
 @Getter
-public class DTORequestCompositeUnit extends Identifiable {
+public class DTORequestCompositeUnit extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

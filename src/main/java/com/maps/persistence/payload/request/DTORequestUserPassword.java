@@ -12,7 +12,7 @@ import jakarta.validation.constraints.*;
  **/
 
 @Getter
-public class DTORequestUserPassword extends Identifiable {
+public class DTORequestUserPassword extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     @HasDigit

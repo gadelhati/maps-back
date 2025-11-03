@@ -48,7 +48,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
     public ServiceUser(RepositoryGeneric<User> repositoryGeneric, MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface, RepositoryUser repositoryUser, Information information, ServiceUserTOTP serviceUserTOTP, Environment env, PasswordEncoder passwordEncoder, E2EE e2EE, RepositoryRole repositoryRole, ServiceEmail serviceEmail) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(User.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryUser = repositoryUser;
         this.mapperInterface = mapperInterface;
         this.serviceUserTOTP = serviceUserTOTP;

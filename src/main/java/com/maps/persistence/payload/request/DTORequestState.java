@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
  **/
 
 @Getter
-public class DTORequestState extends Identifiable {
+public class DTORequestState extends DTORequestIdentifiable {
 
     private Integer code;
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

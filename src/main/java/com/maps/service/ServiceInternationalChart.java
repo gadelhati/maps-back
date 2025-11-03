@@ -16,7 +16,7 @@ public class ServiceInternationalChart extends ServiceGeneric<InternationalChart
     private final MapperInterface<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> mapperInterface;
 
     public ServiceInternationalChart(RepositoryGeneric<InternationalChart> repositoryGeneric, MapperInterface<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> mapperInterface, RepositoryInternationalChart repositoryInternationalChart) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(InternationalChart.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryInternationalChart = repositoryInternationalChart;
         this.mapperInterface = mapperInterface;
     }

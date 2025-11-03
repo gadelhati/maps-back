@@ -19,7 +19,7 @@ public class ServiceGaugeStation extends ServiceGeneric<GaugeStation, DTORequest
     private final MapperInterface<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> mapperInterface;
 
     public ServiceGaugeStation(RepositoryGeneric<GaugeStation> repositoryGeneric, MapperInterface<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> mapperInterface, RepositoryGaugeStation repositoryGaugeStation) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(GaugeStation.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryGaugeStation = repositoryGaugeStation;
         this.mapperInterface = mapperInterface;
     }

@@ -25,7 +25,7 @@ public class ServiceChartArea extends ServiceGeneric<ChartArea, DTORequestChartA
     private final MapperInterface<ChartArea, DTORequestChartArea, DTOResponseChartArea> mapperInterface;
 
     public ServiceChartArea(RepositoryGeneric<ChartArea> repositoryGeneric, MapperInterface<ChartArea, DTORequestChartArea, DTOResponseChartArea> mapperInterface, RepositoryChartArea repositoryChartArea) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(ChartArea.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryChartArea = repositoryChartArea;
         this.mapperInterface = mapperInterface;
     }

@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @UniqueEmail(label = "email")
 @UniqueNameUser(label = "username")
-public class DTORequestUser extends Identifiable {
+public class DTORequestUser extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}") @HasLength
     private String username;

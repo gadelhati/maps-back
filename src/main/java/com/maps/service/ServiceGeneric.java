@@ -3,7 +3,7 @@ package com.maps.service;
 import com.maps.MapsApplication;
 import com.maps.persistence.MapperInterface;
 import com.maps.persistence.model.GenericAuditEntity;
-import com.maps.persistence.payload.request.Identifiable;
+import com.maps.persistence.payload.request.DTORequestIdentifiable;
 import com.maps.persistence.repository.RepositoryGeneric;
 import com.maps.utils.Information;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,8 +34,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Service
 @RequiredArgsConstructor
-public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest extends Identifiable, DTOResponse extends RepresentationModel<DTOResponse>> implements ServiceInterface<T, DTORequest, DTOResponse> {
+public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest extends DTORequestIdentifiable, DTOResponse extends RepresentationModel<DTOResponse>> implements ServiceInterface<T, DTORequest, DTOResponse> {
 
+    private final Class<T> entityClass;
     private final Information information;
     private final RepositoryGeneric<T> repositoryGeneric;
     private final MapperInterface<T, DTORequest, DTOResponse> mapperInterface;
@@ -44,7 +45,8 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
     @Transactional
     public DTOResponse create(DTORequest created){
         LOGGER.info("{} creating a new resource", information.getCurrentUser().orElse("Unknown User"));
-        return mapperInterface.toDTO(repositoryGeneric.save(mapperInterface.toObject(created)));
+        T saved = repositoryGeneric.save(mapperInterface.toObject(created));
+        return addHateoas(saved, entityClass);
     }
     @Transactional
     public Page<DTOResponse> retrieve(Pageable pageable, String value, Class<T> entityClass) {
@@ -75,11 +77,12 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
         T entity = repositoryGeneric.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
         return Optional.of(addHateoas(entity, entityClass));
     }
-    public DTOResponse addHateoas(T object, Class<T> entityClass) {
+    public DTOResponse addHateoas(T object, Class<? extends T> entityClass) {
         return mapperInterface.toDTO(object).add(
                 linkTo(ServiceUser.class)
                         .slash(entityClass.getSimpleName().substring(0, 1).toLowerCase() + entityClass.getSimpleName().substring(1))
-                        .slash(object.getId()).withSelfRel());
+                        .slash(object.getId())
+                        .withSelfRel());
     }
     @Transactional
     public DTOResponse update(DTORequest updated){

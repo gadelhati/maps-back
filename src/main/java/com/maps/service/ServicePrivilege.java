@@ -25,7 +25,7 @@ public class ServicePrivilege extends ServiceGeneric<Privilege, DTORequestPrivil
     private final MapperInterface<Privilege, DTORequestPrivilege, DTOResponsePrivilege> mapperInterface;
 
     public ServicePrivilege(RepositoryGeneric<Privilege> repositoryGeneric, MapperInterface<Privilege, DTORequestPrivilege, DTOResponsePrivilege> mapperInterface, RepositoryPrivilege repositoryPrivilege) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(Privilege.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryPrivilege = repositoryPrivilege;
         this.mapperInterface = mapperInterface;
     }

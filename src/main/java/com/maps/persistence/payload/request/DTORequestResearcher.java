@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Getter
 @UniqueNameResearcher(label = "name")
-public class DTORequestResearcher extends Identifiable {
+public class DTORequestResearcher extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

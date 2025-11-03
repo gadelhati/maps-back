@@ -12,7 +12,7 @@ import java.util.UUID;
  **/
 
 @Getter
-public class DTORequestToken extends Identifiable {
+public class DTORequestToken extends DTORequestIdentifiable {
 
     private final String tokenType = "Bearer ";
     private String accessToken;

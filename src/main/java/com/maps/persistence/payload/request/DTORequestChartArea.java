@@ -14,7 +14,7 @@ import lombok.Getter;
 
 @Getter
 @UniqueNameChartArea(label = "name")
-public class DTORequestChartArea extends Identifiable {
+public class DTORequestChartArea extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

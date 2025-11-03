@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class Identifiable {
+public class DTORequestIdentifiable {
 
     private UUID id;
 }

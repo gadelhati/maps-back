@@ -25,7 +25,7 @@ public class ServiceCountry extends ServiceGeneric<Country, DTORequestCountry, D
     private final MapperInterface<Country, DTORequestCountry, DTOResponseCountry> mapperInterface;
 
     public ServiceCountry(RepositoryGeneric<Country> repositoryGeneric, MapperInterface<Country, DTORequestCountry, DTOResponseCountry> mapperInterface, RepositoryCountry repositoryCountry) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(Country.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryCountry = repositoryCountry;
         this.mapperInterface = mapperInterface;
     }

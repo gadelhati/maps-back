@@ -25,7 +25,7 @@ public class ServiceState extends ServiceGeneric<State, DTORequestState, DTOResp
     private final MapperInterface<State, DTORequestState, DTOResponseState> mapperInterface;
 
     public ServiceState(RepositoryGeneric<State> repositoryGeneric, MapperInterface<State, DTORequestState, DTOResponseState> mapperInterface, RepositoryState repositoryState) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(State.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryState = repositoryState;
         this.mapperInterface = mapperInterface;
     }

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Getter
 @UniqueNameRole(label = "name")
-public class DTORequestRole extends Identifiable {
+public class DTORequestRole extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

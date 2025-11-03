@@ -19,7 +19,7 @@ public class ServiceMaritimeArea extends ServiceGeneric<MaritimeArea, DTORequest
     private final MapperInterface<MaritimeArea, DTORequestMaritimeArea, DTOResponseMaritimeArea> mapperInterface;
 
     public ServiceMaritimeArea(RepositoryGeneric<MaritimeArea> repositoryGeneric, MapperInterface<MaritimeArea, DTORequestMaritimeArea, DTOResponseMaritimeArea> mapperInterface, RepositoryMaritimeArea repositoryMaritimeArea) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(MaritimeArea.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryMaritimeArea = repositoryMaritimeArea;
         this.mapperInterface = mapperInterface;
     }

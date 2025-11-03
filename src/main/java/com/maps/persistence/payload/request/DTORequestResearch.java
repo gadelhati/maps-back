@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  **/
 
 @Getter
-public class DTORequestResearch extends Identifiable {
+public class DTORequestResearch extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

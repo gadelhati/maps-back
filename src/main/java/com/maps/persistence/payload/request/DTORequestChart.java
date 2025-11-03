@@ -16,7 +16,7 @@ import java.util.Collection;
 
 @Getter
 @UniqueNameChartArea(label = "number")
-public class DTORequestChart extends Identifiable {
+public class DTORequestChart extends DTORequestIdentifiable {
 
     private String number;
     private String title;

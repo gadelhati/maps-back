@@ -25,7 +25,7 @@ public class ServiceRole extends ServiceGeneric<Role, DTORequestRole, DTORespons
     private final MapperInterface<Role, DTORequestRole, DTOResponseRole> mapperInterface;
 
     public ServiceRole(RepositoryGeneric<Role> repositoryGeneric, MapperInterface<Role, DTORequestRole, DTOResponseRole> mapperInterface, RepositoryRole repositoryRole) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(Role.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryRole = repositoryRole;
         this.mapperInterface = mapperInterface;
     }

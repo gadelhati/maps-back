@@ -14,7 +14,7 @@ import org.locationtech.jts.geom.*;
 
 @Getter
 @UniqueNameGaugeStation(label = "number")
-public class DTORequestGaugeStation extends Identifiable {
+public class DTORequestGaugeStation extends DTORequestIdentifiable {
 
     private String number;
     private String title;

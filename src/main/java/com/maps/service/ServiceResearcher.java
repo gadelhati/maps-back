@@ -25,7 +25,7 @@ public class ServiceResearcher extends ServiceGeneric<Researcher, DTORequestRese
     private final MapperInterface<Researcher, DTORequestResearcher, DTOResponseResearcher> mapperInterface;
 
     public ServiceResearcher(RepositoryGeneric<Researcher> repositoryGeneric, MapperInterface<Researcher, DTORequestResearcher, DTOResponseResearcher> mapperInterface, RepositoryResearcher repositoryResearcher) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(Researcher.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryResearcher = repositoryResearcher;
         this.mapperInterface = mapperInterface;
     }

@@ -25,7 +25,7 @@ public class ServiceCity extends ServiceGeneric<City, DTORequestCity, DTORespons
     private final MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface;
 
     public ServiceCity(RepositoryGeneric<City> repositoryGeneric, MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface, RepositoryCity repositoryCity) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(City.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryCity = repositoryCity;
         this.mapperInterface = mapperInterface;
     }

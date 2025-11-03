@@ -22,7 +22,7 @@ public class ServiceResearch extends ServiceGeneric<Research, DTORequestResearch
     private final MapperInterface<Research, DTORequestResearch, DTOResponseResearch> mapperInterface;
 
     public ServiceResearch(RepositoryGeneric<Research> repositoryGeneric, MapperInterface<Research, DTORequestResearch, DTOResponseResearch> mapperInterface, RepositoryResearch repositoryResearch) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(Research.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryResearch = repositoryResearch;
         this.mapperInterface = mapperInterface;
     }

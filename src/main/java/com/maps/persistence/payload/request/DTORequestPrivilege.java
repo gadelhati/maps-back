@@ -13,7 +13,7 @@ import lombok.Getter;
 
 @Getter
 @UniqueNamePrivilege(label = "name")
-public class DTORequestPrivilege extends Identifiable {
+public class DTORequestPrivilege extends DTORequestIdentifiable {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
     private String name;

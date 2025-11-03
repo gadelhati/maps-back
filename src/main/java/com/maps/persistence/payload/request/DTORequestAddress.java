@@ -4,7 +4,7 @@ import com.maps.persistence.model.remodel.City;
 import lombok.Getter;
 
 @Getter
-public class DTORequestAddress extends Identifiable {
+public class DTORequestAddress extends DTORequestIdentifiable {
 
     private String street;
     private String number;

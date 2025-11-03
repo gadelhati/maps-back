@@ -14,7 +14,7 @@ import java.util.Collection;
  **/
 
 @Getter
-public class DTORequestInternationalChart extends Identifiable {
+public class DTORequestInternationalChart extends DTORequestIdentifiable {
 
     private String number;
     private String title;

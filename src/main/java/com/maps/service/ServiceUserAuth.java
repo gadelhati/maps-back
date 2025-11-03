@@ -10,7 +10,7 @@ import com.maps.persistence.payload.request.DTORequestUserAuth;
 import com.maps.persistence.payload.response.DTOResponseToken;
 import com.maps.persistence.repository.RepositoryToken;
 import com.maps.persistence.repository.RepositoryUser;
-import com.maps.security.JWTGenerator;
+import com.maps.configuration.security.ConfigurationJWT;
 import com.maps.utils.E2EE;
 import com.maps.utils.Information;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 public class ServiceUserAuth {
 
     private final AuthenticationManager authenticationManager;
-    private final JWTGenerator jwtGenerator;
+    private final ConfigurationJWT configurationJwt;
     private final RepositoryToken repositoryToken;
     private final RepositoryUser repositoryUser;
     private final MapperInterface<Token, DTORequestToken, DTOResponseToken> mapperInterface;
@@ -60,7 +60,7 @@ public class ServiceUserAuth {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
         serviceUserTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication.getName());
+        String token = configurationJwt.generateToken(authentication.getName());
         UUID refreshToken = UUID.randomUUID();
         repositoryToken.save(new Token(refreshToken, true));
         return new DTOResponseToken(
@@ -72,11 +72,11 @@ public class ServiceUserAuth {
 
     public DTOResponseToken refresh(DTORequestToken dtoRequestToken) {
         if (repositoryToken.existsByRefreshToken(dtoRequestToken.getRefreshToken()) &&
-            jwtGenerator.validateJWT(dtoRequestToken.getAccessToken())) {
+            configurationJwt.validateJWT(dtoRequestToken.getAccessToken())) {
             UserDetails userDetails = serviceCustomUserDetails.loadUserByUsername(
-                    jwtGenerator.getUsernameFromJWT(dtoRequestToken.getAccessToken())
+                    configurationJwt.getUsernameFromJWT(dtoRequestToken.getAccessToken())
             );
-            String tokenResponse = jwtGenerator.generateToken(jwtGenerator.getUsernameFromJWT(dtoRequestToken.getAccessToken()));
+            String tokenResponse = configurationJwt.generateToken(configurationJwt.getUsernameFromJWT(dtoRequestToken.getAccessToken()));
             Set<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
             return new DTOResponseToken(tokenResponse, dtoRequestToken.getRefreshToken(), roles);
         } else {

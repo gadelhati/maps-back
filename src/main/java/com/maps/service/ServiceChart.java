@@ -22,7 +22,7 @@ public class ServiceChart extends ServiceGeneric<Chart, DTORequestChart, DTOResp
     private final MapperInterface<Chart, DTORequestChart, DTOResponseChart> mapperInterface;
 
     public ServiceChart(RepositoryGeneric<Chart> repositoryGeneric, MapperInterface<Chart, DTORequestChart, DTOResponseChart> mapperInterface, RepositoryChart repositoryChart) {
-        super(new Information(), repositoryGeneric, mapperInterface);
+        super(Chart.class, new Information(), repositoryGeneric, mapperInterface);
         this.repositoryChart = repositoryChart;
         this.mapperInterface = mapperInterface;
     }
