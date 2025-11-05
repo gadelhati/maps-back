@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 public class ServiceInternationalChart extends ServiceGeneric<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> {
 
     private final RepositoryInternationalChart repositoryInternationalChart;
-    private final MapperInterface<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> mapperInterface;
 
-    public ServiceInternationalChart(RepositoryGeneric<InternationalChart> repositoryGeneric, MapperInterface<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> mapperInterface, RepositoryInternationalChart repositoryInternationalChart) {
-        super(InternationalChart.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceInternationalChart(Information information, RepositoryGeneric<InternationalChart> repositoryGeneric, MapperInterface<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> mapperInterface, RepositoryInternationalChart repositoryInternationalChart) {
+        super(InternationalChart.class, information, repositoryGeneric, mapperInterface);
         this.repositoryInternationalChart = repositoryInternationalChart;
-        this.mapperInterface = mapperInterface;
     }
 }

@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServiceState extends ServiceGeneric<State, DTORequestState, DTOResponseState> {
 
     private final RepositoryState repositoryState;
-    private final MapperInterface<State, DTORequestState, DTOResponseState> mapperInterface;
 
-    public ServiceState(RepositoryGeneric<State> repositoryGeneric, MapperInterface<State, DTORequestState, DTOResponseState> mapperInterface, RepositoryState repositoryState) {
-        super(State.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceState(Information information, RepositoryGeneric<State> repositoryGeneric, MapperInterface<State, DTORequestState, DTOResponseState> mapperInterface, RepositoryState repositoryState) {
+        super(State.class, information, repositoryGeneric, mapperInterface);
         this.repositoryState = repositoryState;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

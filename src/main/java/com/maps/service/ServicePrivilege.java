@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServicePrivilege extends ServiceGeneric<Privilege, DTORequestPrivilege, DTOResponsePrivilege> {
 
     private final RepositoryPrivilege repositoryPrivilege;
-    private final MapperInterface<Privilege, DTORequestPrivilege, DTOResponsePrivilege> mapperInterface;
 
-    public ServicePrivilege(RepositoryGeneric<Privilege> repositoryGeneric, MapperInterface<Privilege, DTORequestPrivilege, DTOResponsePrivilege> mapperInterface, RepositoryPrivilege repositoryPrivilege) {
-        super(Privilege.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServicePrivilege(Information information, RepositoryGeneric<Privilege> repositoryGeneric, MapperInterface<Privilege, DTORequestPrivilege, DTOResponsePrivilege> mapperInterface, RepositoryPrivilege repositoryPrivilege) {
+        super(Privilege.class, information, repositoryGeneric, mapperInterface);
         this.repositoryPrivilege = repositoryPrivilege;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

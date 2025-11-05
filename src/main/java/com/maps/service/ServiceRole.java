@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServiceRole extends ServiceGeneric<Role, DTORequestRole, DTOResponseRole> {
 
     private final RepositoryRole repositoryRole;
-    private final MapperInterface<Role, DTORequestRole, DTOResponseRole> mapperInterface;
 
-    public ServiceRole(RepositoryGeneric<Role> repositoryGeneric, MapperInterface<Role, DTORequestRole, DTOResponseRole> mapperInterface, RepositoryRole repositoryRole) {
-        super(Role.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceRole(Information information, RepositoryGeneric<Role> repositoryGeneric, MapperInterface<Role, DTORequestRole, DTOResponseRole> mapperInterface, RepositoryRole repositoryRole) {
+        super(Role.class, information, repositoryGeneric, mapperInterface);
         this.repositoryRole = repositoryRole;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

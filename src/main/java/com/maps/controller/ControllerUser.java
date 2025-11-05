@@ -8,7 +8,7 @@ import com.maps.persistence.payload.request.DTORequestUserAuth;
 import com.maps.persistence.payload.request.DTORequestUserPassword;
 import com.maps.persistence.payload.response.DTOResponseUser;
 import com.maps.service.ServiceUser;
-import com.maps.service.ServiceUserAuth;
+import com.maps.service.ServiceAuth;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -30,13 +28,13 @@ import java.util.UUID;
 public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOResponseUser> {
 
     private final ServiceUser serviceUser;
-    private final ServiceUserAuth serviceUserAuth;
+    private final ServiceAuth serviceAuth;
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
-    public ControllerUser(ServiceUser serviceUser, ServiceUserAuth serviceUserAuth) {
+    public ControllerUser(ServiceUser serviceUser, ServiceAuth serviceAuth) {
         super(serviceUser);
         this.serviceUser = serviceUser;
-        this.serviceUserAuth = serviceUserAuth;
+        this.serviceAuth = serviceAuth;
     }
     protected Class<User> getEntityClass() {
         return User.class;

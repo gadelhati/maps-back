@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServiceResearcher extends ServiceGeneric<Researcher, DTORequestResearcher, DTOResponseResearcher> {
 
     private final RepositoryResearcher repositoryResearcher;
-    private final MapperInterface<Researcher, DTORequestResearcher, DTOResponseResearcher> mapperInterface;
 
-    public ServiceResearcher(RepositoryGeneric<Researcher> repositoryGeneric, MapperInterface<Researcher, DTORequestResearcher, DTOResponseResearcher> mapperInterface, RepositoryResearcher repositoryResearcher) {
-        super(Researcher.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceResearcher(Information information, RepositoryGeneric<Researcher> repositoryGeneric, MapperInterface<Researcher, DTORequestResearcher, DTOResponseResearcher> mapperInterface, RepositoryResearcher repositoryResearcher) {
+        super(Researcher.class, information, repositoryGeneric, mapperInterface);
         this.repositoryResearcher = repositoryResearcher;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

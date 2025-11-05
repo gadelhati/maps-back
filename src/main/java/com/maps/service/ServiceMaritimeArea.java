@@ -16,12 +16,10 @@ import java.util.UUID;
 public class ServiceMaritimeArea extends ServiceGeneric<MaritimeArea, DTORequestMaritimeArea, DTOResponseMaritimeArea> {
 
     private final RepositoryMaritimeArea repositoryMaritimeArea;
-    private final MapperInterface<MaritimeArea, DTORequestMaritimeArea, DTOResponseMaritimeArea> mapperInterface;
 
-    public ServiceMaritimeArea(RepositoryGeneric<MaritimeArea> repositoryGeneric, MapperInterface<MaritimeArea, DTORequestMaritimeArea, DTOResponseMaritimeArea> mapperInterface, RepositoryMaritimeArea repositoryMaritimeArea) {
-        super(MaritimeArea.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceMaritimeArea(Information information, RepositoryGeneric<MaritimeArea> repositoryGeneric, MapperInterface<MaritimeArea, DTORequestMaritimeArea, DTOResponseMaritimeArea> mapperInterface, RepositoryMaritimeArea repositoryMaritimeArea) {
+        super(MaritimeArea.class, information, repositoryGeneric, mapperInterface);
         this.repositoryMaritimeArea = repositoryMaritimeArea;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

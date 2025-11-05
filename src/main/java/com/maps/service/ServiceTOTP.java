@@ -30,7 +30,7 @@ import java.security.SecureRandom;
 
 @Service
 @RequiredArgsConstructor
-public class ServiceUserTOTP {
+public class ServiceTOTP {
 
     private final RepositoryUser repositoryUser;
     private final Environment env;

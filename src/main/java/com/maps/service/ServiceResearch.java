@@ -19,11 +19,9 @@ import org.springframework.stereotype.Service;
 public class ServiceResearch extends ServiceGeneric<Research, DTORequestResearch, DTOResponseResearch> {
 
     private final RepositoryResearch repositoryResearch;
-    private final MapperInterface<Research, DTORequestResearch, DTOResponseResearch> mapperInterface;
 
-    public ServiceResearch(RepositoryGeneric<Research> repositoryGeneric, MapperInterface<Research, DTORequestResearch, DTOResponseResearch> mapperInterface, RepositoryResearch repositoryResearch) {
-        super(Research.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceResearch(Information information, RepositoryGeneric<Research> repositoryGeneric, MapperInterface<Research, DTORequestResearch, DTOResponseResearch> mapperInterface, RepositoryResearch repositoryResearch) {
+        super(Research.class, information, repositoryGeneric, mapperInterface);
         this.repositoryResearch = repositoryResearch;
-        this.mapperInterface = mapperInterface;
     }
 }

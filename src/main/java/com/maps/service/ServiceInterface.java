@@ -3,7 +3,6 @@ package com.maps.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -15,8 +14,7 @@ import java.util.UUID;
 public interface ServiceInterface<T, I, O> {
     O create(I created);
     Page<O> retrieve(Pageable pageable, String value, Class<T> entityClass);
-    Optional<O> retrieve(UUID id, Class<T> entityClass);
-    O update(I updated);
+    O retrieve(UUID id);
+    O update(UUID id, I updated);
     O delete(UUID id);
-//    void delete();
 }

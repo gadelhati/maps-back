@@ -19,11 +19,9 @@ import org.springframework.stereotype.Service;
 public class ServiceChart extends ServiceGeneric<Chart, DTORequestChart, DTOResponseChart> {
 
     private final RepositoryChart repositoryChart;
-    private final MapperInterface<Chart, DTORequestChart, DTOResponseChart> mapperInterface;
 
-    public ServiceChart(RepositoryGeneric<Chart> repositoryGeneric, MapperInterface<Chart, DTORequestChart, DTOResponseChart> mapperInterface, RepositoryChart repositoryChart) {
-        super(Chart.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceChart(Information information, RepositoryGeneric<Chart> repositoryGeneric, MapperInterface<Chart, DTORequestChart, DTOResponseChart> mapperInterface, RepositoryChart repositoryChart) {
+        super(Chart.class, information, repositoryGeneric, mapperInterface);
         this.repositoryChart = repositoryChart;
-        this.mapperInterface = mapperInterface;
     }
 }

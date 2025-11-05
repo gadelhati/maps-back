@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServiceChartArea extends ServiceGeneric<ChartArea, DTORequestChartArea, DTOResponseChartArea> {
 
     private final RepositoryChartArea repositoryChartArea;
-    private final MapperInterface<ChartArea, DTORequestChartArea, DTOResponseChartArea> mapperInterface;
 
-    public ServiceChartArea(RepositoryGeneric<ChartArea> repositoryGeneric, MapperInterface<ChartArea, DTORequestChartArea, DTOResponseChartArea> mapperInterface, RepositoryChartArea repositoryChartArea) {
-        super(ChartArea.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceChartArea(Information information, RepositoryGeneric<ChartArea> repositoryGeneric, MapperInterface<ChartArea, DTORequestChartArea, DTOResponseChartArea> mapperInterface, RepositoryChartArea repositoryChartArea) {
+        super(ChartArea.class, information, repositoryGeneric, mapperInterface);
         this.repositoryChartArea = repositoryChartArea;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

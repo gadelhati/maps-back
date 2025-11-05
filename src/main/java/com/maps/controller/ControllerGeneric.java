@@ -2,7 +2,6 @@ package com.maps.controller;
 
 import com.maps.persistence.model.GenericAuditEntity;
 import com.maps.persistence.payload.request.DTORequestIdentifiable;
-import com.maps.persistence.payload.response.DTOResponseIdentifiable;
 import com.maps.service.ServiceGeneric;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -34,15 +32,14 @@ public abstract class ControllerGeneric<T extends GenericAuditEntity, I extends 
     @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:create')")
     public ResponseEntity<O> create(@RequestBody @Valid I created){
         O body = serviceInterface.create(created);
-        String localPath = this.getClass().isAnnotationPresent(RequestMapping.class) ? this.getClass().getAnnotation(RequestMapping.class).value()[0] : "";
-        URI uri;
-        if (body instanceof DTOResponseIdentifiable identifiable) {
-            UUID id = identifiable.getId();
-            String idStr = id != null ? id.toString() : "";
-            uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(localPath + "/" + idStr).toUriString());
-        } else {
-            uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(localPath).toUriString());
-        }
+        Object id = null;
+        try {
+            id = body.getClass().getMethod("getId").invoke(body);
+        } catch (Exception ignored) { }
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
         return ResponseEntity.created(uri).body(body);
     }
     @GetMapping("")
@@ -52,27 +49,17 @@ public abstract class ControllerGeneric<T extends GenericAuditEntity, I extends 
     }
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER') and hasAnyAuthority('user:retrieve')")
-    public ResponseEntity<Optional<O>> retrieve(@PathVariable UUID id){
-        return ResponseEntity.ok().body(serviceInterface.retrieve(id, getEntityClass()));
+    public ResponseEntity<O> retrieve(@PathVariable UUID id){
+        return ResponseEntity.ok().body(serviceInterface.retrieve(id));
     }
-    @PutMapping("")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR') and hasAnyAuthority('user:update')")
-    public ResponseEntity<O> update(@RequestBody @Valid I updated){
-        return ResponseEntity.accepted().body(serviceInterface.update(updated));
+    public ResponseEntity<O> update(@PathVariable UUID id, @RequestBody @Valid I updated){
+        return ResponseEntity.accepted().body(serviceInterface.update(id, updated));
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:delete')")
     public ResponseEntity<O> delete(@PathVariable UUID id){
         return ResponseEntity.accepted().body(serviceInterface.delete(id));
     }
-//    @DeleteMapping("")
-//    @PreAuthorize("hasAnyRole('ADMIN') and hasAnyAuthority('user:delete')")
-//    public ResponseEntity<HttpStatus> delete(){
-//        try {
-//            serviceInterface.deleteAll();
-//            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
-//        }
-//    }
 }

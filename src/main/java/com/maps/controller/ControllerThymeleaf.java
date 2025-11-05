@@ -2,7 +2,7 @@ package com.maps.controller;
 
 import com.maps.persistence.payload.request.DTORequestUserAuth;
 import com.maps.persistence.payload.response.DTOResponseToken;
-import com.maps.service.ServiceUserAuth;
+import com.maps.service.ServiceAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class ControllerThymeleaf {
 
-    private final ServiceUserAuth serviceUserAuth;
+    private final ServiceAuth serviceAuth;
 
     @GetMapping("/register")
     public ModelAndView register() {
@@ -27,7 +27,7 @@ public class ControllerThymeleaf {
     }
     @PostMapping("/signup")
     public ModelAndView signUp(@RequestParam String username, @RequestParam String email/*, @RequestParam String captchaToken*/) {
-        serviceUserAuth.register(username, email/*, captchaToken*/);
+        serviceAuth.register(username, email/*, captchaToken*/);
         return new ModelAndView("confirm");
     }
     @GetMapping("/login")
@@ -37,7 +37,7 @@ public class ControllerThymeleaf {
     @PostMapping("/signin")
     public ModelAndView signIn(@RequestParam String username, @RequestParam String password, @RequestParam String totpKey/*, @RequestParam String captchaToken*/) {
         try {
-            DTOResponseToken token = serviceUserAuth.login(new DTORequestUserAuth(username, password, Integer.parseInt(totpKey), "captchaToken"));
+            DTOResponseToken token = serviceAuth.login(new DTORequestUserAuth(username, password, Integer.parseInt(totpKey), "captchaToken"));
             ModelAndView modelAndView = new ModelAndView("upload");
             modelAndView.addObject("token", token);
             return modelAndView;
@@ -53,7 +53,7 @@ public class ControllerThymeleaf {
     }
     @PostMapping("/requiredPassword")
     public ModelAndView resetPassword(@RequestParam String username/*, @RequestParam String captchaToken*/) {
-        serviceUserAuth.resetPassword(username/*, captchaToken*/);
+        serviceAuth.resetPassword(username/*, captchaToken*/);
         return new ModelAndView("confirm");
     }
     @GetMapping("/resetTotp")
@@ -62,7 +62,7 @@ public class ControllerThymeleaf {
     }
     @PostMapping("/requiredTotp")
     public ModelAndView resetTotp(@RequestParam String username/*, @RequestParam String captchaToken*/) throws Exception {
-        serviceUserAuth.resetTotp(username/*, captchaToken*/);
+        serviceAuth.resetTotp(username/*, captchaToken*/);
         return new ModelAndView("confirm");
     }
     @GetMapping("/confirm")

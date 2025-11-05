@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ServiceUserAuth {
+public class ServiceAuth {
 
     private final AuthenticationManager authenticationManager;
     private final ConfigurationJWT configurationJwt;
@@ -46,7 +46,7 @@ public class ServiceUserAuth {
     private final RepositoryUser repositoryUser;
     private final MapperInterface<Token, DTORequestToken, DTOResponseToken> mapperInterface;
     private final ServiceCustomUserDetails serviceCustomUserDetails;
-    private final ServiceUserTOTP serviceUserTOTP;
+    private final ServiceTOTP serviceTOTP;
     private final ServiceEmail serviceEmail;
     private final ServiceUser serviceUser;
     private final Information information;
@@ -58,7 +58,7 @@ public class ServiceUserAuth {
 //        captchaTest(dtoRequestUserAuth.getCaptchaToken());
         serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
-        serviceUserTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
+        serviceTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = configurationJwt.generateToken(authentication.getName());
         UUID refreshToken = UUID.randomUUID();

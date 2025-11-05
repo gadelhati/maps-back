@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServiceCountry extends ServiceGeneric<Country, DTORequestCountry, DTOResponseCountry> {
 
     private final RepositoryCountry repositoryCountry;
-    private final MapperInterface<Country, DTORequestCountry, DTOResponseCountry> mapperInterface;
 
-    public ServiceCountry(RepositoryGeneric<Country> repositoryGeneric, MapperInterface<Country, DTORequestCountry, DTOResponseCountry> mapperInterface, RepositoryCountry repositoryCountry) {
-        super(Country.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceCountry(Information information, RepositoryGeneric<Country> repositoryGeneric, MapperInterface<Country, DTORequestCountry, DTOResponseCountry> mapperInterface, RepositoryCountry repositoryCountry) {
+        super(Country.class, information, repositoryGeneric, mapperInterface);
         this.repositoryCountry = repositoryCountry;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

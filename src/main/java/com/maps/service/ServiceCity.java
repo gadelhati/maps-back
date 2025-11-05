@@ -22,12 +22,10 @@ import java.util.UUID;
 public class ServiceCity extends ServiceGeneric<City, DTORequestCity, DTOResponseCity> {
 
     private final RepositoryCity repositoryCity;
-    private final MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface;
 
-    public ServiceCity(RepositoryGeneric<City> repositoryGeneric, MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface, RepositoryCity repositoryCity) {
-        super(City.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceCity(Information information, RepositoryGeneric<City> repositoryGeneric, MapperInterface<City, DTORequestCity, DTOResponseCity> mapperInterface, RepositoryCity repositoryCity) {
+        super(City.class, information, repositoryGeneric, mapperInterface);
         this.repositoryCity = repositoryCity;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByName(String value) {
         if (!StringUtils.hasText(value)) {

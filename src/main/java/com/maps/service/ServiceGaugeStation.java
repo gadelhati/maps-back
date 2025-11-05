@@ -16,12 +16,10 @@ import java.util.UUID;
 public class ServiceGaugeStation extends ServiceGeneric<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> {
 
     private final RepositoryGaugeStation repositoryGaugeStation;
-    private final MapperInterface<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> mapperInterface;
 
-    public ServiceGaugeStation(RepositoryGeneric<GaugeStation> repositoryGeneric, MapperInterface<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> mapperInterface, RepositoryGaugeStation repositoryGaugeStation) {
-        super(GaugeStation.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceGaugeStation(Information information, RepositoryGeneric<GaugeStation> repositoryGeneric, MapperInterface<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> mapperInterface, RepositoryGaugeStation repositoryGaugeStation) {
+        super(GaugeStation.class, information, repositoryGeneric, mapperInterface);
         this.repositoryGaugeStation = repositoryGaugeStation;
-        this.mapperInterface = mapperInterface;
     }
     public boolean existsByNumber(String value) {
         if (!StringUtils.hasText(value)) {

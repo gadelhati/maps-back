@@ -39,19 +39,17 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     private final Information information;
     private final RepositoryUser repositoryUser;
     private final RepositoryRole repositoryRole;
-    private final ServiceUserTOTP serviceUserTOTP;
+    private final ServiceTOTP serviceTOTP;
     private final ServiceEmail serviceEmail;
     private final Environment env;
     private final PasswordEncoder passwordEncoder;
     private final E2EE e2EE;
-    private final MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface;
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
-    public ServiceUser(RepositoryGeneric<User> repositoryGeneric, MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface, RepositoryUser repositoryUser, Information information, ServiceUserTOTP serviceUserTOTP, Environment env, PasswordEncoder passwordEncoder, E2EE e2EE, RepositoryRole repositoryRole, ServiceEmail serviceEmail) {
-        super(User.class, new Information(), repositoryGeneric, mapperInterface);
+    public ServiceUser(RepositoryGeneric<User> repositoryGeneric, MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface, RepositoryUser repositoryUser, Information information, ServiceTOTP serviceTOTP, Environment env, PasswordEncoder passwordEncoder, E2EE e2EE, RepositoryRole repositoryRole, ServiceEmail serviceEmail) {
+        super(User.class, information, repositoryGeneric, mapperInterface);
         this.repositoryUser = repositoryUser;
-        this.mapperInterface = mapperInterface;
-        this.serviceUserTOTP = serviceUserTOTP;
+        this.serviceTOTP = serviceTOTP;
         this.information = information;
         this.env = env;
         this.passwordEncoder = passwordEncoder;
@@ -63,7 +61,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     public DTOResponseUser create(DTORequestUser created){
         User user = MapStruct.MAPPER.toObject(created);
         String password = generateSecurePassword();
-        String secret = serviceUserTOTP.generateSecret();
+        String secret = serviceTOTP.generateSecret();
         user.setPassword(passwordEncoder.encode(password));
         try {
             user.setSecret(e2EE.encrypt(secret));
@@ -86,13 +84,13 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     @Override
-    public DTOResponseUser update(DTORequestUser updated){
-        User user = repositoryUser.findById(updated.getId()).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
+    public DTOResponseUser update(UUID id, DTORequestUser updated){
+        User user = repositoryUser.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
         user.setUsername(updated.getUsername());
         user.setEmail(updated.getEmail());
         user.setRole(updated.getRole());
         user.setActive(true);
-        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.getId());
+        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     public boolean existsByUsername(String value) {
@@ -153,7 +151,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     }
     public DTOResponseUser resetSecret(String username) {
         User user = isValidToChange(username);
-        String secret = serviceUserTOTP.generateSecret();
+        String secret = serviceTOTP.generateSecret();
         try {
             Objects.requireNonNull(user).setSecret(e2EE.encrypt(secret));
             repositoryUser.save(user);
