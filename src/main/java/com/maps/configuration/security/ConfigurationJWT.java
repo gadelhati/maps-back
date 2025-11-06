@@ -62,7 +62,7 @@ public class ConfigurationJWT {
     }
     public boolean validateJWT(String token) {
         try {
-            Claims claims = Jwts.parser()
+            Jwts.parser()
                     .verifyWith(getSigningKey()).build()
                     .parseSignedClaims(token).getPayload();
             return true;
