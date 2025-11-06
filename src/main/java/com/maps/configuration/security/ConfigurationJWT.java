@@ -67,17 +67,17 @@ public class ConfigurationJWT {
                     .parseSignedClaims(token).getPayload();
             return true;
         } catch (SecurityException e) {
-            LOGGER.error("Invalid JWT signature: " + e.getMessage());
+            LOGGER.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
-            LOGGER.error("Invalid JWT token: " + e.getMessage());
+            LOGGER.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            LOGGER.error("JWT token is expired: " + e.getMessage());
+            LOGGER.error("JWT token is expired: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            LOGGER.error("JWT token is unsupported: " + e.getMessage());
+            LOGGER.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            LOGGER.error("JWT claims string is empty: " + e.getMessage());
-        } catch (Exception ex) {
-            LOGGER.error("validateToken, exception: " + ex);
+            LOGGER.error("JWT claims string is empty: {}", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("validateToken, exception: {}", e.getMessage());
         }
         return false;
     }
