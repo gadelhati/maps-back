@@ -1,7 +1,5 @@
 package com.maps.persistence.repository;
 
-import com.maps.persistence.model.Privilege;
-import com.maps.persistence.model.Role;
 import com.maps.persistence.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,62 +20,43 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class TestRepositoryUser {
 
-    @Autowired private TestEntityManager entityManager;
-    @Autowired private RepositoryUser repositoryUser;
+    @Autowired
+    private TestEntityManager entityManager;
+    
+    @Autowired
+    private RepositoryUser repositoryUser;
 
     private User user1;
     private User user2;
     private User inactiveUser;
-    private Role viewerRole;
 
     @BeforeEach
     void setUp() {
-        // Criação do schema
-        entityManager.getEntityManager().createNativeQuery("CREATE SCHEMA IF NOT EXISTS maps").executeUpdate();
-
-        // Criação de privilégios
-        Privilege readPrivilege = new Privilege();
-        readPrivilege.setName("READ");
-        entityManager.persistAndFlush(readPrivilege);
-
-        Set<Privilege> privileges = new HashSet<>();
-        privileges.add(readPrivilege);
-
-        // Criação e persistência da role
-        viewerRole = new Role("VIEWER", privileges);
-        entityManager.persistAndFlush(viewerRole);
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(viewerRole);
-
-        // Usuário ativo 1
+        // Active user 1 - without roles to simplify
         user1 = new User();
         user1.setUsername("testuser1");
         user1.setEmail("test1@example.com");
         user1.setPassword("password123");
         user1.setActive(true);
         user1.setAttempt(0);
-        user1.setRole(roles);
         entityManager.persistAndFlush(user1);
 
-        // Usuário ativo 2
+        // Active user 2
         user2 = new User();
         user2.setUsername("testuser2");
         user2.setEmail("test2@example.com");
         user2.setPassword("password456");
         user2.setActive(true);
         user2.setAttempt(0);
-        user2.setRole(roles);
         entityManager.persistAndFlush(user2);
 
-        // Usuário inativo
+        // Inactive user
         inactiveUser = new User();
         inactiveUser.setUsername("inactiveuser");
         inactiveUser.setEmail("inactive@example.com");
         inactiveUser.setPassword("password789");
         inactiveUser.setActive(false);
         inactiveUser.setAttempt(3);
-        inactiveUser.setRole(roles);
         entityManager.persistAndFlush(inactiveUser);
 
         entityManager.clear();
@@ -176,6 +153,48 @@ class TestRepositoryUser {
     }
 
     @Test
+    void existsByEmailIgnoreCase_shouldReturnTrue_whenEmailExistsWithDifferentCase() {
+        boolean exists = repositoryUser.existsByEmailIgnoreCase("TEST1@EXAMPLE.COM");
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void existsByUsernameIgnoreCase_shouldReturnTrue_whenUsernameExistsWithDifferentCase() {
+        boolean exists = repositoryUser.existsByUsernameIgnoreCase("TESTUSER1");
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void existsByEmailIgnoreCaseAndIdNot_shouldReturnFalse_whenSameUserEmail() {
+        boolean exists = repositoryUser.existsByEmailIgnoreCaseAndIdNot("test1@example.com", user1.getId());
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void existsByEmailIgnoreCaseAndIdNot_shouldReturnTrue_whenDifferentUserEmail() {
+        boolean exists = repositoryUser.existsByEmailIgnoreCaseAndIdNot("test1@example.com", user2.getId());
+
+        assertTrue(exists);
+    }
+
+    @Test
+    void existsByUsernameIgnoreCaseAndIdNot_shouldReturnFalse_whenSameUserUsername() {
+        boolean exists = repositoryUser.existsByUsernameIgnoreCaseAndIdNot("testuser1", user1.getId());
+
+        assertFalse(exists);
+    }
+
+    @Test
+    void existsByUsernameIgnoreCaseAndIdNot_shouldReturnTrue_whenDifferentUserUsername() {
+        boolean exists = repositoryUser.existsByUsernameIgnoreCaseAndIdNot("testuser1", user2.getId());
+
+        assertTrue(exists);
+    }
+
+    @Test
     void save_shouldPersistNewUser() {
         User newUser = new User();
         newUser.setUsername("newuser");
@@ -183,10 +202,6 @@ class TestRepositoryUser {
         newUser.setPassword("newpassword");
         newUser.setActive(true);
         newUser.setAttempt(0);
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(viewerRole);
-        newUser.setRole(roles);
 
         User savedUser = repositoryUser.save(newUser);
 
@@ -206,5 +221,14 @@ class TestRepositoryUser {
 
         Optional<User> deletedUser = repositoryUser.findById(userId);
         assertFalse(deletedUser.isPresent());
+    }
+
+    @Test
+    void findById_shouldReturnUserPage_whenUserExists() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> userPage = repositoryUser.findById(pageable, user1.getId());
+
+        assertEquals(1, userPage.getTotalElements());
+        assertEquals(user1.getId(), userPage.getContent().get(0).getId());
     }
 }
