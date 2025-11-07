@@ -61,6 +61,7 @@ public class ConfigurationSecurity {
                 )
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/image/**", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register", "/login", "/resetPassword", "/resetTotp", "/confirm", "/list").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**", "/signup", "/signin", "/requiredPassword", "/requiredTotp").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
