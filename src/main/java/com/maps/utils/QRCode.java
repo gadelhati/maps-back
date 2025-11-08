@@ -9,7 +9,12 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.Base64;
+
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
 
 public class QRCode {
 

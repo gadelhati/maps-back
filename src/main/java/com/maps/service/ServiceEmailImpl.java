@@ -9,7 +9,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-@Service @RequiredArgsConstructor
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
+@Service
+@RequiredArgsConstructor
 public class ServiceEmailImpl implements ServiceEmail {
 
     private final JavaMailSender emailSender;

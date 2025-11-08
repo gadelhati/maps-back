@@ -15,8 +15,8 @@ import java.util.Set;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Getter
@@ -25,7 +25,7 @@ import java.util.Set;
 @Audited
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(indexes = @Index(columnList = "username"), uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
+@Table(name = "users", indexes = @Index(columnList = "username"), uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class User extends GenericAuditEntity {
 
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")

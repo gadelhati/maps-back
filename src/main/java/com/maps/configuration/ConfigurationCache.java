@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Configuration
@@ -40,7 +40,7 @@ public class ConfigurationCache {
                         .initialCapacity(CacheConstants.INITIAL_CAPACITY)
                         .maximumSize(CacheConstants.MAXIMUM_SIZE)
                         .expireAfterWrite(CacheConstants.CACHE_TTL)
-                        .build(key -> loadUserRoles(key.toString()))); // Função de carregamento
+                        .build(key -> loadUserRoles(key.toString()))); // Loading function
 
         // Cache para permissions
         CaffeineCache permissionsCache = new CaffeineCache(CacheConstants.PERMISSIONS_CACHE,
@@ -48,7 +48,7 @@ public class ConfigurationCache {
                         .initialCapacity(CacheConstants.INITIAL_CAPACITY)
                         .maximumSize(CacheConstants.MAXIMUM_SIZE)
                         .expireAfterWrite(CacheConstants.CACHE_TTL)
-                        .build(key -> loadUserPermissions(key.toString()))); // Função de carregamento
+                        .build(key -> loadUserPermissions(key.toString()))); // Loading function
 
         cacheManager.setCaches(Arrays.asList(rolesCache, permissionsCache));
         return cacheManager;

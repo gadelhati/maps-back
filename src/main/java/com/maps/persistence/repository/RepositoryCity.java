@@ -1,5 +1,11 @@
 package com.maps.persistence.repository;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 import com.maps.persistence.model.remodel.City;
 
 import java.util.UUID;

@@ -1,5 +1,11 @@
 package com.maps.persistence.repository;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 import com.maps.persistence.model.CompositePK;
 import com.maps.persistence.model.CompositeUnit;
 import org.springframework.data.domain.Page;

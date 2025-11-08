@@ -8,6 +8,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 public interface RepositoryUser extends RepositoryGeneric<User> {
 
     Optional<User> findByUsername(String username);

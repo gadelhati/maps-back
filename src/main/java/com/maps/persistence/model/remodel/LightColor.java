@@ -7,8 +7,8 @@ import org.hibernate.envers.Audited;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Getter

@@ -9,6 +9,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.locationtech.jts.geom.Point;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Getter
 @Setter
 @Entity

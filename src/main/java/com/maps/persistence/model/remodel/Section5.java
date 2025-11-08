@@ -2,6 +2,12 @@ package com.maps.persistence.model.remodel;
 
 import jakarta.persistence.Embeddable;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Embeddable
 public class Section5 {
 

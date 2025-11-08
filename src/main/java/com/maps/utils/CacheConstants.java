@@ -1,12 +1,17 @@
 package com.maps.utils;
 
 import lombok.Getter;
-
 import java.time.Duration;
+
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
 
 @Getter
 public final class CacheConstants {
-    private CacheConstants() {} // Construtor privado para classe utilitária
+    private CacheConstants() {}
 
     public static final String ROLES_CACHE = "user-roles";
     public static final String PERMISSIONS_CACHE = "user-permissions";

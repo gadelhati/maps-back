@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Service
@@ -100,6 +100,7 @@ public class ServiceAuth {
         entity.setAttempt(entity.getAttempt() == null ? 0 : entity.getAttempt() + 1);
         if(entity.getAttempt() > 4) {
             entity.setActive(false);
+            repositoryUser.save(entity);
             throw new RuntimeException("User blocked");
         }
         repositoryUser.save(entity);

@@ -34,6 +34,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
+ **/
+
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestServiceAuth {

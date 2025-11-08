@@ -5,6 +5,12 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 public interface RepositoryInterface<T> {
 
     T findByName(String name);

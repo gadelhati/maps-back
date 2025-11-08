@@ -14,8 +14,8 @@ import static com.maps.exception.Validator.isNull;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })

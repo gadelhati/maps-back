@@ -9,6 +9,12 @@ import com.maps.persistence.repository.RepositoryGeneric;
 import com.maps.utils.Information;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Service
 public class ServiceInternationalChart extends ServiceGeneric<InternationalChart, DTORequestInternationalChart, DTOResponseInternationalChart> {
 

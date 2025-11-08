@@ -13,8 +13,8 @@ import java.util.Collection;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Getter
@@ -30,7 +30,7 @@ public class Chart extends GenericAuditEntity {
     private String title;
     private Integer scale;
     private Collection<LocalDateTime> edition;
-    private String category;//[ COSTEIRA | OCEÂNICA ] | [ ACESSO | PORTOS | TERMINAIS ]
+    private String category;//[ COASTAL | OCEANIC ] | [ ACCESS | PORTS | TERMINALS ]
     @Column(columnDefinition = "geography(Point, 4326)")
     private Point northEastPoint;
     @Column(columnDefinition = "geography(Point, 4326)")

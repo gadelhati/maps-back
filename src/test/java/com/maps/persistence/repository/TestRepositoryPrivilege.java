@@ -14,6 +14,12 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
+ **/
+
 @DataJpaTest
 @ActiveProfiles("test")
 class TestRepositoryPrivilege {

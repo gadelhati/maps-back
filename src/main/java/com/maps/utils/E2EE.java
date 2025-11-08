@@ -10,6 +10,12 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Service
 public class E2EE {
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";

@@ -29,8 +29,8 @@ import java.util.*;
 
 /**
  * @author Marcelo Ribeiro Gadelha
- * @mail gadelha.ti@gmail.com
- * @link www.gadelha.eti.br
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
  **/
 
 @Service

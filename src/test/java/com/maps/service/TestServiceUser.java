@@ -32,6 +32,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
+ **/
+
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestServiceUser {
@@ -364,3 +370,4 @@ class TestServiceUser {
         assertThrows(EntityNotFoundException.class, () -> serviceUser.isValidToChange("testuser"));
     }
 }
+

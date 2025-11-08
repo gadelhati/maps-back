@@ -9,8 +9,8 @@ import org.hibernate.envers.Audited;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Getter
@@ -22,5 +22,5 @@ import org.hibernate.envers.Audited;
 public class LocalChart extends Chart {
 
     private String name;
-//    private String category;//[ ACESSO | PORTOS | TERMINAIS ]
+//    private String category;//[ ACCESS | PORTS | TERMINALS ]
 }

@@ -9,8 +9,8 @@ import org.hibernate.envers.Audited;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
- * @mail	gadelha.ti@gmail.com
- * @link	www.gadelha.eti.br
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
  **/
 
 @Getter
@@ -22,5 +22,5 @@ import org.hibernate.envers.Audited;
 public class InternationalChart extends Chart {
 
     private String internationalNumber;
-//    private String category;//[ COSTEIRA | OCEÂNICA ]
+//    private String category;//[ COASTAL | OCEANIC ]
 }

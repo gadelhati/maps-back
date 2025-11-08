@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Service
 @RequiredArgsConstructor
 public class ServiceCustomUserDetails implements UserDetailsService {

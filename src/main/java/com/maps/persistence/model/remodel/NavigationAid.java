@@ -11,6 +11,12 @@ import org.hibernate.envers.Audited;
 
 import java.awt.*;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Getter
 @Setter
 @Entity

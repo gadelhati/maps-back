@@ -15,6 +15,12 @@ import java.lang.reflect.Method;
 
 import static org.springframework.data.domain.ExampleMatcher.matching;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Service
 @RequiredArgsConstructor
 public class ServiceCompositeUnit {

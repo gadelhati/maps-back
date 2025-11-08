@@ -36,6 +36,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @WebMvcTest(ControllerUser.class)
 @ContextConfiguration(classes = {ControllerUser.class, TestControllerUser.TestConfiguration.class})
 @AutoConfigureMockMvc(addFilters = false)

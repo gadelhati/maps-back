@@ -12,6 +12,12 @@ import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
 @Service
 public class ServiceGaugeStation extends ServiceGeneric<GaugeStation, DTORequestGaugeStation, DTOResponseGaugeStation> {
 

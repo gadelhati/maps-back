@@ -10,7 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor
+/**
+ * @author Marcelo Ribeiro Gadelha
+ * @email gadelha.ti@gmail.com
+ * @website www.gadelha.eti.br
+ **/
+
+@Service
+@RequiredArgsConstructor
 public class Information {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
