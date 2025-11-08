@@ -5,6 +5,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### SECURITY - SENSITIVE FILES ###
+.env
+.env.local
+.env.production
+*.key
+*.pem
+secrets/
+
 ### STS ###
 .apt_generated
 .classpath

@@ -194,6 +194,12 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.18.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java -->
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>dotenv-java</artifactId>
+			<version>3.1.0</version>
+		</dependency>
 		<!--  https://mvnrepository.com/artifact/commons-codec/commons-codec  -->
 		<dependency>
 			<groupId>commons-codec</groupId>

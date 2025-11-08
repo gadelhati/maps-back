@@ -36,7 +36,7 @@ public class FilterRateLimiting implements Filter {
     private static final int DEFAULT_REQUESTS_PER_MINUTE = 100;
     private static final int DEFAULT_BURST_MULTIPLIER = 2;
     private static final int DEFAULT_CLEANUP_INTERVAL = 15;
-    private static final int MINIMUM_REQUESTS = 200;
+    private static final int MINIMUM_REQUESTS = 100;
 
     @Value("${rate.limit.requests:" + DEFAULT_REQUESTS_PER_MINUTE + "}")
     private int requestsPerMinute;

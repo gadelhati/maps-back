@@ -58,6 +58,15 @@ mvn dependency:copy-dependencies
 # run project
 mvn spring-boot:run
 
+# in development (CSRF desabilitado)
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+# in production (CSRF habilitado)
+mvn spring-boot:run -Dspring-boot.run.profiles=prd
+
+# in tests (CSRF desabilitado)
+mvn test
+
 # how to stop application on localhost
 netstat -a -n -o
 tskill "NÚMERO DO PID"
