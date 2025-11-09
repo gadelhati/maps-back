@@ -1,6 +1,5 @@
 package com.maps.configuration.security.filter;
 
-import com.maps.MapsApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bucket4j.*;
 import jakarta.annotation.PostConstruct;
@@ -8,8 +7,7 @@ import jakarta.annotation.PreDestroy;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,10 +25,10 @@ import java.util.concurrent.*;
  * @website	www.gadelha.eti.br
  **/
 
+@Slf4j
 @Component
 public class FilterRateLimiting implements Filter {
     private final ConcurrentMap<String, Bucket> cache = new ConcurrentHashMap<>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
     private ScheduledExecutorService scheduler;
 
     private static final int DEFAULT_REQUESTS_PER_MINUTE = 100;
@@ -64,25 +62,25 @@ public class FilterRateLimiting implements Filter {
                 TimeUnit.MINUTES
         );
 
-        LOGGER.info("Rate limiting initialized with: requests={}, burst={}, cleanup={}min",
+        log.info("Rate limiting initialized with: requests={}, burst={}, cleanup={}min",
                 requestsPerMinute, burstMultiplier, cleanupIntervalMinutes);
     }
 
     private void validateConfiguration() {
         if (requestsPerMinute <= 0) {
-            LOGGER.warn("Invalid rate.limit.requests ({}), using default: {}",
+            log.warn("Invalid rate.limit.requests ({}), using default: {}",
                     requestsPerMinute, DEFAULT_REQUESTS_PER_MINUTE);
             requestsPerMinute = DEFAULT_REQUESTS_PER_MINUTE;
         }
 
         if (burstMultiplier <= 0) {
-            LOGGER.warn("Invalid rate.limit.burst.multiplier ({}), using default: {}",
+            log.warn("Invalid rate.limit.burst.multiplier ({}), using default: {}",
                     burstMultiplier, DEFAULT_BURST_MULTIPLIER);
             burstMultiplier = DEFAULT_BURST_MULTIPLIER;
         }
 
         if (cleanupIntervalMinutes <= 0) {
-            LOGGER.warn("Invalid rate.limit.cleanup.interval ({}), using default: {}",
+            log.warn("Invalid rate.limit.cleanup.interval ({}), using default: {}",
                     cleanupIntervalMinutes, DEFAULT_CLEANUP_INTERVAL);
             cleanupIntervalMinutes = DEFAULT_CLEANUP_INTERVAL;
         }
@@ -124,7 +122,7 @@ public class FilterRateLimiting implements Filter {
                 handleRateLimitExceeded(httpResponse, probe);
             }
         } catch (Exception e) {
-            LOGGER.error("Error in rate limiting for client {}: {}", clientId, e.getMessage(), e);
+            log.error("Error in rate limiting for client {}: {}", clientId, e.getMessage(), e);
             // Fail open - allow request in case of rate limiting errors
             chain.doFilter(request, response);
         }
@@ -166,7 +164,7 @@ public class FilterRateLimiting implements Filter {
     }
 
     private void cleanupCache() {
-        LOGGER.debug("Starting rate limit cache cleanup");
+        log.debug("Starting rate limit cache cleanup");
         int initialSize = cache.size();
 
         cache.entrySet().removeIf(entry -> {
@@ -175,7 +173,7 @@ public class FilterRateLimiting implements Filter {
                     probe.getRemainingTokens() == (requestsPerMinute * burstMultiplier);
         });
 
-        LOGGER.debug("Rate limit cache cleanup completed. Entries removed: {}",
+        log.debug("Rate limit cache cleanup completed. Entries removed: {}",
                 initialSize - cache.size());
     }
 
@@ -185,11 +183,11 @@ public class FilterRateLimiting implements Filter {
             scheduler.shutdownNow();
             try {
                 if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
-                    LOGGER.warn("Rate limit cleanup scheduler did not terminate in time");
+                    log.warn("Rate limit cleanup scheduler did not terminate in time");
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                LOGGER.warn("Rate limit cleanup scheduler shutdown interrupted");
+                log.warn("Rate limit cleanup scheduler shutdown interrupted");
             }
         }
         cache.clear();

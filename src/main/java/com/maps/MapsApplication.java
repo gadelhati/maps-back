@@ -1,7 +1,6 @@
 package com.maps;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,15 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @website	www.gadelha.eti.br
  **/
 
+@Slf4j
 @SpringBootApplication
 public class MapsApplication {
-
-	private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
-
+	
 	public static void main(String[] args) {
-		LOGGER.info("Starting maps api");
+		log.info("Starting maps api");
 		SpringApplication.run(MapsApplication.class, args);
-		LOGGER.info("maps api started");
+		log.info("maps api started");
 	}
 
 }

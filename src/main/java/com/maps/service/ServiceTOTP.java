@@ -1,14 +1,12 @@
 package com.maps.service;
 
-import com.maps.MapsApplication;
 import com.maps.exception.MissingTOTPKeyAuthenticatorException;
 import com.maps.persistence.model.User;
 import com.maps.persistence.repository.RepositoryUser;
 import com.maps.utils.E2EE;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base32;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -28,6 +26,7 @@ import java.security.SecureRandom;
  * @website	www.gadelha.eti.br
  **/
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ServiceTOTP {
@@ -35,10 +34,9 @@ public class ServiceTOTP {
     private final RepositoryUser repositoryUser;
     private final Environment env;
     private final E2EE e2EE;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
-
+    
     public void validateTOTP(String userName, Integer totpKey) {
-        LOGGER.info("Validating TOTP for user: {}", userName);
+        log.info("Validating TOTP for user: {}", userName);
         User user = repositoryUser.findByUsername(userName).orElseThrow(() -> new BadCredentialsException("User not found"));
         String secret = user.getSecret();
         try {
@@ -50,7 +48,7 @@ public class ServiceTOTP {
             if (totpKey != null) {
                 try {
                     if (!verifyCode(secret, totpKey, Integer.parseInt(env.getRequiredProperty("application.time")))) {
-                        LOGGER.info("TOTP code {} was not valid for user {}", totpKey, userName);
+                        log.info("TOTP code {} was not valid for user {}", totpKey, userName);
                         throw new BadCredentialsException("Invalid TOTP code");
                     }
                 } catch (InvalidKeyException | NoSuchAlgorithmException e) {

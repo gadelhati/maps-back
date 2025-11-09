@@ -1,6 +1,5 @@
 package com.maps.controller;
 
-import com.maps.MapsApplication;
 import com.maps.exception.ApiError;
 import com.maps.persistence.model.User;
 import com.maps.persistence.payload.request.DTORequestUser;
@@ -10,8 +9,6 @@ import com.maps.persistence.payload.response.DTOResponseUser;
 import com.maps.service.ServiceUser;
 import com.maps.service.ServiceAuth;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +26,6 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
 
     private final ServiceUser serviceUser;
     private final ServiceAuth serviceAuth;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
     public ControllerUser(ServiceUser serviceUser, ServiceAuth serviceAuth) {
         super(serviceUser);

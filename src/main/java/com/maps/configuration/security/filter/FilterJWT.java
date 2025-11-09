@@ -9,8 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +27,7 @@ import java.util.Optional;
  * @website	www.gadelha.eti.br
  **/
 
+@Slf4j
 @RequiredArgsConstructor
 public class FilterJWT extends OncePerRequestFilter {
 
@@ -35,8 +35,7 @@ public class FilterJWT extends OncePerRequestFilter {
     private String version;
     public final ConfigurationJWT configurationJwt;
     public final ServiceCustomUserDetails serviceCustomUserDetails;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
-
+    
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -45,7 +44,7 @@ public class FilterJWT extends OncePerRequestFilter {
                     .map(configurationJwt::getUsernameFromJWT)
                     .ifPresent(username->authenticateUser(username, request));
         } catch (Exception ex) {
-            LOGGER.info("Unable to authenticate user: {}", ex.getMessage());
+            log.info("Unable to authenticate user: {}", ex.getMessage());
         }
         response.addHeader("X-API-Version", version);
         filterChain.doFilter(request, response);

@@ -1,6 +1,5 @@
 package com.maps.service;
 
-import com.maps.MapsApplication;
 import com.maps.persistence.MapperInterface;
 import com.maps.persistence.model.Token;
 import com.maps.persistence.model.User;
@@ -14,8 +13,7 @@ import com.maps.configuration.security.ConfigurationJWT;
 import com.maps.utils.E2EE;
 import com.maps.utils.Information;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +34,7 @@ import java.util.stream.Collectors;
  * @website	www.gadelha.eti.br
  **/
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ServiceAuth {
@@ -52,7 +51,6 @@ public class ServiceAuth {
     private final Information information;
     private final ServiceRecaptcha serviceRecaptcha;
     private final E2EE e2EE;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
 
     public DTOResponseToken login(DTORequestUserAuth dtoRequestUserAuth) {
 //        captchaTest(dtoRequestUserAuth.getCaptchaToken());
@@ -125,7 +123,7 @@ public class ServiceAuth {
     }
     public void captchaTest(String captchaToken) {
         if (!serviceRecaptcha.validateCaptcha(captchaToken)) {
-            LOGGER.error("Invalid or suspicious CAPTCHA: {}", captchaToken);
+            log.error("Invalid or suspicious CAPTCHA: {}", captchaToken);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or suspicious CAPTCHA");
         }
     }

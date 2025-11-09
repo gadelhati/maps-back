@@ -1,9 +1,7 @@
 package com.maps.configuration.security;
 
-import com.maps.MapsApplication;
 import io.jsonwebtoken.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +17,10 @@ import java.util.Date;
  * @website	www.gadelha.eti.br
  **/
 
+@Slf4j
 @Component
 public class ConfigurationJWT {
-    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
+
     @Value("${application.jwtIssuer}")
     private String issuer;
     @Value("${application.jwtAudience}")
@@ -33,7 +32,7 @@ public class ConfigurationJWT {
 
     private SecretKey getSigningKey() {
         if (secretKey == null || secretKey.isBlank()) {
-            LOGGER.warn("JWT secret key not configured. Using random in-memory key");
+            log.warn("JWT secret key not configured. Using random in-memory key");
             byte[] randomKey = new byte[64];
             new SecureRandom().nextBytes(randomKey);
             return new SecretKeySpec(randomKey, "HmacSHA512");
@@ -67,17 +66,17 @@ public class ConfigurationJWT {
                     .parseSignedClaims(token).getPayload();
             return true;
         } catch (SecurityException e) {
-            LOGGER.error("Invalid JWT signature: {}", e.getMessage());
+            log.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
-            LOGGER.error("Invalid JWT token: {}", e.getMessage());
+            log.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            LOGGER.error("JWT token is expired: {}", e.getMessage());
+            log.error("JWT token is expired: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            LOGGER.error("JWT token is unsupported: {}", e.getMessage());
+            log.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            LOGGER.error("JWT claims string is empty: {}", e.getMessage());
+            log.error("JWT claims string is empty: {}", e.getMessage());
         } catch (Exception e) {
-            LOGGER.error("validateToken, exception: {}", e.getMessage());
+            log.error("validateToken, exception: {}", e.getMessage());
         }
         return false;
     }

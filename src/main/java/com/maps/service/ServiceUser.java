@@ -1,6 +1,5 @@
 package com.maps.service;
 
-import com.maps.MapsApplication;
 import com.maps.persistence.MapStruct;
 import com.maps.persistence.MapperInterface;
 import com.maps.persistence.model.Role;
@@ -15,8 +14,7 @@ import com.maps.utils.E2EE;
 import com.maps.utils.Information;
 import com.maps.utils.QRCode;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,6 +31,7 @@ import java.util.*;
  * @website www.gadelha.eti.br
  **/
 
+@Slf4j
 @Service
 public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTOResponseUser> {
 
@@ -44,8 +43,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     private final Environment env;
     private final PasswordEncoder passwordEncoder;
     private final E2EE e2EE;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MapsApplication.class);
-
+    
     public ServiceUser(RepositoryGeneric<User> repositoryGeneric, MapperInterface<User, DTORequestUser, DTOResponseUser> mapperInterface, RepositoryUser repositoryUser, Information information, ServiceTOTP serviceTOTP, Environment env, PasswordEncoder passwordEncoder, E2EE e2EE, RepositoryRole repositoryRole, ServiceEmail serviceEmail) {
         super(User.class, information, repositoryGeneric, mapperInterface);
         this.repositoryUser = repositoryUser;
@@ -74,13 +72,13 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             String emailContent = buildWelcomeEmailContent(user.getUsername(), password, secret);
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Account Created", emailContent, qrCodeBytes, "qrcode.png", "image/png");
         } catch (MailException e) {
-            LOGGER.error("Error sending email for {}: {}", user.getUsername(), e.getMessage());
+            log.error("Error sending email for {}: {}", user.getUsername(), e.getMessage());
             throw new BadCredentialsException("Failed to send welcome email");
         } catch (Exception e) {
-            LOGGER.error("Error generating TOTP secret for {}: {}", created, e.getMessage(), e);
+            log.error("Error generating TOTP secret for {}: {}", created, e.getMessage(), e);
             throw new BadCredentialsException("Invalid secret");
         }
-        LOGGER.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
+        log.info("{} creating a new user", information.getCurrentUser().orElse("Unknown User"));
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     @Override
@@ -90,7 +88,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         user.setEmail(updated.getEmail());
         user.setRole(updated.getRole());
         user.setActive(true);
-        LOGGER.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
+        log.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
     }
     public boolean existsByUsername(String value) {
@@ -128,7 +126,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
             String emailContent = buildWelcomeEmailContent(user.getUsername(), updated.getPassword(), e2EE.decrypt(user.getSecret()));
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Change password requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
-            LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
+            log.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to reset password for user: " + user.getUsername());
@@ -143,7 +141,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
             String emailContent = buildWelcomeEmailContent(user.getUsername(), password, e2EE.decrypt(user.getSecret()));
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Reset password requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
-            LOGGER.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
+            log.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to reset password for user: " + user.getUsername());
@@ -158,7 +156,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
             String emailContent = buildWelcomeEmailContent(user.getUsername(), "Your password is the same as before", secret);
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Reset TOTP requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
-            LOGGER.info("{} resetting user totp with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
+            log.info("{} resetting user totp with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to reset TOTP for user: " + user.getUsername());
@@ -172,7 +170,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
                 userCurrent.getRole().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
             return user;
         } else {
-            LOGGER.warn("{} attempted unauthorized access to user with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
+            log.warn("{} attempted unauthorized access to user with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
             throw new EntityNotFoundException("i Resource not found");
         }
     }
@@ -186,7 +184,7 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         if (user.getUsername() != null) {
             return user;
         } else {
-            LOGGER.warn("{} attempted unauthorized access to user with username: {}", information.getCurrentUser().orElse("Unknown User"), username);
+            log.warn("{} attempted unauthorized access to user with username: {}", information.getCurrentUser().orElse("Unknown User"), username);
             throw new EntityNotFoundException("i Resource not found");
         }
     }
