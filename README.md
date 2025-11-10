@@ -8,26 +8,38 @@
 ![Java](https://img.shields.io/badge/Java-17-blue?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen?logo=springboot)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-6.2.2-brightgreen?logo=spring)
+![Maven](https://img.shields.io/badge/Maven-3.12.1-blue?logo=apachemaven)
 
 ### Necessary Tech stack:
-|     Name     | Source |              File name version | Link for download                                                                                                                                                                                                                                                                           |
-|:------------:|:------:|-------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  `intellij`  |  IDE   |                  idealC-2025.2 | https://www.jetbrains.com/pt-br/idea/download/download-thanks.html?platform=windows&code=IIC                                                                                                                                                                                                |
-|    `java`    |  JDK   |         jdk-17_windows-x64_bin | https://download.oracle.com/java/17/archive/jdk-17_windows-x64_bin.exe                                                                                                                                                                                                                      |
-| `postgresql` |  SGBD  |  postgresql-17.5-3-windows-x64 | https://sbp.enterprisedb.com/getfile.jsp?fileid=1259622&_gl=1*1swsrzi*_gcl_au*MTQ5MTE0OTUzNC4xNzU0OTI3Nzgx*_ga*R0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuMTI0NTY5NzM4MS4xNzU0OTI3Nzgx*_ga_ND3EP1ME7G*czE3NTQ5Mjc3ODAkbzEkZzEkdDE3NTQ5MjgwNTUkajE0JGwwJGgyMTA2NzUzNjU3 |
-|  `dbeaver`   |        | dbeaver-ce-25.1.4-x86_64-setup | https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe                                                                                                                                                                                                                                 |
+|     Tool     | Source |              File name version | File for download                                                                                                                                                                                                                                                                                         |
+|:------------:|:------:|-------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  `intellij`  |  IDE   |                  idealC-2025.2 | [idealC-2025.2](https://www.jetbrains.com/pt-br/idea/download/download-thanks.html?platform=windows&code=IIC)                                                                                                                                                                                                  |
+|    `java`    |  JDK   |         jdk-17_windows-x64_bin | [jdk-17_windows-x64_bin](https://download.oracle.com/java/17/archive/jdk-17_windows-x64_bin.exe)                                                                                                                                                                                                                            |
+| `postgresql` |  SGBD  |  postgresql-17.5-3-windows-x64 | [postgresql-17.5-3-windows-x64](https://sbp.enterprisedb.com/getfile.jsp?fileid=1259622&_gl=1*1swsrzi*_gcl_au*MTQ5MTE0OTUzNC4xNzU0OTI3Nzgx*_ga*R0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuR0ExLjEuMTI0NTY5NzM4MS4xNzU0OTI3Nzgx*_ga_ND3EP1ME7G*czE3NTQ5Mjc3ODAkbzEkZzEkdDE3NTQ5MjgwNTUkajE0JGwwJGgyMTA2NzUzNjU3) |
+|  `dbeaver`   |        | dbeaver-ce-25.1.4-x86_64-setup | [dbeaver-ce-25.1.4-x86_64-setup](https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe)                                                                                                                                                                                                                                    |
 
 ## Description
 A versatile platform designed for the consolidation of georeferenced data, enabling its use in spatial analysis, monitoring, decision-making, and real-time interdisciplinary applications.
 
+## Technologies and Architecture
+This project follows best development practices, using a layered architecture and implementing advanced design patterns.
+
+| Categoria     | Tecnologia / Padrão                     | Detalhes                                                                                    |
+|:--------------|:----------------------------------------|:--------------------------------------------------------------------------------------------|
+| Backend       | Java 17, Spring Boot 3.5.4              | Framework moderno e robusto para APIs RESTful.                                              |
+| Persistência  | PostgreSQL, PostGIS, Hibernate Spatial  | Suporte nativo a dados geoespaciais e consultas complexas.                                  |
+| Segurança     | Spring Security, JWT, @PreAuthorize     | Autenticação via JWT e controle de acesso granular em nível de método.                      |
+| Design        | ControllerGeneric, DTOs, HATEOAS        | Abstração de operações CRUD, separação de responsabilidades e enriquecimento de respostas.  |
+| Qualidade     | JaCoCo, Surefire, Failsafe              | Configuração para cobertura de código, testes unitários e testes de integração.             |
+| DevOps        | Dockerfile, Configurações de CI/CD      | Prontidão para conteinerização e automação de build e deploy.                               |
+
 ### Roadmap
 #### in development
-- [ ] 
+- [ ] to be defined
 
 #### in concept
 - [ ] streaming message between api: [HTTP request] OpenFeign, [Queue] Apache Kafka ou RabbitMQ
 - [ ] implements continuous integration, CI/CD with GitHub Actions
-- [ ] implements dependency management
 
 ## Summary
 * [How to work with this project](#how-to-work-with-this-project)
@@ -38,8 +50,7 @@ A versatile platform designed for the consolidation of georeferenced data, enabl
 * [Deploy](#deploy)
 * [Links](#links)
 * [Git tips](#git-tips)
-* [HTTP Status code list](#http-status-code-list)
-* [Developers](#developers)
+* [Developer](#developer)
 * [Licence](#licence)
 
 ## How to work with this project
@@ -134,7 +145,10 @@ service tomcat start
 ### API running locally
 
 > [http://localhost:8080/maps](http://localhost:8080/maps)
-### Endpoint
+### API documentation (Swagger)
+Interactive API documentation (OpenAPI/Swagger) is available when the project is running.
+> [http://localhost:8080/maps/v1/swagger-ui/index.html]
+
 These are the paths to services:
 - [x] [CREATE](http://localhost:8080/maps/user) - path to item creation;
 - [x] [RETRIEVE](http://localhost:8080/maps/user/id) - path to retrieve of an item by id;
@@ -146,17 +160,19 @@ These are the paths to services:
 ## Git tips
 
 ### Commit types
-* feature: Um novo recurso para a aplicação, e não precisa ser algo grande, mas apenas algo que não existia antes e que a pessoa final irá acessar.
-* fix: Correções de bugs
-* docs: Alterações em arquivos relacionados à documentações
-* style: Alterações de estilização, formatação etc
-* refactor: Um codigo de refatoração, ou seja, que foi alterado, que tem uma mudança transparente para o usuário final, porém uma mudança real para a aplicação
-* perf: Alterações relacionadas à performance
-* test: Criação ou modificação de testes
-* chore: Alterações em arquivos de configuração, build, distribuição, CI, ou qualquer outra coisa que não envolva diretamente o código da aplicação para o usuário final
+| Category |                 Description                             | Exemple                                               |
+|:--------:|:-------------------------------------------------------:|:------------------------------------------------------|
+| feature  |            Um novo recurso para a aplicação.            | feat: adiciona endpoint de busca por coordenadas      |
+|   fix    |                    Correções de bug.                    | fix: corrige erro de autenticação no login            |
+|   docs   |         Alterações em arquivos de documentação.         | docs: atualiza seção de deploy no README              |
+|  style   |       Alterações de estilização, formatação, etc.       | style: ajusta indentação em ControllerCity            |
+| refactor |  Refatoração de código sem mudança de funcionalidade.   | refactor: otimiza ServiceGeneric para usar Optional   |
+|   perf   |         Alterações relacionadas à performance.          | perf: otimiza consulta SQL na camada de persistência  |
+|   test   |            Criação ou modificação de testes             | test: adiciona teste unitário para ServiceCity        |
+|   chore  | Alterações em arquivos de configuração, build, CI, etc. | chore: atualiza versão do Spring Boot para 3.5.4      |
 
-type in terminal
-```
+This project adopts the following commit conventions in terminal
+```bash
 # initialize git repository, create git folder
 git init
 
@@ -224,18 +240,11 @@ git show v1.4
 git log --pretty=oneline
 git tag -a v1.2 <UUID>
 ```
-
-## HTTP Status code list
-> [HHTP Status Code](https://httpstatuses.com/)
-
-## Developers
+## Developer
 > [Gadelha TI](https://github.com/gadelhati)
-> [Lucas](https://github.com/lucassmartins)
-> [Augusto](https://github.com/augustmat)
-> [Diego](https://github.com/diegoferreirapinto)
 
 ## Licence
-> [MIT License](https://choosealicense.com/licenses/mit/)
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 ```
 MIT License
 
