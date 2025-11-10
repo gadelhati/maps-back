@@ -48,19 +48,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> handleAllUncaughtExceptions(Exception exception, HttpServletRequest request) {
         return buildApiError(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", "globalError", exception.getMessage(), request);
     }
-    @ExceptionHandler(BadCredentialsException.class)
-    public ModelAndView handleBadCredentialsView(BadCredentialsException exception) {
-        ModelAndView mav = new ModelAndView("login");
-        mav.addObject("loginError", true);
-        return mav;
-    }
+//    @ExceptionHandler(BadCredentialsException.class)
+//    public ModelAndView handleBadCredentialsView(BadCredentialsException exception) {
+//        ModelAndView mav = new ModelAndView("login");
+//        mav.addObject("loginError", true);
+//        return mav;
+//    }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleGenericView(Exception exception) {
-        ModelAndView mav = new ModelAndView("error");
-        mav.addObject("message", "An unexpected error occurred.");
-        return mav;
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ModelAndView handleGenericView(Exception exception) {
+//        ModelAndView mav = new ModelAndView("error");
+//        mav.addObject("message", "An unexpected error occurred.");
+//        return mav;
+//    }
     @Override @NonNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
