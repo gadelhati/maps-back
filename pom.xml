@@ -272,6 +272,36 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Testcontainers for integration tests -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.20.4</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>1.20.4</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.20.4</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- WireMock for external service testing -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.35.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -385,11 +415,23 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.60</minimum>
+                                            <minimum>0.85</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <exclude>**/MapsApplication.class</exclude>
+                                <exclude>**/ServletInitializer.class</exclude>
+                                <exclude>**/configuration/**</exclude>
+                                <exclude>**/exception/annotation/**</exclude>
+                                <exclude>**/persistence/payload/**</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
@@ -403,6 +445,47 @@
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
+            </plugin>
+            
+            <!-- PIT Mutation Testing Plugin -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.8</version>
+                <configuration>
+                    <targetClasses>
+                        <param>com.maps.service.*</param>
+                        <param>com.maps.controller.*</param>
+                        <param>com.maps.persistence.repository.*</param>
+                        <param>com.maps.utils.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.maps.*Test</param>
+                        <param>com.maps.*Tests</param>
+                    </targetTests>
+                    <mutationThreshold>80</mutationThreshold>
+                    <coverageThreshold>85</coverageThreshold>
+                    <outputFormats>
+                        <outputFormat>XML</outputFormat>
+                        <outputFormat>HTML</outputFormat>
+                    </outputFormats>
+                    <excludedMethods>
+                        <excludedMethod>toString</excludedMethod>
+                        <excludedMethod>hashCode</excludedMethod>
+                        <excludedMethod>equals</excludedMethod>
+                    </excludedMethods>
+                    <excludedClasses>
+                        <excludedClass>com.maps.MapsApplication</excludedClass>
+                        <excludedClass>com.maps.ServletInitializer</excludedClass>
+                    </excludedClasses>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
