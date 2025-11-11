@@ -48,11 +48,11 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
     @PutMapping("/resetPassword")
 //    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
     public ResponseEntity<DTOResponseUser> resetPassword(@RequestBody DTORequestUserAuth updated) {
-        return ResponseEntity.accepted().body(serviceUser.resetPassword(updated.getUsername()));
+        return ResponseEntity.accepted().body(serviceUser.resetPassword(updated.username()));
     }
     @PutMapping("/resetTotp")
 //    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
     public ResponseEntity<DTOResponseUser> resetSecret(@RequestBody DTORequestUserAuth updated) {
-        return ResponseEntity.accepted().body(serviceUser.resetSecret(updated.getUsername()));
+        return ResponseEntity.accepted().body(serviceUser.resetSecret(updated.username()));
     }
 }

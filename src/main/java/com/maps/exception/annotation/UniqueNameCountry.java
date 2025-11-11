@@ -39,14 +39,14 @@ public @interface UniqueNameCountry {
         }
         @Override
         public boolean isValid(DTORequestCountry value, ConstraintValidatorContext context) {
-            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
                 return false;
             }
-            String normalizedName = value.getName().trim();
-            if (value.getId() == null) {
+            String normalizedName = value.name().trim();
+            if (value.id() == null) {
                 return !serviceCountry.existsByName(normalizedName);
             } else {
-                return !serviceCountry.existsByNameAndIdNot(normalizedName, value.getId());
+                return !serviceCountry.existsByNameAndIdNot(normalizedName, value.id());
             }
         }
     }

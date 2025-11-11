@@ -54,9 +54,9 @@ public class ServiceAuth {
 
     public DTOResponseToken login(DTORequestUserAuth dtoRequestUserAuth) {
 //        captchaTest(dtoRequestUserAuth.getCaptchaToken());
-        serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.getUsername());
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getPassword()));
-        serviceTOTP.validateTOTP(dtoRequestUserAuth.getUsername(), dtoRequestUserAuth.getTotpKey());
+        serviceCustomUserDetails.loadUserByUsername(dtoRequestUserAuth.username());
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoRequestUserAuth.username(), dtoRequestUserAuth.password()));
+        serviceTOTP.validateTOTP(dtoRequestUserAuth.username(), dtoRequestUserAuth.totpKey());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = configurationJwt.generateToken(authentication.getName());
         UUID refreshToken = UUID.randomUUID();
@@ -69,16 +69,16 @@ public class ServiceAuth {
     }
 
     public DTOResponseToken refresh(DTORequestToken dtoRequestToken) {
-        if (repositoryToken.existsByRefreshToken(dtoRequestToken.getRefreshToken()) &&
-            configurationJwt.validateJWT(dtoRequestToken.getAccessToken())) {
+        if (repositoryToken.existsByRefreshToken(dtoRequestToken.refreshToken()) &&
+            configurationJwt.validateJWT(dtoRequestToken.accessToken())) {
             UserDetails userDetails = serviceCustomUserDetails.loadUserByUsername(
-                    configurationJwt.getUsernameFromJWT(dtoRequestToken.getAccessToken())
+                    configurationJwt.getUsernameFromJWT(dtoRequestToken.accessToken())
             );
-            String tokenResponse = configurationJwt.generateToken(configurationJwt.getUsernameFromJWT(dtoRequestToken.getAccessToken()));
+            String tokenResponse = configurationJwt.generateToken(configurationJwt.getUsernameFromJWT(dtoRequestToken.accessToken()));
             Set<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-            return new DTOResponseToken(tokenResponse, dtoRequestToken.getRefreshToken(), roles);
+            return new DTOResponseToken(tokenResponse, dtoRequestToken.refreshToken(), roles);
         } else {
-            logout(dtoRequestToken.getRefreshToken());
+            logout(dtoRequestToken.refreshToken());
             return null;
         }
     }
@@ -94,7 +94,7 @@ public class ServiceAuth {
                 );
     }
     public void addAttempt(DTORequestUserAuth dtoRequestUserAuth) {
-        User entity = repositoryUser.findByUsername(dtoRequestUserAuth.getUsername()).orElseThrow(() -> new RuntimeException("Resource not found"));
+        User entity = repositoryUser.findByUsername(dtoRequestUserAuth.username()).orElseThrow(() -> new RuntimeException("Resource not found"));
         entity.setAttempt(entity.getAttempt() == null ? 0 : entity.getAttempt() + 1);
         if(entity.getAttempt() > 4) {
             entity.setActive(false);
@@ -109,7 +109,7 @@ public class ServiceAuth {
     }
     public void register(String username, String email/*, String captchaToken*/) {
 //        captchaTest(captchaToken);
-        serviceUser.create(new DTORequestUser(username, email));
+        serviceUser.create(new DTORequestUser(null, username, email, null));
     }
     public void resetPassword(String username/*, String captchaToken*/) {
 //        captchaTest(captchaToken);

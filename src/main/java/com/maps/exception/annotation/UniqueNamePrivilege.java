@@ -39,14 +39,14 @@ public @interface UniqueNamePrivilege {
         }
         @Override
         public boolean isValid(DTORequestPrivilege value, ConstraintValidatorContext context) {
-            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
                 return false;
             }
-            String normalizedName = value.getName().trim();
-            if (value.getId() == null) {
+            String normalizedName = value.name().trim();
+            if (value.id() == null) {
                 return !servicePrivilege.existsByName(normalizedName);
             } else {
-                return !servicePrivilege.existsByNameAndIdNot(normalizedName, value.getId());
+                return !servicePrivilege.existsByNameAndIdNot(normalizedName, value.id());
             }
         }
     }

@@ -84,9 +84,9 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
     @Override
     public DTOResponseUser update(UUID id, DTORequestUser updated){
         User user = repositoryUser.findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
-        user.setUsername(updated.getUsername());
-        user.setEmail(updated.getEmail());
-        user.setRole(updated.getRole());
+        user.setUsername(updated.username());
+        user.setEmail(updated.email());
+        user.setRole(updated.role());
         user.setActive(true);
         log.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), id);
         return MapStruct.MAPPER.toDTO(repositoryUser.save(user));
@@ -119,12 +119,12 @@ public class ServiceUser extends ServiceGeneric<User, DTORequestUser, DTORespons
         return repositoryUser.existsByEmailIgnoreCaseAndIdNot(value, id);
     }
     public DTOResponseUser changePassword(DTORequestUserPassword updated){
-        User user = isValidToChange(updated.getId());
+        User user = isValidToChange(updated.id());
         try {
-            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.getPassword()));
+            Objects.requireNonNull(user).setPassword(passwordEncoder.encode(updated.password()));
             repositoryUser.save(user);
             byte[] qrCodeBytes = QRCode.generateQRCodeBytes(buildTotpUri(user.getUsername(), user.getSecret()), 200);
-            String emailContent = buildWelcomeEmailContent(user.getUsername(), updated.getPassword(), e2EE.decrypt(user.getSecret()));
+            String emailContent = buildWelcomeEmailContent(user.getUsername(), updated.password(), e2EE.decrypt(user.getSecret()));
             serviceEmail.sendHtmlMessageWithAttachment(user.getEmail(), "Change password requested", emailContent, qrCodeBytes, "qrcode.png", "image/png");
             log.info("{} changing user password with ID: {}", information.getCurrentUser().orElse("Unknown User"), user.getId());
             return MapStruct.MAPPER.toDTO(user);

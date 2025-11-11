@@ -3,9 +3,9 @@ package com.maps.persistence.payload.request;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -13,14 +13,14 @@ import java.util.Date;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-public class DTORequestCompositeUnit extends DTORequestIdentifiable {
+public record DTORequestCompositeUnit (
 
+    UUID id,
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String name;
+    String name,
     @NotNull(message = "{not.null}") @Min(1)
-    private int number;
-    private String value;
+    int number,
+    String value,
     @NotNull(message = "{not.null}")
-    private Date date;
-}
+    Date date
+) implements DTORequestIdentifiable {}

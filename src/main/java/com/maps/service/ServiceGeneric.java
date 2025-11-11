@@ -90,7 +90,7 @@ public abstract class ServiceGeneric<T extends GenericAuditEntity, DTORequest ex
     }
     @Transactional
     public DTOResponse update(UUID id, DTORequest updated){
-        log.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.getId());
+        log.info("{} updating entity with ID: {}", information.getCurrentUser().orElse("Unknown User"), updated.id());
         T entity = repositoryGeneric.save(mapperInterface.toObject(updated));
         return addHateoas(entity);
     }

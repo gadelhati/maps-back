@@ -2,11 +2,11 @@ package com.maps.persistence.payload.request;
 
 import com.maps.exception.annotation.UniqueNameChartArea;
 import com.maps.persistence.model.ChartArea;
-import lombok.Getter;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -14,16 +14,16 @@ import java.util.Collection;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
 @UniqueNameChartArea(label = "number")
-public class DTORequestChart extends DTORequestIdentifiable {
+public record DTORequestChart (
 
-    private String number;
-    private String title;
-    private Integer scale;
-    private Collection<LocalDateTime> edition;
-    private Point northEastPoint;
-    private Point southWestPoint;
+    UUID id,
+    String number,
+    String title,
+    Integer scale,
+    Collection<LocalDateTime> edition,
+    Point northEastPoint,
+    Point southWestPoint,
 
-    private ChartArea chartArea;
-}
+    ChartArea chartArea
+) implements DTORequestIdentifiable {}

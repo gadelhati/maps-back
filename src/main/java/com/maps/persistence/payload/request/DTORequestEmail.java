@@ -2,8 +2,6 @@ package com.maps.persistence.payload.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -11,14 +9,12 @@ import lombok.Setter;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-@Setter
-public class DTORequestEmail {
+public record DTORequestEmail(
 
     @NotBlank(message = "{not.blank}") @Email(message = "{email}")
-    private String to;
+    String to,
     @NotBlank(message = "{not.blank}")
-    private String subject;
+    String subject,
     @NotBlank(message = "{not.blank}")
-    private String text;
-}
+    String text
+) {}

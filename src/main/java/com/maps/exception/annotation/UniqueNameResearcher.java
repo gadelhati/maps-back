@@ -39,14 +39,14 @@ public @interface UniqueNameResearcher {
         }
         @Override
         public boolean isValid(DTORequestResearcher value, ConstraintValidatorContext context) {
-            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
                 return false;
             }
-            String normalizedName = value.getName().trim();
-            if (value.getId() == null) {
+            String normalizedName = value.name().trim();
+            if (value.id() == null) {
                 return !serviceResearcher.existsByName(normalizedName);
             } else {
-                return !serviceResearcher.existsByNameAndIdNot(normalizedName, value.getId());
+                return !serviceResearcher.existsByNameAndIdNot(normalizedName, value.id());
             }
         }
     }

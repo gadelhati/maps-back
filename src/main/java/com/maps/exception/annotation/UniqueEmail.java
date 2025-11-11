@@ -41,14 +41,14 @@ public @interface UniqueEmail {
         }
         @Override
         public boolean isValid(DTORequestUser value, ConstraintValidatorContext context) {
-            if (value == null || value.getEmail() == null || value.getEmail().trim().isEmpty()) {
+            if (value == null || value.email() == null || value.email().trim().isEmpty()) {
                 return false;
             }
-            String normalizedName = value.getEmail().trim();
-            if (value.getId() == null) {
+            String normalizedName = value.email().trim();
+            if (value.id() == null) {
                 return !serviceUser.existsByEmail(normalizedName);
             } else {
-                return !serviceUser.existsByEmailAndIdNot(normalizedName, value.getId());
+                return !serviceUser.existsByEmailAndIdNot(normalizedName, value.id());
             }
         }
     }

@@ -1,11 +1,11 @@
 package com.maps.persistence.payload.request;
 
 import com.maps.persistence.model.ChartArea;
-import lombok.Getter;
 import org.locationtech.jts.geom.Polygon;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -13,15 +13,15 @@ import java.util.Collection;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-public class DTORequestInternationalChart extends DTORequestIdentifiable {
+public record DTORequestInternationalChart (
 
-    private String number;
-    private String title;
-    private Integer scale;
-    private Collection<LocalDateTime> edition;
-    private String internationalName;
+    UUID id,
+    String number,
+    String title,
+    Integer scale,
+    Collection<LocalDateTime> edition,
+    String internationalName,
 
-    private Polygon polygon;
-    private ChartArea chartArea;
-}
+    Polygon polygon,
+    ChartArea chartArea
+) implements DTORequestIdentifiable {}

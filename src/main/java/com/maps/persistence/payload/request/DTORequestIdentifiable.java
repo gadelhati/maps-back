@@ -1,8 +1,5 @@
 package com.maps.persistence.payload.request;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.UUID;
 
 /**
@@ -11,9 +8,7 @@ import java.util.UUID;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-@Setter
-public class DTORequestIdentifiable {
+public interface DTORequestIdentifiable {
 
-    private UUID id;
+    UUID id();
 }

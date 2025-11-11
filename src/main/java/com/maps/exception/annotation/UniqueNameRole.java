@@ -39,14 +39,14 @@ public @interface UniqueNameRole {
         }
         @Override
         public boolean isValid(DTORequestRole value, ConstraintValidatorContext context) {
-            if (value == null || value.getName() == null || value.getName().trim().isEmpty()) {
+            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
                 return false;
             }
-            String normalizedName = value.getName().trim();
-            if (value.getId() == null) {
+            String normalizedName = value.name().trim();
+            if (value.id() == null) {
                 return !serviceRole.existsByName(normalizedName);
             } else {
-                return !serviceRole.existsByNameAndIdNot(normalizedName, value.getId());
+                return !serviceRole.existsByNameAndIdNot(normalizedName, value.id());
             }
         }
     }

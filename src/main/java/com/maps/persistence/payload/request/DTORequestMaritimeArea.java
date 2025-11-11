@@ -1,7 +1,9 @@
 package com.maps.persistence.payload.request;
 
 import com.maps.exception.annotation.UniqueNameMaritimeArea;
-import lombok.Getter;
+
+import java.util.UUID;
+
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 
@@ -11,14 +13,15 @@ import org.locationtech.jts.geom.Polygon;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
 @UniqueNameMaritimeArea(label = "name")
-public class DTORequestMaritimeArea extends DTORequestIdentifiable {
+public record DTORequestMaritimeArea (
 
-    private String code;
-    private String name;
-    private String start;
-    private String finish;
-    private Polygon polygon;
-    private MultiPolygon multiPolygon;
-}
+    UUID id,
+    String code,
+    String name,
+    String start,
+    String finish,
+
+    Polygon polygon,
+    MultiPolygon multiPolygon
+) implements DTORequestIdentifiable {}

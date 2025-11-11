@@ -1,8 +1,9 @@
 package com.maps.persistence.payload.request;
 
+import java.util.UUID;
+
 import com.maps.exception.annotation.UniqueNameResearcher;
 import com.maps.persistence.model.remodel.Address;
-import lombok.Getter;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,12 +14,13 @@ import jakarta.validation.constraints.NotNull;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
 @UniqueNameResearcher(label = "name")
-public class DTORequestResearcher extends DTORequestIdentifiable {
+public record DTORequestResearcher (
 
+    UUID id,
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String name;
-    private String email;
-    private Address address;
-}
+    String name,
+    String email,
+
+    Address address
+) implements DTORequestIdentifiable {}

@@ -4,9 +4,9 @@ import com.maps.persistence.model.remodel.Cruise;
 import com.maps.persistence.model.remodel.Module;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -14,15 +14,15 @@ import java.time.LocalDateTime;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-public class DTORequestResearch extends DTORequestIdentifiable {
+public record DTORequestResearch (
 
+    UUID id,
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String name;
-    private String description;
-    private LocalDateTime start;
-    private LocalDateTime finish;
+    String name,
+    String description,
+    LocalDateTime start,
+    LocalDateTime finish,
 
-    private Cruise cruise;
-    private Module module;
-}
+    Cruise cruise,
+    Module module
+) implements DTORequestIdentifiable {}

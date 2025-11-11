@@ -2,10 +2,10 @@ package com.maps.persistence.payload.request;
 
 import com.maps.persistence.model.Role;
 import com.maps.exception.annotation.*;
-import lombok.Getter;
 
 import jakarta.validation.constraints.*;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author	Marcelo Ribeiro Gadelha
@@ -13,19 +13,15 @@ import java.util.Set;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
 @UniqueEmail(label = "email")
 @UniqueNameUser(label = "username")
-public class DTORequestUser extends DTORequestIdentifiable {
+public record DTORequestUser (
 
+    UUID id,
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}") @HasLength
-    private String username;
+    String username,
     @NotBlank(message = "{not.blank}") @Size(max = 50) @Email
-    private String email;
-    private Set<Role> role;
+    String email,
 
-    public DTORequestUser(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
-}
+    Set<Role> role
+) implements DTORequestIdentifiable {}

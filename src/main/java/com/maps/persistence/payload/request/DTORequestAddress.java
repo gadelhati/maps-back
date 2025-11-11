@@ -1,7 +1,8 @@
 package com.maps.persistence.payload.request;
 
+import java.util.UUID;
+
 import com.maps.persistence.model.remodel.City;
-import lombok.Getter;
 
 /**
  * @author Marcelo Ribeiro Gadelha
@@ -9,14 +10,14 @@ import lombok.Getter;
  * @website www.gadelha.eti.br
  **/
 
-@Getter
-public class DTORequestAddress extends DTORequestIdentifiable {
+public record DTORequestAddress (
 
-    private String street;
-    private String number;
-    private String cep;
-    private String complement;
-    private String neighbourhood;
+    UUID id,
+    String street,
+    String number,
+    String cep,
+    String complement,
+    String neighbourhood,
 
-    private City city;
-}
+    City city
+) implements DTORequestIdentifiable {}

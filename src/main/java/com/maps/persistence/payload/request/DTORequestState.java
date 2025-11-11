@@ -1,7 +1,8 @@
 package com.maps.persistence.payload.request;
 
+import java.util.UUID;
+
 import com.maps.persistence.model.remodel.Country;
-import lombok.Getter;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,11 +13,12 @@ import jakarta.validation.constraints.NotNull;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-public class DTORequestState extends DTORequestIdentifiable {
+public record DTORequestState (
 
-    private Integer code;
+    UUID id,
+    Integer code,
     @NotNull(message = "{not.null}") @NotBlank(message = "{not.blank}")
-    private String name;
-    private Country country;
-}
+    String name,
+
+    Country country
+) implements DTORequestIdentifiable {}

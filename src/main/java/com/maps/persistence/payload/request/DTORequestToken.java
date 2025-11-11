@@ -1,7 +1,6 @@
 package com.maps.persistence.payload.request;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
 
 import java.util.UUID;
 
@@ -11,11 +10,17 @@ import java.util.UUID;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
-public class DTORequestToken extends DTORequestIdentifiable {
+public record DTORequestToken (
 
-    private final String tokenType = "Bearer ";
-    private String accessToken;
+    UUID id,
+    String tokenType,
+    String accessToken,
     @NotNull
-    private UUID refreshToken;
+    UUID refreshToken
+) implements DTORequestIdentifiable {
+    
+    // Valor padrão para tokenType
+    public DTORequestToken(UUID id, String accessToken, UUID refreshToken) {
+        this(id, "Bearer ", accessToken, refreshToken);
+    }
 }

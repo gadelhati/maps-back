@@ -39,14 +39,14 @@ public @interface UniqueNameGaugeStation {
         }
         @Override
         public boolean isValid(DTORequestGaugeStation value, ConstraintValidatorContext context) {
-            if (value == null || value.getNumber() == null || value.getNumber().trim().isEmpty()) {
+            if (value == null || value.number() == null || value.number().trim().isEmpty()) {
                 return false;
             }
-            String normalizedName = value.getTitle().trim();
-            if (value.getId() == null) {
+            String normalizedName = value.title().trim();
+            if (value.id() == null) {
                 return !serviceGaugeStation.existsByNumber(normalizedName);
             } else {
-                return !serviceGaugeStation.existsByNumberAndIdNot(normalizedName, value.getId());
+                return !serviceGaugeStation.existsByNumberAndIdNot(normalizedName, value.id());
             }
         }
     }

@@ -3,7 +3,9 @@ package com.maps.persistence.payload.request;
 import com.maps.exception.annotation.UniqueNameGaugeStation;
 import com.maps.persistence.model.ChartArea;
 import com.maps.persistence.model.remodel.State;
-import lombok.Getter;
+
+import java.util.UUID;
+
 import org.locationtech.jts.geom.*;
 
 /**
@@ -12,14 +14,14 @@ import org.locationtech.jts.geom.*;
  * @website	www.gadelha.eti.br
  **/
 
-@Getter
 @UniqueNameGaugeStation(label = "number")
-public class DTORequestGaugeStation extends DTORequestIdentifiable {
+public record DTORequestGaugeStation (
 
-    private String number;
-    private String title;
-    private Point point;
+    UUID id,
+    String number,
+    String title,
+    Point point,
 
-    private State state;
-    private ChartArea chartArea;
-}
+    State state,
+    ChartArea chartArea
+) implements DTORequestIdentifiable {}
