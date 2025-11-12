@@ -82,7 +82,7 @@ mvn test
 netstat -a -n -o
 tskill "NÚMERO DO PID"
 
-# how to create file war
+# how to create file jar
 mvn clean package
 # ...two files with the extension .war will be created, the one with the shortest name will be used.
 
