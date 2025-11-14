@@ -136,42 +136,42 @@ TOTAL NUMBER OF TESTS: 126
 - [ ] 📊 **Observability**: Prometheus + Grafana
 - [ ] 🔄 **Event Sourcing**: Para auditoria avançada
 
-## ⚙️ **Configuração do Ambiente**
+## ⚙️ **Environment Configuration**
 
-### 📋 **Pré-requisitos**
+### **Requirements**
 
-| Ferramenta    | Versão Mínima |              Download | Detalhes |
-|:--------------|:-------------:|:--------------------:|:---------|
-| **Java JDK**  |      17       | [OpenJDK 17](https://adoptium.net/temurin/releases/) | Runtime principal do projeto |
-| **PostgreSQL**|     17.5      | [PostgreSQL](https://www.postgresql.org/download/) | SGBD principal com PostGIS |
-| **Maven**     |     3.8+      | [Apache Maven](https://maven.apache.org/download.cgi) | Build tool e dependency management |
-| **IntelliJ IDEA** |  2024.1+  | [JetBrains](https://www.jetbrains.com/idea/download/) | IDE recomendada (opcional) |
-| **Docker**    |     20.0+     | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Para containerização (opcional) |
-| **DBeaver**   |     23.0+     | [DBeaver CE](https://dbeaver.io/download/) | Cliente PostgreSQL recomendado |
+| Ferramenta        | Minimum Version |                             Download                              | Details                              |
+|:------------------|:---------------:|:-----------------------------------------------------------------:|:-------------------------------------|
+| **Java JDK**      |       17        |       [OpenJDK 17](https://adoptium.net/temurin/releases/)        | Project's main runtime               |
+| **PostgreSQL**    |      17.5       |        [PostgreSQL](https://www.postgresql.org/download/)         | Primary SGBD with PostGIS            |
+| **Maven**         |      3.8+       |       [Apache Maven](https://maven.apache.org/download.cgi)       | Build tool e dependency management   |
+| **IntelliJ IDEA** |     2024.1+     |       [JetBrains](https://www.jetbrains.com/idea/download/)       | Recommended IDE                      |
+| **Docker**        |      20.0+      | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Containerizer                        |
+| **DBeaver**       |      23.0+      |            [DBeaver CE](https://dbeaver.io/download/)             | Client PostgreSQL                    |
 
-### 🐘 **Configuração PostgreSQL + PostGIS**
+### **PostgreSQL + PostGIS Configuration**
 
 ```sql
--- 1. Criar database
+-- crete database
 CREATE DATABASE maps;
 
--- 2. Conectar no database maps
+-- connect to database
 \c maps;
 
--- 3. Habilitar PostGIS
+-- 3. enable PostGIS
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- 4. Criar schema
+-- 4. create schema
 CREATE SCHEMA IF NOT EXISTS maps;
 
--- 5. Verificar instalação
+-- 5. verify instalation
 SELECT version();
 SELECT PostGIS_Version();
 ```
 
-### 🔧 **Variáveis de Ambiente**
+### **Environment Variables**
 
-Crie um arquivo `.env` na raiz do projeto:
+Create a file `.env` at the root of the project:
 
 ```bash
 # Database Configuration
@@ -194,7 +194,7 @@ SERVER_CONTEXT_PATH=/maps
 SPRING_PROFILES_ACTIVE=dev
 ```
 
-## 🚀 **Como Usar**
+## **Como Usar**
 
 ### 📥 **Instalação & Setup**
 
@@ -362,55 +362,32 @@ management.endpoints.web.exposure.include=health,info,metrics
 management.endpoint.health.show-details=when_authorized
 ```
 
-## 📖 **API Documentation**
+## **API Documentation**
 
-### 🌐 **Endpoints Principais**
+> **Base URL:** [http://localhost:8080/maps/v1](http://localhost:8080/maps/v1)
 
-#### **Base URL:** `http://localhost:8080/maps`
+### **Swagger Documentation**
+All resources follow the RESTful standard with complete CRUD operations. Access the interactive documentation when the application is running:
+> **Swagger:** [http://localhost:8080/maps/v1/swagger-ui/index.html](http://localhost:8080/maps/v1/swagger-ui/index.html)
 
-### 📚 **Swagger Documentation**
-Acesse a documentação interativa quando a aplicação estiver rodando:
-> **🔗 [http://localhost:8080/maps/v1/swagger-ui/index.html](http://localhost:8080/maps/v1/swagger-ui/index.html)**
+### **Endpoints CRUD Padrão**
+
+| Endpoint                                                 | Description                                                       | Example             |
+|:---------------------------------------------------------|:------------------------------------------------------------------|:--------------------|
+| [CREATE](http://localhost:8080/mfa/v1/user)              | path to item creation                                             | `POST /user`        |
+| [RETRIEVE ALL](http://localhost:8080/mfa/v1/user/search) | path to retrieve of an item by search or all items without source | `GET /user`         | 
+| [RETRIEVE](http://localhost:8080/mfa/v1/user/id)         | path to retrieve of an item by id                                 | `GET /user/{id}`    |                                         
+| [UPDATE](http://localhost:8080/mfa/v1/user/id)           | path to update an item                                            | `PUT /user/{id}`    |                                                     
+| [DELETE](http://localhost:8080/mfa/v1/user/id)           | path to delete an item                                            | `DELETE /user/{id}` |                                                     
 
 ### 🔗 **Links Úteis**
-- **🏠 Home**: [http://localhost:8080/maps](http://localhost:8080/maps)
-- **❤️ Health Check**: [http://localhost:8080/maps/actuator/health](http://localhost:8080/maps/actuator/health)
-- **📊 Metrics**: [http://localhost:8080/maps/actuator/metrics](http://localhost:8080/maps/actuator/metrics)
-- **📋 Info**: [http://localhost:8080/maps/actuator/info](http://localhost:8080/maps/actuator/info)
+> **Home:**: [http://localhost:8080/maps](http://localhost:8080/maps)
 
-### 🛣️ **Endpoints CRUD Padrão**
+> **️Health Check:**: [http://localhost:8080/maps/actuator/health](http://localhost:8080/maps/actuator/health)
 
-Todos os recursos seguem o padrão RESTful com operações CRUD completas:
+> **Metrics:**: [http://localhost:8080/maps/actuator/metrics](http://localhost:8080/maps/actuator/metrics)
 
-```http
-# 📝 Criar recurso
-POST   /maps/{resource}
-
-# 📖 Buscar por ID  
-GET    /maps/{resource}/{id}
-
-# 🔍 Buscar com filtros/paginação
-GET    /maps/{resource}/search?page=0&size=10&sort=name,desc
-
-# ✏️ Atualizar recurso
-PUT    /maps/{resource}/{id}
-
-# 🗑️ Deletar por ID
-DELETE /maps/{resource}/{id}
-
-# 🗑️ Deletar todos (admin only)
-DELETE /maps/{resource}
-```
-
-### 📍 **Recursos Disponíveis**
-| Recurso | Endpoint | Description | Exemplo |
-|:--------|:---------|:----------|:--------|
-| **Users** | `/maps/user` | Gestão de usuários | `GET /maps/user/search` |
-| **Roles** | `/maps/role` | Controle de perfis | `POST /maps/role` |
-| **Charts** | `/maps/chart` | Cartas náuticas | `GET /maps/chart/1` |
-| **Research** | `/maps/research` | Dados de pesquisa | `PUT /maps/research/1` |
-| **Countries** | `/maps/country` | Países e regiões | `GET /maps/country/search` |
-| **Cities** | `/maps/city` | Cidades | `DELETE /maps/city/1` |
+> **Info:**: [http://localhost:8080/maps/actuator/info](http://localhost:8080/maps/actuator/info)
 
 ### 🔐 **Autenticação & Autorização**
 
