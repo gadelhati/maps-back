@@ -1,16 +1,15 @@
 # 🗺️ Maps Backend API - Strategic Roadmap 2025-2027
 
-> **Versão**: 2.0+ | **Última Atualização**: Novembro 2025  
-> **Foco**: Transformação em plataforma geoespacial de classe enterprise
+> **Versão**: 2.0+ | **Last Updated**: Novembro 2025  
 
 ---
 
-## 🎯 **VISÃO ESTRATÉGICA**
+## 🎯 **STRATEGIC VISION**
 
-### **Missão**
-Evoluir de uma API REST básica para uma **plataforma geoespacial completa**, fornecendo análises em tempo real, inteligência artificial aplicada a dados geográficos e capacidades de observabilidade avançada para pesquisa oceanográfica e monitoramento ambiental.
+### **Mission**
+Evolving from a basic REST API to a complete geospatial platform, providing real-time analytics, artificial intelligence applied to geographic data, and advanced observability capabilities for oceanographic research and environmental monitoring.
 
-### **Objetivos 2025-2027**
+### **Objectives 2025-2027**
 - 🌍 **Líder em APIs Geoespaciais** no ecossistema brasileiro
 - 🚀 **Performance Enterprise-Grade** (sub-100ms response time)
 - 🔬 **Machine Learning Geoespacial** integrado
@@ -20,13 +19,13 @@ Evoluir de uma API REST básica para uma **plataforma geoespacial completa**, fo
 
 ---
 
-## 📊 **STATUS ATUAL - BASELINE 2025**
+## 📊 **CURRENT STATUS - BASELINE 2025**
 
-### **🏗️ Arquitetura Técnica Estabelecida**
+### **🏗️ Established Technical Architecture**
 
 **Stack Foundational:**
 ```yaml
-Core Framework:     Spring Boot 3.5.4 (Java 17)
+Core Framework:    Spring Boot 3.5.4 (Java 17)
 Database:          PostgreSQL 17.5 + PostGIS 3.5
 Build Tool:        Maven 3.12.1 + Multi-module ready
 Security:          JWT + TOTP + reCAPTCHA v3
@@ -39,23 +38,23 @@ Container:         Docker + Docker Compose ready
 **Package Structure (Clean Architecture):**
 ```
 com.maps/
-├── 🏗️ configuration/        # Configurações modulares especializadas
-│   ├── security/             # Segurança isolada (JWT, Filters, CSP)
+├── 🏗️ configuration/         # Specialized modular configurations
+│   ├── security/             # Isolated security (JWT, Filters, CSP)
 │   ├── interceptor/          # Rate limiting, Audit, Request/Response
-│   └── cache/               # Cache strategies, eviction policies
-├── 🌐 controller/           # REST API + Web endpoints (Thymeleaf)
-├── 💾 persistence/          # Camada de dados
-│   ├── model/               # Entidades JPA com auditoria
-│   ├── repository/          # Spring Data JPA + Spatial queries
-│   └── payload/            # DTOs (40 Records modernizados) 
-├── ⚙️ service/              # Lógica de negócio + Domain services
-├── ❌ exception/            # Error handling + 15 custom annotations
-└── 🛠️ utils/               # Helpers + E2EE + QR Code generation
+│   └── cache/                # Cache strategies, eviction policies
+├── 🌐 controller/            # REST API + Web endpoints (Thymeleaf)
+├── 💾 persistence/           # Data layer
+│   ├── model/                # JPA entities with audit
+│   ├── repository/           # Spring Data JPA + Spatial queries
+│   └── payload/              # DTOs (40 Records) 
+├── ⚙️ service/               # Business logic + Domain services
+├── ❌ exception/             # Error handling + 15 custom annotations
+└── 🛠️ utils/                 # Helpers + E2EE + QR Code generation
 ```
 
-### **✅ Recursos Implementados (Production-Ready)**
+### **✅ Implemented Features (Production-Ready)**
 
-#### **🔐 Segurança Enterprise**
+#### **🔐 Security Enterprise**
 - ✅ **JWT Authentication** com refresh tokens (HMAC-SHA512)
 - ✅ **TOTP Two-Factor** (Google Authenticator integration)
 - ✅ **Rate Limiting** (Bucket4j: 50-200 req/min configurável)
@@ -93,13 +92,13 @@ com.maps/
 ---
 
 ## **🚀 PHASE 1: FOUNDATION EXCELLENCE (Q1-Q2 2025)**
-*Theme: "Solidificar base técnica e qualidade"*
+*Theme: "Solidify technical foundation and quality."*
 
 ### **🎯 Milestone 1.1: Testing & Quality Excellence** *(Jan-Feb 2025)*
 
 #### **Priority 1: Testing Infrastructure**
 ```yaml
-Objective: Alcançar 85% code coverage + mutation score 80%
+Objective: Reach 85% code coverage + mutation score 80%
 
 Service Layer Testing:
   - ServiceAuth (293 instructions): Security flows, JWT validation
@@ -183,7 +182,7 @@ Database Optimization:
 ---
 
 ## **🌟 PHASE 2: PLATFORM EVOLUTION (Q3-Q4 2025)**
-*Theme: "Transformação em plataforma robusta"*
+*Theme: "Transformation into a robust platform"*
 
 ### **🎯 Milestone 2.1: Microservices Architecture** *(Jul-Sep 2025)*
 
