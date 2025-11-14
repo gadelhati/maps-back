@@ -87,7 +87,7 @@ GENERAL COVERAGE: 5%
 │ 📁 com.maps.service                                 │     2%   │ 🔴
 │ 📁 demais pacotes                                   │     0%   │ 🔴
 └─────────────────────────────────────────────────────┴──────────┘
-TOTAL NUMBER OF TESTS: 135
+TOTAL NUMBER OF TESTS: 126
 ```
 
 ### **Configured Quality Tools**
