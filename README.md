@@ -1,29 +1,36 @@
 # 🗺️ Maps Backend API
 
-![github](https://img.shields.io/github/stars/gadelhati/maps-back "Github")
-![github all releases](https://img.shields.io/github/downloads/gadelhati/maps-back/total?label=Downloads&style=social)
+[![GitHub stars](https://img.shields.io/github/stars/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back)
+[![GitHub forks](https://img.shields.io/github/forks/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back/fork)
+[![GitHub watchers](https://img.shields.io/github/watchers/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back)
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/gadelhati/maps-back)
 ![Test Coverage](https://img.shields.io/badge/coverage-5%25-orange)
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen)
 
-## 🚀 **Tecnologias & Versões**
+## **Necessary Tech stack**
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.5-blue?logo=postgresql)
 ![PostGIS](https://img.shields.io/badge/PostGIS-3.5-blue?logo=postgis)
+
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)
+![JaCoCo](https://img.shields.io/badge/JaCoCo-0.8.11-green?logo=testing)
+![Testcontainers](https://img.shields.io/badge/Testcontainers-1.20.4-blue?logo=testcontainers)
+
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-2025.1.1.1-000000?logo=intellijidea)
 ![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-brightgreen?logo=springboot)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-6.2.2-brightgreen?logo=spring)
 ![Maven](https://img.shields.io/badge/Maven-3.12.1-blue?logo=apachemaven)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)
-![JaCoCo](https://img.shields.io/badge/JaCoCo-0.8.11-green?logo=testing)
-![Testcontainers](https://img.shields.io/badge/Testcontainers-1.20.4-blue?logo=testcontainers)
 
-## 📋 **Índice**
-- [Descrição](#-descrição)
-- [Arquitetura & Tecnologias](#-arquitetura--tecnologias)
-- [Qualidade & Testes](#-qualidade--testes)
+## **Description**
+
+**Maps Backend API** is a robust and modern platform for consolidating georeferenced data, designed for spatial analysis, real-time monitoring, and interdisciplinary applications.
+
+## **Sumary**
+- [Architecture & Technologies](#-architecture--technologies)
+- [Quality & Testing](#-quality--testing)
 - [Configuração do Ambiente](#-configuração-do-ambiente)
 - [Como Usar](#-como-usar)
 - [Deploy](#-deploy)
@@ -31,11 +38,7 @@
 - [Contribuição](#-contribuição)
 - [Licença](#-licença)
 
-## 🎯 **Descrição**
-
-**Maps Backend API** é uma plataforma robusta e moderna para consolidação de dados georreferenciados, projetada para análises espaciais, monitoramento em tempo real e aplicações interdisciplinares. 
-
-### 🌟 **Principais Características:**
+### 🌟 **Main Features:**
 - ✅ **API RESTful completa** com operações CRUD
 - ✅ **Dados geoespaciais** com PostgreSQL + PostGIS  
 - ✅ **Segurança JWT** com controle granular de acesso
@@ -44,11 +47,9 @@
 - ✅ **Java Records** para DTOs modernos e imutáveis
 - ✅ **Documentação automática** com OpenAPI/Swagger
 
-## 🏗️ **Arquitetura & Tecnologias**
+## ️ **Architecture & Technologies**
 
-Este projeto segue as melhores práticas de desenvolvimento, utilizando arquitetura em camadas e implementando padrões avançados de design.
-
-### 📊 **Stack Tecnológica Detalhada**
+### **Detailed Tech Stack**
 
 | Categoria           | Tecnologia / Padrão                              | Detalhes                                                                                    |
 |:--------------------|:-------------------------------------------------|:--------------------------------------------------------------------------------------------|
@@ -69,13 +70,13 @@ Este projeto segue as melhores práticas de desenvolvimento, utilizando arquitet
 - **Exception Handler**: Tratamento centralizado de erros
 - **Security Interceptors**: Controle de acesso em múltiplas camadas
 
-## 🧪 **Qualidade & Testes**
+## **Quality & Testing**
 
-### 📈 **Métricas de Cobertura Atual**
+### **Current Coverage Metrics**
 ```
-📊 COBERTURA GERAL: 5% (Baseline: 3% → Target: 85%)
+GENERAL COVERAGE: 5%
 ┌─────────────────────────────────────────────────────┬──────────┐
-│ Pacote                                              │ Cobertura│
+│ Package                                             │ Coverage │
 ├─────────────────────────────────────────────────────┼──────────┤
 │ 📁 com.maps.persistence.model                       │   100%   │ ✅
 │ 📁 com.maps.configuration.interceptor               │    40%   │ 🟡  
@@ -86,28 +87,26 @@ Este projeto segue as melhores práticas de desenvolvimento, utilizando arquitet
 │ 📁 com.maps.service                                 │     2%   │ 🔴
 │ 📁 demais pacotes                                   │     0%   │ 🔴
 └─────────────────────────────────────────────────────┴──────────┘
-
-🎯 TOTAL DE TESTES: 135 (crescimento de +600% recente)
-✅ Sucesso: 133 | ❌ Falhas: 2 (deps externas)
+TOTAL NUMBER OF TESTS: 135
 ```
 
-### 🔬 **Ferramentas de Qualidade Configuradas**
+### **Configured Quality Tools**
 - **JaCoCo**: Cobertura de código com target de 85%
 - **PIT Mutation Testing**: Validação da qualidade dos testes (80% target)
 - **Testcontainers**: Testes de integração com PostgreSQL real
 - **Static Analysis**: Checkstyle, SpotBugs integration ready
 - **Performance Testing**: JMH benchmarks configurados
 
-### 📝 **Tipos de Teste Implementados**
-1. **Testes Unitários**: Service layer, Utils, DTOs (82 novos testes)
-2. **Testes de Integração**: Testcontainers + PostgreSQL
+### **Types of Tests Implemented**
+1. **Unit Tests**: Service layer, Utils, DTOs
+2. **Integration Tests**: Testcontainers + PostgreSQL
 3. **Testes de Controller**: MockMVC com validação REST
-4. **Testes de Validação**: Bean Validation e anotações customizadas
-5. **Testes de Segurança**: JWT, autenticação, autorização
+4. **Testes de Validação**: Bean Validation and custom annotations
+5. **Testes de Segurança**: JWT, authentication, authorization
 
-## 🛣️ **Roadmap**
+## **Roadmap**
 
-### 🚧 **Em Desenvolvimento (Sprint Atual)**
+### 🚧 **in development**
 - [x] ✅ **Conversão para Records**: 40 DTOs modernizados
 - [x] ✅ **Expansão de Testes**: 135 testes (crescimento +600%)
 - [x] ✅ **Cobertura Base**: 5% estabelecida com ferramentas robustas
@@ -115,7 +114,7 @@ Este projeto segue as melhores práticas de desenvolvimento, utilizando arquitet
 - [ ] 🔄 **Repository Integration**: @DataJpaTest com Testcontainers
 - [ ] 🔄 **Exception Handling**: GlobalExceptionHandler coverage
 
-### 🎯 **Próximas Releases**
+### **Next Releases**
 
 #### **Release v2.1.0 - Testing Excellence** 
 - [ ] 🎯 **Target: 25% coverage** com service layer completo
@@ -404,7 +403,7 @@ DELETE /maps/{resource}
 ```
 
 ### 📍 **Recursos Disponíveis**
-| Recurso | Endpoint | Descrição | Exemplo |
+| Recurso | Endpoint | Description | Exemplo |
 |:--------|:---------|:----------|:--------|
 | **Users** | `/maps/user` | Gestão de usuários | `GET /maps/user/search` |
 | **Roles** | `/maps/role` | Controle de perfis | `POST /maps/role` |
@@ -462,7 +461,7 @@ GET /maps/user/search?name=João&active=true&page=0&size=10
 
 Este projeto adota convenções de commit padronizadas para melhor rastreabilidade:
 
-| Tipo       |                 Descrição                           | Exemplo                                             |
+| Tipo       |                 Description                           | Exemplo                                             |
 |:-----------|:---------------------------------------------------:|:----------------------------------------------------|
 | `feat`     |            Um novo recurso para a aplicação         | `feat: adiciona endpoint de busca por coordenadas`  |
 | `fix`      |                    Correções de bug                 | `fix: corrige erro de autenticação no login`        |
@@ -578,9 +577,9 @@ Agradecemos a todos que contribuíram para este projeto!
 - **💼 LinkedIn**: [linkedin.com/in/gadelhati](https://linkedin.com/in/gadelhati)
 - **🐙 GitHub**: [@gadelhati](https://github.com/gadelhati)
 
-## 📄 **Licença**
+## **Licence**
 
-Este projeto está licenciado sob a **MIT License** - veja o arquivo [LICENSE](LICENSE) para detalhes.
+This project is licensed under the **MIT License** - see the [MIT LICENCE](https://choosealicense.com/licenses/mit/) file for details.
 
 ```text
 MIT License
@@ -620,12 +619,12 @@ SOFTWARE.
 
 <div align="center">
 
-**⭐ Gostou do projeto? Deixe uma estrela! ⭐**
+**⭐ Did you like the project? Leave a star! ⭐**
 
 [![GitHub stars](https://img.shields.io/github/stars/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back)
 [![GitHub forks](https://img.shields.io/github/forks/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back/fork)
 [![GitHub watchers](https://img.shields.io/github/watchers/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back)
 
-**Made with ❤️ by [Gadelha TI](https://github.com/gadelhati)**
+**Made by [Gadelha TI](https://github.com/gadelhati)**
 
 </div>
