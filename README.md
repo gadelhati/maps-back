@@ -40,7 +40,7 @@
 
 ### 🌟 **Main Features:**
 - ✅ **API RESTful completa** com operações CRUD
-- ✅ **Dados geoespaciais** com PostgreSQL + PostGIS  
+- ✅ **Dados geoespaciais** com PostgreSQL + PostGIS
 - ✅ **Segurança JWT** com controle granular de acesso
 - ✅ **Arquitetura limpa** com padrões de design modernos
 - ✅ **Alta cobertura de testes** (5% e crescendo)
@@ -110,15 +110,15 @@ TOTAL NUMBER OF TESTS: 126
 - [x] ✅ **Conversão para Records**: 40 DTOs modernizados
 - [x] ✅ **Expansão de Testes**: 135 testes (crescimento +600%)
 - [x] ✅ **Cobertura Base**: 5% estabelecida com ferramentas robustas
-- [ ] 🔄 **Service Layer Testing**: ServiceAuth, ServiceUser completos  
+- [ ] 🔄 **Service Layer Testing**: ServiceAuth, ServiceUser completos
 - [ ] 🔄 **Repository Integration**: @DataJpaTest com Testcontainers
 - [ ] 🔄 **Exception Handling**: GlobalExceptionHandler coverage
 
 ### **Next Releases**
 
-#### **Release v2.1.0 - Testing Excellence** 
+#### **Release v2.1.0 - Testing Excellence**
 - [ ] 🎯 **Target: 25% coverage** com service layer completo
-- [ ] 📊 **Mutation Testing**: PIT execution & analysis  
+- [ ] 📊 **Mutation Testing**: PIT execution & analysis
 - [ ] 🔗 **Integration Tests**: End-to-end API scenarios
 - [ ] 📈 **Performance Benchmarks**: JMH para operações críticas
 
@@ -486,7 +486,7 @@ mvn clean test jacoco:report
 - **Repository Tests**: Implementar testes @DataJpaTest
 - **Integration Tests**: Cenários end-to-end com Testcontainers
 
-#### **🟡 Média Prioridade**  
+#### **🟡 Média Prioridade**
 - **Performance Optimization**: Benchmarks JMH
 - **Exception Handling**: Testes do GlobalExceptionHandler
 - **API Documentation**: Melhorar documentação OpenAPI
@@ -587,7 +587,7 @@ SOFTWARE.
 ## 🎉 **Agradecimentos**
 
 - **☕ Spring Community** - Pelo framework excepcional
-- **🐘 PostgreSQL Team** - Pelo SGBD robusto e confiável  
+- **🐘 PostgreSQL Team** - Pelo SGBD robusto e confiável
 - **🗺️ PostGIS Community** - Por tornar dados geoespaciais acessíveis
 - **🧪 Testing Libraries** - JUnit, Mockito, Testcontainers teams
 - **🛠️ Open Source Community** - Por todas as bibliotecas utilizadas
