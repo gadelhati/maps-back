@@ -1,4 +1,4 @@
-# 🗺️ Maps Backend API
+# 🗺️ _Maps_ API
 
 [![GitHub stars](https://img.shields.io/github/stars/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back)
 [![GitHub forks](https://img.shields.io/github/forks/gadelhati/maps-back?style=social)](https://github.com/gadelhati/maps-back/fork)
@@ -13,7 +13,6 @@
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.5-blue?logo=postgresql)
 ![PostGIS](https://img.shields.io/badge/PostGIS-3.5-blue?logo=postgis)
-
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)
 ![JaCoCo](https://img.shields.io/badge/JaCoCo-0.8.11-green?logo=testing)
 ![Testcontainers](https://img.shields.io/badge/Testcontainers-1.20.4-blue?logo=testcontainers)
@@ -26,41 +25,33 @@
 
 ## **Description**
 
-**Maps Backend API** is a robust and modern platform for consolidating georeferenced data, designed for spatial analysis, real-time monitoring, and interdisciplinary applications.
+**Maps API** is a robust and modern platform for consolidating georeferenced data, designed for spatial analysis, real-time monitoring, and interdisciplinary applications.
 
-## **Sumary**
-- [Architecture & Technologies](#-architecture--technologies)
-- [Quality & Testing](#-quality--testing)
-- [Configuração do Ambiente](#-configuração-do-ambiente)
+## **Summary**
+- [Architecture & Technologies](#architecture--technologies)
+- [Quality & Testing](#quality--testing)
+- [Environment Configuration](#environment-configuration)
 - [Como Usar](#-como-usar)
+- [Development Commands](#development-commands)
 - [Deploy](#-deploy)
 - [API Documentation](#-api-documentation)
 - [Contribuição](#-contribuição)
-- [Licença](#-licença)
+- [License](#license)
 
-### 🌟 **Main Features:**
-- ✅ **API RESTful completa** com operações CRUD
-- ✅ **Dados geoespaciais** com PostgreSQL + PostGIS
-- ✅ **Segurança JWT** com controle granular de acesso
-- ✅ **Arquitetura limpa** com padrões de design modernos
-- ✅ **Alta cobertura de testes** (5% e crescendo)
-- ✅ **Java Records** para DTOs modernos e imutáveis
-- ✅ **Documentação automática** com OpenAPI/Swagger
-
-## ️ **Architecture & Technologies**
+## **Architecture & Technologies**
 
 ### **Detailed Tech Stack**
 
-| Categoria           | Tecnologia / Padrão                              | Detalhes                                                                                    |
-|:--------------------|:-------------------------------------------------|:--------------------------------------------------------------------------------------------|
-| **Backend**         | Java 17, Spring Boot 3.5.4                      | Framework moderno e robusto para APIs RESTful com suporte a Records                        |
-| **Persistência**    | PostgreSQL 17.5, PostGIS, Hibernate Spatial     | Suporte nativo a dados geoespaciais e consultas complexas                                  |
-| **Segurança**       | Spring Security 6.2.2, JWT, @PreAuthorize       | Autenticação via JWT e controle de acesso granular em nível de método                     |
-| **Design**          | ControllerGeneric, Java Records, HATEOAS         | Abstração de operações CRUD, DTOs imutáveis e enriquecimento de respostas                 |
-| **Qualidade**       | JaCoCo 0.8.11, PIT 1.15.8, Surefire, Failsafe  | Cobertura de código, mutation testing, testes unitários e de integração                   |
-| **Testing**         | Testcontainers 1.20.4, Mockito, JUnit 5         | Testes com containers reais PostgreSQL, mocks avançados                                   |
-| **DevOps**          | Docker, Maven, CI/CD Ready                       | Containerização completa e automação de build/deploy                                      |
-| **Documentation**   | OpenAPI 3, Swagger UI, JavaDoc                   | Documentação interativa e completa da API                                                 |
+| Category          | Tecnology / Padrão                            | Detalhes                                                                  |
+|:------------------|:----------------------------------------------|:--------------------------------------------------------------------------|
+| **Backend**       | Java 17, Spring Boot 3.5.4                    | Framework moderno e robusto para APIs RESTful com suporte a Records       |
+| **Persistência**  | PostgreSQL 17.5, PostGIS, Hibernate Spatial   | Suporte nativo a dados geoespaciais e consultas complexas                 |
+| **Segurança**     | Spring Security 6.2.2, JWT, @PreAuthorize     | Autenticação via JWT e controle de acesso granular em nível de método     |
+| **Design**        | ControllerGeneric, Java Records, HATEOAS      | Abstração de operações CRUD, DTOs imutáveis e enriquecimento de respostas |
+| **Qualidade**     | JaCoCo 0.8.11, PIT 1.15.8, Surefire, Failsafe | Cobertura de código, mutation testing, testes unitários e de integração   |
+| **Testing**       | Testcontainers 1.20.4, Mockito, JUnit 5       | Testes com containers reais PostgreSQL, mocks avançados                   |
+| **DevOps**        | Docker, Maven, CI/CD Ready                    | Containerização completa e automação de build/deploy                      |
+| **Documentation** | OpenAPI 3, Swagger UI, JavaDoc                | Documentação interativa e completa da API                                 |
 
 ### 🎨 **Padrões de Design Implementados**
 - **Generic Controller Pattern**: Operações CRUD reutilizáveis
@@ -72,23 +63,21 @@
 
 ## **Quality & Testing**
 
-### **Current Coverage Metrics**
-```
+### 📈 **Current Coverage Metrics**
+
 GENERAL COVERAGE: 5%
-┌─────────────────────────────────────────────────────┬──────────┐
-│ Package                                             │ Coverage │
-├─────────────────────────────────────────────────────┼──────────┤
-│ 📁 com.maps.persistence.model                       │   100%   │ ✅
-│ 📁 com.maps.configuration.interceptor               │    40%   │ 🟡  
-│ 📁 com.maps.utils                                   │    34%   │ 🟡
-│ 📁 com.maps.persistence.payload.request             │    18%   │ 🟠
-│ 📁 com.maps.configuration                           │    18%   │ 🟠
-│ 📁 com.maps.controller                              │     6%   │ 🔴
-│ 📁 com.maps.service                                 │     2%   │ 🔴
-│ 📁 demais pacotes                                   │     0%   │ 🔴
-└─────────────────────────────────────────────────────┴──────────┘
 TOTAL NUMBER OF TESTS: 126
-```
+
+| Package                                 | Coverage |        |
+|:----------------------------------------|:--------:|:------:|
+| 📁 com.maps.persistence.model           |   100%   |   ✅   |
+| 📁 com.maps.configuration.interceptor   |   40%    |   🟡   |
+| 📁 com.maps.utils                       |   34%    |   🟡   |
+| 📁 com.maps.persistence.payload.request |   18%    |   🟠   |
+| 📁 com.maps.configuration               |   18%    |   🟠   |
+| 📁 com.maps.controller                  |    6%    |   🔴   |
+| 📁 com.maps.service                     |    2%    |   🔴   |
+| 📁 demais pacotes                       |    0%    |   🔴   |
 
 ### **Configured Quality Tools**
 - **JaCoCo**: Cobertura de código com target de 85%
@@ -114,65 +103,62 @@ TOTAL NUMBER OF TESTS: 126
 - [ ] 🔄 **Repository Integration**: @DataJpaTest com Testcontainers
 - [ ] 🔄 **Exception Handling**: GlobalExceptionHandler coverage
 
-### **Next Releases**
-
 #### **Release v2.1.0 - Testing Excellence**
-- [ ] 🎯 **Target: 25% coverage** com service layer completo
-- [ ] 📊 **Mutation Testing**: PIT execution & analysis
-- [ ] 🔗 **Integration Tests**: End-to-end API scenarios
-- [ ] 📈 **Performance Benchmarks**: JMH para operações críticas
+- [ ] **Target: 25% coverage** com service layer completo
+- [ ] **Mutation Testing**: PIT execution & analysis
+- [ ] **Integration Tests**: End-to-end API scenarios
+- [ ] **Performance Benchmarks**: JMH para operações críticas
 
 #### **Release v2.2.0 - Advanced Features**
-- [ ] 🌍 **GeoSpatial Queries**: Consultas geométricas avançadas
-- [ ] 📡 **Real-time Updates**: WebSocket para dados em tempo real
-- [ ] 🔐 **OAuth2 Integration**: Login social e federado
-- [ ] 📱 **Mobile API Optimization**: Endpoints otimizados para mobile
+- [ ] **GeoSpatial Queries**: Consultas geométricas avançadas
+- [ ] **Real-time Updates**: WebSocket para dados em tempo real
+- [ ] **OAuth2 Integration**: Login social e federado
+- [ ] **Mobile API Optimization**: Endpoints otimizados para mobile
 
-### 💡 **Conceitos Futuros (Backlog)**
-- [ ] 🌐 **Microservices Architecture**: Decomposição em serviços
-- [ ] 📨 **Message Streaming**: Apache Kafka ou RabbitMQ
-- [ ] ⚡ **Caching Layer**: Redis para performance
-- [ ] 🚀 **CI/CD Pipeline**: GitHub Actions completo
-- [ ] 📊 **Observability**: Prometheus + Grafana
-- [ ] 🔄 **Event Sourcing**: Para auditoria avançada
+### 🎯 **in concept**
+- [ ] **Microservices Architecture**: Decomposição em serviços
+- [ ] **Message Streaming**: Apache Kafka ou RabbitMQ
+- [ ] **Caching Layer**: Redis para performance
+- [ ] **CI/CD Pipeline**: GitHub Actions completo
+- [ ] **Observability**: Prometheus + Grafana
+- [ ] **Event Sourcing**: Para auditoria avançada
 
-## ⚙️ **Environment Configuration**
+## **Environment Configuration**
 
-### **Requirements**
+### 📋 **Prerequisites**
 
-| Ferramenta        | Minimum Version |                             Download                              | Details                              |
-|:------------------|:---------------:|:-----------------------------------------------------------------:|:-------------------------------------|
-| **Java JDK**      |       17        |       [OpenJDK 17](https://adoptium.net/temurin/releases/)        | Project's main runtime               |
-| **PostgreSQL**    |      17.5       |        [PostgreSQL](https://www.postgresql.org/download/)         | Primary SGBD with PostGIS            |
-| **Maven**         |      3.8+       |       [Apache Maven](https://maven.apache.org/download.cgi)       | Build tool e dependency management   |
-| **IntelliJ IDEA** |     2024.1+     |       [JetBrains](https://www.jetbrains.com/idea/download/)       | Recommended IDE                      |
-| **Docker**        |      20.0+      | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Containerizer                        |
-| **DBeaver**       |      23.0+      |            [DBeaver CE](https://dbeaver.io/download/)             | Client PostgreSQL                    |
+| Tool              | Minimum version |                             Download                              | Details                            |
+|:------------------|:---------------:|:-----------------------------------------------------------------:|:-----------------------------------|
+| **Java JDK**      |       17        |       [OpenJDK 17](https://adoptium.net/temurin/releases/)        | Project's main runtime             |
+| **PostgreSQL**    |      17.5       |        [PostgreSQL](https://www.postgresql.org/download/)         | Primary SGBD with PostGIS          |
+| **Maven**         |      3.8+       |       [Apache Maven](https://maven.apache.org/download.cgi)       | Build tool e dependency management |
+| **IntelliJ IDEA** |     2024.1+     |       [JetBrains](https://www.jetbrains.com/idea/download/)       | IDE recommended                    |
+| **Docker**        |      20.0+      | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Containerization                   |
+| **DBeaver**       |      23.0+      |            [DBeaver CE](https://dbeaver.io/download/)             | Client PostgreSQL                  |
 
-### **PostgreSQL + PostGIS Configuration**
+### 🐘 **PostgreSQL + PostGIS configuration**
 
 ```sql
--- crete database
+-- create database
 CREATE DATABASE maps;
 
--- connect to database
+-- connect to the database
 \c maps;
 
--- 3. enable PostGIS
+-- enable PostGIS
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- 4. create schema
+-- create schema
 CREATE SCHEMA IF NOT EXISTS maps;
 
--- 5. verify instalation
+-- verify installation
 SELECT version();
 SELECT PostGIS_Version();
 ```
 
-### **Environment Variables**
+### 🔧 **Environment Variables**
 
-Create a file `.env` at the root of the project:
-
+create the `.env` file in the project root
 ```bash
 # Database Configuration
 DB_HOST=localhost
@@ -182,7 +168,7 @@ DB_USERNAME=postgres
 DB_PASSWORD=password
 DB_SCHEMA=maps
 
-# JWT Configuration  
+# JWT Configuration
 JWT_SECRET=your_super_secret_jwt_key_here_min_256_bits
 JWT_EXPIRATION=86400000
 
@@ -194,33 +180,32 @@ SERVER_CONTEXT_PATH=/maps
 SPRING_PROFILES_ACTIVE=dev
 ```
 
-## **Como Usar**
+## **How to start**
 
-### 📥 **Instalação & Setup**
+### **Installation & Setup**
 
 ```bash
-# 1. Clone o repositório
+# clone the repository
 git clone https://github.com/gadelhati/maps-back
 cd maps-back
 
-# 2. Configure o banco de dados (PostgreSQL deve estar rodando)
-# Certifique-se que PostgreSQL + PostGIS estão configurados
+# configure the database
 
-# 3. Configure as variáveis de ambiente
+# configure environment variables
 cp .env.example .env
-# Edite o .env com suas configurações
+# edite o .env
 
-# 4. Instale as dependências
+# install dependencies
 mvn clean install
 
-# 5. Execute os testes (opcional mas recomendado)
+# execute tests
 mvn test
 
-# 6. Execute a aplicação
+# execute the application
 mvn spring-boot:run
 ```
 
-### 🔄 **Comandos de Desenvolvimento**
+### **Development Commands**
 
 ```bash
 # Executar em modo de desenvolvimento (CSRF desabilitado)
@@ -239,8 +224,8 @@ mvn org.pitest:pitest-maven:mutationCoverage
 mvn clean package
 
 # Executar com Docker
-docker build -t maps-backend .
-docker run -p 8080:8080 maps-backend
+docker build -t maps .
+docker run -p 8080:8080 maps
 
 # Verificar saúde da aplicação
 curl http://localhost:8080/maps/actuator/health
@@ -269,19 +254,19 @@ taskkill /PID <PID_NUMBER> /F
 
 ```bash
 # Build da imagem
-docker build -t maps-backend:latest .
+docker build -t maps:latest .
 
 # Executar com Docker Compose (inclui PostgreSQL + PostGIS)
 docker-compose up -d
 
 # Executar apenas a aplicação
 docker run -d \
-  --name maps-backend \
+  --name maps \
   -p 8080:8080 \
   -e SPRING_PROFILES_ACTIVE=prd \
   -e DB_HOST=host.docker.internal \
   -e DB_PASSWORD=your_password \
-  maps-backend:latest
+  maps:latest
 ```
 
 ### ☁️ **Deploy em Cloud Provider**
@@ -292,7 +277,7 @@ docker run -d \
 heroku login
 
 # 2. Criar aplicação
-heroku create maps-backend-api
+heroku create maps
 
 # 3. Configurar PostgreSQL addon
 heroku addons:create heroku-postgresql:mini
@@ -310,8 +295,8 @@ git push heroku main
 # docker-compose.prod.yml exemplo
 version: '3.8'
 services:
-  maps-backend:
-    image: maps-backend:latest
+  maps:
+    image: maps:latest
     ports:
       - "80:8080"
     environment:
@@ -364,30 +349,64 @@ management.endpoint.health.show-details=when_authorized
 
 ## **API Documentation**
 
-> **Base URL:** [http://localhost:8080/maps/v1](http://localhost:8080/maps/v1)
+### 🌐 **Main Endpoints**
 
-### **Swagger Documentation**
-All resources follow the RESTful standard with complete CRUD operations. Access the interactive documentation when the application is running:
-> **Swagger:** [http://localhost:8080/maps/v1/swagger-ui/index.html](http://localhost:8080/maps/v1/swagger-ui/index.html)
+> **Base URL** [http://localhost:8080/maps](http://localhost:8080/maps`)
 
-### **Endpoints CRUD Padrão**
+| Endpoint                                                  | Method                        | Description                                                          | Exemple              |
+|:----------------------------------------------------------|:------------------------------|:---------------------------------------------------------------------|:---------------------|
+| [CREATE](http://localhost:8080/maps/user)                 | `POST /{resource}`            | path to item creation                                                | `POST /user`         |
+| [RETRIEVE](http://localhost:8080/maps/user/id)            | `GET /{resource}/{id}`        | path to search for item by id                                        | `GET /user/123`      |
+| [RETRIEVE ALL](http://localhost:8080/maps/user/attribute) | `GET /{resource}/{attribute}` | path to search for item by attribute or all items without attribute  | `GET /user/username` |
+| [UPDATE](http://localhost:8080/maps/user/id)              | `PUT /{resource}/{id}`        | path to item update                                                  | `PUT /user/123`      |
+| [DELETE](http://localhost:8080/maps/user/id)              | `DELETE /{resource}/{id}`     | path to item delete                                                  | `DELETE /user/123`   |
 
-| Endpoint                                                 | Description                                                       | Example             |
-|:---------------------------------------------------------|:------------------------------------------------------------------|:--------------------|
-| [CREATE](http://localhost:8080/mfa/v1/user)              | path to item creation                                             | `POST /user`        |
-| [RETRIEVE ALL](http://localhost:8080/mfa/v1/user/search) | path to retrieve of an item by search or all items without source | `GET /user`         | 
-| [RETRIEVE](http://localhost:8080/mfa/v1/user/id)         | path to retrieve of an item by id                                 | `GET /user/{id}`    |                                         
-| [UPDATE](http://localhost:8080/mfa/v1/user/id)           | path to update an item                                            | `PUT /user/{id}`    |                                                     
-| [DELETE](http://localhost:8080/mfa/v1/user/id)           | path to delete an item                                            | `DELETE /user/{id}` |                                                     
+### 📚 **Swagger Documentation**
+Access the interactive documentation when the application is running.
+> **Swagger** [http://localhost:8080/maps/v1/swagger-ui/index.html](http://localhost:8080/maps/v1/swagger-ui/index.html)
 
 ### 🔗 **Links Úteis**
-> **Home:**: [http://localhost:8080/maps](http://localhost:8080/maps)
+> **Home**: [http://localhost:8080/maps](http://localhost:8080/maps)
 
-> **️Health Check:**: [http://localhost:8080/maps/actuator/health](http://localhost:8080/maps/actuator/health)
+> **Health Check**: [http://localhost:8080/maps/actuator/health](http://localhost:8080/maps/actuator/health)
 
-> **Metrics:**: [http://localhost:8080/maps/actuator/metrics](http://localhost:8080/maps/actuator/metrics)
+> **Metrics**: [http://localhost:8080/maps/actuator/metrics](http://localhost:8080/maps/actuator/metrics)
 
-> **Info:**: [http://localhost:8080/maps/actuator/info](http://localhost:8080/maps/actuator/info)
+> **Info**: [http://localhost:8080/maps/actuator/info](http://localhost:8080/maps/actuator/info)
+
+### 🛣️ **Endpoints CRUD Padrão**
+
+Todos os recursos seguem o padrão RESTful com operações CRUD completas
+
+```http
+# 📝 Criar recurso
+POST   /maps/{resource}
+
+# 📖 Buscar por ID  
+GET    /maps/{resource}/{id}
+
+# 🔍 Buscar com filtros/paginação
+GET    /maps/{resource}/search?page=0&size=10&sort=name,desc
+
+# ✏️ Atualizar recurso
+PUT    /maps/{resource}/{id}
+
+# 🗑️ Deletar por ID
+DELETE /maps/{resource}/{id}
+
+# 🗑️ Deletar todos (admin only)
+DELETE /maps/{resource}
+```
+
+### 📍 **Recursos Disponíveis**
+| Resource      | Endpoint         | Description        | Exemple                    |
+|:--------------|:-----------------|:-------------------|:---------------------------|
+| **Users**     | `/maps/user`     | Gestão de usuários | `GET /maps/user/search`    |
+| **Roles**     | `/maps/role`     | Controle de perfis | `POST /maps/role`          |
+| **Charts**    | `/maps/chart`    | Cartas náuticas    | `GET /maps/chart/1`        |
+| **Research**  | `/maps/research` | Dados de pesquisa  | `PUT /maps/research/1`     |
+| **Countries** | `/maps/country`  | Países e regiões   | `GET /maps/country/search` |
+| **Cities**    | `/maps/city`     | Cidades            | `DELETE /maps/city/1`      |
 
 ### 🔐 **Autenticação & Autorização**
 
@@ -411,7 +430,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-### 📊 **Exemplos de Paginação**
+### 📊 **Pagination**
 
 ```http
 # Paginação básica
@@ -424,30 +443,30 @@ GET /maps/user/search?sort=name,desc&sort=email,asc
 GET /maps/user/search?name=João&active=true&page=0&size=10
 ```
 
-## 🤝 **Contribuição**
+## **Contribution**
 
-### 📋 **Como Contribuir**
+### 🤝 **how to contribute**
 
-1. **🍴 Fork** este repositório
-2. **🌿 Crie** uma branch para sua feature (`git checkout -b feature/amazing-feature`)
-3. **💾 Commit** suas mudanças (`git commit -m 'feat: add amazing feature'`)
-4. **📤 Push** para a branch (`git push origin feature/amazing-feature`)
-5. **🔄 Abra** um Pull Request
+1. **🍴 Fork** this repository
+2. **🌿 Create** a branch to your feature (`git checkout -b feature/amazing-feature`)
+3. **💾 Commit** your changes (`git commit -m 'feat: add amazing feature'`)
+4. **📤 Push** to branch (`git push origin feature/amazing-feature`)
+5. **🔄 Open** a Pull Request
 
-### 🏷️ **Convenções de Commit**
+### 🏷️ **Committee Conventions**
 
 Este projeto adota convenções de commit padronizadas para melhor rastreabilidade:
 
-| Tipo       |                 Description                           | Exemplo                                             |
-|:-----------|:---------------------------------------------------:|:----------------------------------------------------|
-| `feat`     |            Um novo recurso para a aplicação         | `feat: adiciona endpoint de busca por coordenadas`  |
-| `fix`      |                    Correções de bug                 | `fix: corrige erro de autenticação no login`        |
-| `docs`     |         Alterações em arquivos de documentação      | `docs: atualiza seção de deploy no README`          |
-| `style`    |       Alterações de estilização, formatação         | `style: ajusta indentação em ControllerCity`        |
-| `refactor` |  Refatoração de código sem mudança de funcionalidade| `refactor: otimiza ServiceGeneric para usar Optional`|
-| `perf`     |         Alterações relacionadas à performance       | `perf: otimiza consulta SQL na camada de persistência`|
-| `test`     |            Criação ou modificação de testes         | `test: adiciona teste unitário para ServiceCity`    |
-| `chore`    | Alterações em arquivos de config, build, CI         | `chore: atualiza versão do Spring Boot para 3.5.4`  |
+| Tipo       |                   Description                    | Exemplo                                               |
+|:-----------|:------------------------------------------------:|:------------------------------------------------------|
+| `feat`     |        A new feature for the application         | `feat: adds a search endpoint using coordinates.`     |
+| `fix`      |                    Bug fixes                     | `fix: fixes authentication error during login.`       |
+| `docs`     |          Changes to documentation files          | `docs: update the deployment section in the README.`  |
+| `style`    |          Styling and formatting changes          | `style: adjust indentation in ControllerCity.`        |
+| `refactor` | Code refactoring without changing functionality. | `refactor: optimize ServiceGeneric to use Optional.`  |
+| `perf`     |           Performance-related changes            | `perf: optimizes SQL query in the persistence layer.` |
+| `test`     |           Creating or modifying tests            | `test: adds unit testing to ServiceCity.`             |
+| `chore`    |        Changes to config, build, CI files        | `chore: updates Spring Boot version to 3.5.4`         |
 
 ### 🛠️ **Setup para Desenvolvimento**
 
@@ -539,24 +558,24 @@ git status --short
 git diff --staged
 ```
 
-## 👨‍💻 **Desenvolvedores**
+## **Developers**
 
-### **🏆 Core Team**
+### **🏆 Team**
 - **[Gadelha TI](https://github.com/gadelhati)** - *Architect & Lead Developer*
 
-### **🤝 Contribuidores**
-Agradecemos a todos que contribuíram para este projeto!
+### **🤝 Contributors**
+We thank everyone who contributed to this project!
 
 <!-- [![Contributors](https://contrib.rocks/image?repo=gadelhati/maps-back)](https://github.com/gadelhati/maps-back/graphs/contributors) -->
 
-### **📞 Contato**
-- **💌 Email**: gadelhati@gmail.com
-- **💼 LinkedIn**: [linkedin.com/in/gadelhati](https://linkedin.com/in/gadelhati)
-- **🐙 GitHub**: [@gadelhati](https://github.com/gadelhati)
+### **📞 Contact**
+- **Email:** gadelhati@gmail.com
+- **LinkedIn:** [linkedin.com/in/gadelhati](https://linkedin.com/in/gadelhati)
+- **GitHub:** [@gadelhati](https://github.com/gadelhati)
 
-## **Licence**
+## **License**
 
-This project is licensed under the **MIT License** - see the [MIT LICENCE](https://choosealicense.com/licenses/mit/) file for details.
+This project is licensed under the **MIT License** - see the [MIT LICENSE](https://choosealicense.com/licenses/mit/) file for details.
 
 ```text
 MIT License
@@ -581,17 +600,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
----
-
-## 🎉 **Agradecimentos**
-
-- **☕ Spring Community** - Pelo framework excepcional
-- **🐘 PostgreSQL Team** - Pelo SGBD robusto e confiável
-- **🗺️ PostGIS Community** - Por tornar dados geoespaciais acessíveis
-- **🧪 Testing Libraries** - JUnit, Mockito, Testcontainers teams
-- **🛠️ Open Source Community** - Por todas as bibliotecas utilizadas
-
 ---
 
 <div align="center">
