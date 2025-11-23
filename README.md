@@ -96,32 +96,26 @@ TOTAL NUMBER OF TESTS: 126
 ## **Roadmap**
 
 ### 🚧 **in development**
-- [x] ✅ **Conversão para Records**: 40 DTOs modernizados
-- [x] ✅ **Expansão de Testes**: 135 testes (crescimento +600%)
-- [x] ✅ **Cobertura Base**: 5% estabelecida com ferramentas robustas
-- [ ] 🔄 **Service Layer Testing**: ServiceAuth, ServiceUser completos
+- [x] ✅ **Testing Expansion**: 135 tests (+600%)
+- [x] ✅ **Base Coverage**: 5% established with robust tools
 - [ ] 🔄 **Repository Integration**: @DataJpaTest com Testcontainers
-- [ ] 🔄 **Exception Handling**: GlobalExceptionHandler coverage
 
 #### **Release v2.1.0 - Testing Excellence**
-- [ ] **Target: 25% coverage** com service layer completo
+- [ ] **Target: 25% coverage** with full service layer
 - [ ] **Mutation Testing**: PIT execution & analysis
 - [ ] **Integration Tests**: End-to-end API scenarios
-- [ ] **Performance Benchmarks**: JMH para operações críticas
+- [ ] **Performance Benchmarks**: JMH for critical operations
 
 #### **Release v2.2.0 - Advanced Features**
-- [ ] **GeoSpatial Queries**: Consultas geométricas avançadas
-- [ ] **Real-time Updates**: WebSocket para dados em tempo real
-- [ ] **OAuth2 Integration**: Login social e federado
-- [ ] **Mobile API Optimization**: Endpoints otimizados para mobile
+- [ ] **GeoSpatial Queries**: Advanced geospatial queries
+- [ ] **Real-time Updates**: WebSocket for real-time data
+- [ ] **OAuth2 Integration**: Social login
 
 ### 🎯 **in concept**
-- [ ] **Microservices Architecture**: Decomposição em serviços
 - [ ] **Message Streaming**: Apache Kafka ou RabbitMQ
 - [ ] **Caching Layer**: Redis para performance
-- [ ] **CI/CD Pipeline**: GitHub Actions completo
+- [ ] **CI/CD Pipeline**: GitHub Actions
 - [ ] **Observability**: Prometheus + Grafana
-- [ ] **Event Sourcing**: Para auditoria avançada
 
 ## **Environment Configuration**
 
