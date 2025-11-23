@@ -42,16 +42,16 @@
 
 ### **Detailed Tech Stack**
 
-| Category          | Tecnology / Padrão                            | Detalhes                                                                  |
-|:------------------|:----------------------------------------------|:--------------------------------------------------------------------------|
-| **Backend**       | Java 17, Spring Boot 3.5.4                    | Framework moderno e robusto para APIs RESTful com suporte a Records       |
-| **Persistência**  | PostgreSQL 17.5, PostGIS, Hibernate Spatial   | Suporte nativo a dados geoespaciais e consultas complexas                 |
-| **Segurança**     | Spring Security 6.2.2, JWT, @PreAuthorize     | Autenticação via JWT e controle de acesso granular em nível de método     |
-| **Design**        | ControllerGeneric, Java Records, HATEOAS      | Abstração de operações CRUD, DTOs imutáveis e enriquecimento de respostas |
-| **Qualidade**     | JaCoCo 0.8.11, PIT 1.15.8, Surefire, Failsafe | Cobertura de código, mutation testing, testes unitários e de integração   |
-| **Testing**       | Testcontainers 1.20.4, Mockito, JUnit 5       | Testes com containers reais PostgreSQL, mocks avançados                   |
-| **DevOps**        | Docker, Maven, CI/CD Ready                    | Containerização completa e automação de build/deploy                      |
-| **Documentation** | OpenAPI 3, Swagger UI, JavaDoc                | Documentação interativa e completa da API                                 |
+| Category          | Tecnology / Padrão                            | Detalhes                                                      |
+|:------------------|:----------------------------------------------|:--------------------------------------------------------------|
+| **Framework**     | Java 17, Spring Boot 3.5.4                    | Modern and robust framework for RESTful APIs                  |
+| **Persistence**   | PostgreSQL 17.5, PostGIS, Hibernate Spatial   | Native support for geospatial data and complex queries        |
+| **Security**      | Spring Security 6.2.2, JWT, @PreAuthorize     | Authentication via JWT and granular access control            |
+| **Design**        | ControllerGeneric, Java Records, HATEOAS      | Abstraction of CRUD operations, immutable DTOs                |
+| **Quality**       | JaCoCo 0.8.11, PIT 1.15.8, Surefire, Failsafe | Code coverage, mutation testing, unit and integration testing |
+| **Testing**       | Testcontainers 1.20.4, Mockito, JUnit 5       | Testing with real PostgreSQL containers, advanced mocks       |
+| **DevOps**        | Docker, Maven, CI/CD Ready                    | Full containerization and build/deploy automation             |
+| **Documentation** | OpenAPI 3, Swagger UI, JavaDoc                | Interactive API documentation                                 |
 
 ### 🎨 **Padrões de Design Implementados**
 - **Generic Controller Pattern**: Operações CRUD reutilizáveis
@@ -89,9 +89,9 @@ TOTAL NUMBER OF TESTS: 126
 ### **Types of Tests Implemented**
 1. **Unit Tests**: Service layer, Utils, DTOs
 2. **Integration Tests**: Testcontainers + PostgreSQL
-3. **Testes de Controller**: MockMVC com validação REST
-4. **Testes de Validação**: Bean Validation and custom annotations
-5. **Testes de Segurança**: JWT, authentication, authorization
+3. **Controller Tests**: MockMVC with validation REST
+4. **Validation Tests**: Bean Validation and custom annotations
+5. **Security Tests**: JWT, authentication, authorization
 
 ## **Roadmap**
 
@@ -127,14 +127,14 @@ TOTAL NUMBER OF TESTS: 126
 
 ### 📋 **Prerequisites**
 
-| Tool              | Minimum version |                             Download                              | Details                            |
-|:------------------|:---------------:|:-----------------------------------------------------------------:|:-----------------------------------|
-| **Java JDK**      |       17        |       [OpenJDK 17](https://adoptium.net/temurin/releases/)        | Project's main runtime             |
-| **PostgreSQL**    |      17.5       |        [PostgreSQL](https://www.postgresql.org/download/)         | Primary SGBD with PostGIS          |
-| **Maven**         |      3.8+       |       [Apache Maven](https://maven.apache.org/download.cgi)       | Build tool e dependency management |
-| **IntelliJ IDEA** |     2024.1+     |       [JetBrains](https://www.jetbrains.com/idea/download/)       | IDE recommended                    |
+| Tool              | Minimum version |                                                          Download | Details                            |
+|:------------------|:---------------:|------------------------------------------------------------------:|:-----------------------------------|
+| **Java JDK**      |       17        |              [OpenJDK 17](https://adoptium.net/temurin/releases/) | Project's main runtime             |
+| **PostgreSQL**    |      17.5       |                [PostgreSQL](https://www.postgresql.org/download/) | Primary SGBD with PostGIS          |
+| **Maven**         |      3.8+       |             [Apache Maven](https://maven.apache.org/download.cgi) | Build tool e dependency management |
+| **IntelliJ IDEA** |     2024.1+     |             [JetBrains](https://www.jetbrains.com/idea/download/) | IDE recommended                    |
 | **Docker**        |      20.0+      | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | Containerization                   |
-| **DBeaver**       |      23.0+      |            [DBeaver CE](https://dbeaver.io/download/)             | Client PostgreSQL                  |
+| **DBeaver**       |      23.0+      |                        [DBeaver CE](https://dbeaver.io/download/) | Client PostgreSQL                  |
 
 ### 🐘 **PostgreSQL + PostGIS configuration**
 
@@ -172,11 +172,11 @@ DB_SCHEMA=maps
 JWT_SECRET=your_super_secret_jwt_key_here_min_256_bits
 JWT_EXPIRATION=86400000
 
-# Server Configuration
+# server Configuration
 SERVER_PORT=8080
 SERVER_CONTEXT_PATH=/maps
 
-# Profile Configuration (dev, test, prd)
+# profile configuration (dev, test, prd)
 SPRING_PROFILES_ACTIVE=dev
 ```
 
@@ -208,58 +208,58 @@ mvn spring-boot:run
 ### **Development Commands**
 
 ```bash
-# Executar em modo de desenvolvimento (CSRF desabilitado)
+# run in developer mode (CSRF disabled)
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
-# Executar em modo de produção (CSRF habilitado)  
+# run in production mode (CSRF enabled)  
 mvn spring-boot:run -Dspring-boot.run.profiles=prd
 
-# Executar testes com relatório de cobertura
+# run tests with coverage report
 mvn clean test jacoco:report
 
-# Executar mutation testing (validação da qualidade dos testes)
+# perform mutation testing (test quality validation)
 mvn org.pitest:pitest-maven:mutationCoverage
 
-# Build para produção (criar arquivo WAR)
+# production build (create WAR file)
 mvn clean package
 
-# Executar com Docker
+# run with Docker
 docker build -t maps .
 docker run -p 8080:8080 maps
 
-# Verificar saúde da aplicação
+# check application health
 curl http://localhost:8080/maps/actuator/health
 ```
 
-### 📊 **Monitoramento & Relatórios**
+### 📊 **Monitoring & Reporting**
 
 ```bash
-# Visualizar cobertura de testes
+# view test coverage
 start target/site/jacoco/index.html
 
-# Visualizar relatório do PIT (mutation testing)
+# view PIT report (mutation testing)
 start target/pit-reports/index.html
 
-# Métricas da aplicação (Actuator)
+# application metrics (Actuator)
 curl http://localhost:8080/maps/actuator/metrics
 
-# Parar aplicação na porta específica (Windows)
+# stop the application on the specific port (Windows)
 netstat -ano | findstr :8080
 taskkill /PID <PID_NUMBER> /F
 ```
 
 ## 🚀 **Deploy**
 
-### 🐳 **Docker (Recomendado)**
+### 🐳 **Docker**
 
 ```bash
-# Build da imagem
+# image build
 docker build -t maps:latest .
 
-# Executar com Docker Compose (inclui PostgreSQL + PostGIS)
+# run with Docker Compose (includes PostgreSQL + PostGIS)
 docker-compose up -d
 
-# Executar apenas a aplicação
+# run only the application
 docker run -d \
   --name maps \
   -p 8080:8080 \
@@ -271,26 +271,7 @@ docker run -d \
 
 ### ☁️ **Deploy em Cloud Provider**
 
-#### **Heroku**
-```bash
-# 1. Login no Heroku
-heroku login
-
-# 2. Criar aplicação
-heroku create maps
-
-# 3. Configurar PostgreSQL addon
-heroku addons:create heroku-postgresql:mini
-
-# 4. Configurar variáveis de ambiente
-heroku config:set SPRING_PROFILES_ACTIVE=prd
-heroku config:set JWT_SECRET=your_jwt_secret
-
-# 5. Deploy
-git push heroku main
-```
-
-#### **AWS ECS / Azure Container Instances**
+#### 🏢 **AWS ECS / Azure Container Instances**
 ```yaml
 # docker-compose.prod.yml exemplo
 version: '3.8'
@@ -310,56 +291,39 @@ services:
       retries: 3
 ```
 
-### 🏢 **Deploy Tradicional (Tomcat Server)**
+### 🏢 **Traditional Deployment (Tomcat Server)**
 
 ```bash
-# 1. Gerar arquivo WAR
+# generate WAR file
 mvn clean package -Pprd
 
-# 2. Deploy no servidor Linux
+# deploy on linux server
 service tomcat stop
 rm /opt/tomcat/webapps/maps*.war
 rm -Rfv /opt/tomcat/webapps/maps*
-cp target/maps-*.war /opt/tomcat/webapps/maps.war
+cp target/maps*.war /opt/tomcat/webapps/maps.war
 chown tomcat:tomcat /opt/tomcat/webapps/maps.war
 chmod 755 /opt/tomcat/webapps/maps.war
 service tomcat start
 
-# 3. Verificar deployment
+# check deployment
 curl http://your-server:8080/maps/actuator/health
-```
-
-### 🔧 **Configuração de Produção**
-
-```properties
-# application-prd.properties (exemplo)
-spring.jpa.hibernate.ddl-auto=validate
-spring.jpa.show-sql=false
-logging.level.org.hibernate.SQL=WARN
-logging.level.com.maps=INFO
-
-# Security headers
-server.servlet.session.cookie.secure=true
-server.servlet.session.cookie.http-only=true
-
-# Actuator security
-management.endpoints.web.exposure.include=health,info,metrics
-management.endpoint.health.show-details=when_authorized
 ```
 
 ## **API Documentation**
 
 ### 🌐 **Main Endpoints**
 
+All resources follow the RESTful standard with complete CRUD operations
 > **Base URL** [http://localhost:8080/maps](http://localhost:8080/maps`)
 
-| Endpoint                                                  | Method                        | Description                                                          | Exemple              |
-|:----------------------------------------------------------|:------------------------------|:---------------------------------------------------------------------|:---------------------|
-| [CREATE](http://localhost:8080/maps/user)                 | `POST /{resource}`            | path to item creation                                                | `POST /user`         |
-| [RETRIEVE](http://localhost:8080/maps/user/id)            | `GET /{resource}/{id}`        | path to search for item by id                                        | `GET /user/123`      |
-| [RETRIEVE ALL](http://localhost:8080/maps/user/attribute) | `GET /{resource}/{attribute}` | path to search for item by attribute or all items without attribute  | `GET /user/username` |
-| [UPDATE](http://localhost:8080/maps/user/id)              | `PUT /{resource}/{id}`        | path to item update                                                  | `PUT /user/123`      |
-| [DELETE](http://localhost:8080/maps/user/id)              | `DELETE /{resource}/{id}`     | path to item delete                                                  | `DELETE /user/123`   |
+| Endpoint                                                  | Method                        | Description                                                         | Exemple              |
+|-----------------------------------------------------------|:------------------------------|:--------------------------------------------------------------------|:---------------------|
+| [CREATE](http://localhost:8080/maps/user)                 | `POST /{resource}`            | path to item creation                                               | `POST /user`         |
+| [RETRIEVE](http://localhost:8080/maps/user/id)            | `GET /{resource}/{id}`        | path to search for item by id                                       | `GET /user/123`      |
+| [RETRIEVE ALL](http://localhost:8080/maps/user/attribute) | `GET /{resource}/{attribute}` | path to search for item by attribute or all items without attribute | `GET /user/username` |
+| [UPDATE](http://localhost:8080/maps/user/id)              | `PUT /{resource}/{id}`        | path to item update                                                 | `PUT /user/123`      |
+| [DELETE](http://localhost:8080/maps/user/id)              | `DELETE /{resource}/{id}`     | path to item delete                                                 | `DELETE /user/123`   |
 
 ### 📚 **Swagger Documentation**
 Access the interactive documentation when the application is running.
@@ -374,31 +338,7 @@ Access the interactive documentation when the application is running.
 
 > **Info**: [http://localhost:8080/maps/actuator/info](http://localhost:8080/maps/actuator/info)
 
-### 🛣️ **Endpoints CRUD Padrão**
-
-Todos os recursos seguem o padrão RESTful com operações CRUD completas
-
-```http
-# 📝 Criar recurso
-POST   /maps/{resource}
-
-# 📖 Buscar por ID  
-GET    /maps/{resource}/{id}
-
-# 🔍 Buscar com filtros/paginação
-GET    /maps/{resource}/search?page=0&size=10&sort=name,desc
-
-# ✏️ Atualizar recurso
-PUT    /maps/{resource}/{id}
-
-# 🗑️ Deletar por ID
-DELETE /maps/{resource}/{id}
-
-# 🗑️ Deletar todos (admin only)
-DELETE /maps/{resource}
-```
-
-### 📍 **Recursos Disponíveis**
+### 📍 **Available Resources**
 | Resource      | Endpoint         | Description        | Exemple                    |
 |:--------------|:-----------------|:-------------------|:---------------------------|
 | **Users**     | `/maps/user`     | Gestão de usuários | `GET /maps/user/search`    |
@@ -408,174 +348,153 @@ DELETE /maps/{resource}
 | **Countries** | `/maps/country`  | Países e regiões   | `GET /maps/country/search` |
 | **Cities**    | `/maps/city`     | Cidades            | `DELETE /maps/city/1`      |
 
-### 🔐 **Autenticação & Autorização**
+### 🔐 **Authentication & Authorization**
 
 ```http
-# Login e obtenção do JWT
+# login and obtaining the JWT
 POST /maps/auth/login
 Content-Type: application/json
 {
-  "email": "user@example.com", 
-  "password": "password123"
+    "username": "12345678", 
+    "password": "P@ssword123"
 }
 
-# Resposta
+# response
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "type": "Bearer",
-  "expiration": "2024-12-11T10:30:00Z"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "type": "Bearer ",
+    "expiration": "2024-12-11T10:30:00Z"
 }
 
-# Usar o token em requests subsequentes
+# use the token in subsequent requests
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 ### 📊 **Pagination**
 
 ```http
-# Paginação básica
+# pagination
 GET /maps/user/search?page=2&size=5
 
-# Ordenação
+# ordering
 GET /maps/user/search?sort=name,desc&sort=email,asc
 
-# Filtros customizados  
+# custom filters  
 GET /maps/user/search?name=João&active=true&page=0&size=10
 ```
 
 ## **Contribution**
 
-### 🤝 **how to contribute**
+### 🤝 **How to contribute**
+Follow the Commit Convention (see below)
 
-1. **🍴 Fork** this repository
-2. **🌿 Create** a branch to your feature (`git checkout -b feature/amazing-feature`)
-3. **💾 Commit** your changes (`git commit -m 'feat: add amazing feature'`)
-4. **📤 Push** to branch (`git push origin feature/amazing-feature`)
-5. **🔄 Open** a Pull Request
+1. **Fork** this repository
+2. **Create** a branch to your feature or fix (`git checkout -b feature/feature-name`)
+3. Implement your changes
+4. Make sure all tests pass and code coverage has not decreased (`mvn test`)
+5. **Commit** your changes (`git commit -m 'feat(amazing): add amazing feature'`)
+6. **Push** to the develop branch (`git push -u origin feature/feature-name`)
+7. Open a **Pull Request** (PR)
 
-### 🏷️ **Committee Conventions**
+### 🏷️ **Commit Conventions**
 
-Este projeto adota convenções de commit padronizadas para melhor rastreabilidade:
+This project adopts standardized commit conventions:
 
-| Tipo       |                   Description                    | Exemplo                                               |
-|:-----------|:------------------------------------------------:|:------------------------------------------------------|
-| `feat`     |        A new feature for the application         | `feat: adds a search endpoint using coordinates.`     |
-| `fix`      |                    Bug fixes                     | `fix: fixes authentication error during login.`       |
-| `docs`     |          Changes to documentation files          | `docs: update the deployment section in the README.`  |
-| `style`    |          Styling and formatting changes          | `style: adjust indentation in ControllerCity.`        |
-| `refactor` | Code refactoring without changing functionality. | `refactor: optimize ServiceGeneric to use Optional.`  |
-| `perf`     |           Performance-related changes            | `perf: optimizes SQL query in the persistence layer.` |
-| `test`     |           Creating or modifying tests            | `test: adds unit testing to ServiceCity.`             |
-| `chore`    |        Changes to config, build, CI files        | `chore: updates Spring Boot version to 3.5.4`         |
+| Tipo       |                   Description                    | Exemplo                                                       |
+|:-----------|:------------------------------------------------:|:--------------------------------------------------------------|
+| `feat`     |        A new feature for the application         | `feat(geo): adds a search endpoint using coordinates.`        |
+| `fix`      |                    Bug fixes                     | `fix(auth): fixes authentication error during login.`         |
+| `docs`     |          Changes to documentation files          | `docs(readme): update the deployment section in the README.`  |
+| `style`    |          Styling and formatting changes          | `style(city): adjust indentation in ControllerCity.`          |
+| `refactor` | Code refactoring without changing functionality. | `refactor(generic): optimize ServiceGeneric to use Optional.` |
+| `perf`     |           Performance-related changes            | `perf(layer): optimizes SQL query in the persistence layer.`  |
+| `test`     |           Creating or modifying tests            | `test(city): adds unit testing to ServiceCity.`               |
+| `chore`    |        Changes to config, build, CI files        | `chore(configuration): updates Spring Boot version to 3.5.4`  |
 
-### 🛠️ **Setup para Desenvolvimento**
+### 🛠️ **Setup for Development**
 
 ```bash
-# 1. Clone seu fork
-git clone https://github.com/SEU_USERNAME/maps-back
+# clone repository
+git clone https://github.com/gadelhati/maps-back
 cd maps-back
-
-# 2. Configure o remote upstream
+# add remote repository
 git remote add upstream https://github.com/gadelhati/maps-back
-
-# 3. Instale dependências e execute testes
+# install dependencies
 mvn clean install
+# run tests
 mvn test
-
-# 4. Configure pre-commit hooks (recomendado)
+# integrity check
 mvn validate
-
-# 5. Verifique qualidade do código antes do commit
+# clean, test and generates the JaCoCo test coverage report
 mvn clean test jacoco:report
-# Target: Manter cobertura acima de 5%
+# target: maintain coverage above 5%
 ```
 
-### 📏 **Padrões de Código**
+### 📏 **Code Standards**
 
-- **🎯 Cobertura de Testes**: Mantenha ou melhore a cobertura atual (5%+)
-- **📝 Documentação**: Documente métodos públicos com JavaDoc
-- **🏗️ Arquitetura**: Siga os padrões estabelecidos (Service/Controller/Repository)
-- **🔒 Segurança**: Implemente testes de segurança para novos endpoints
-- **♻️ Clean Code**: Siga princípios SOLID e DRY
+- **Test Coverage**: Maintain or improve current coverage (5%+)
+- **Architecture**: Follow established standards (Service/Controller/Repository)
+- **Security**: Implement security tests for new endpoints
+- **Clean Code**: Follow SOLID and DRY principles
 
-### 🎯 **Áreas Prioritárias para Contribuição**
+### 🐛 **Reporting Bugs**
 
-#### **🔥 Alta Prioridade**
-- **Service Layer Testing**: Aumentar cobertura de ServiceAuth, ServiceUser
-- **Repository Tests**: Implementar testes @DataJpaTest
-- **Integration Tests**: Cenários end-to-end com Testcontainers
+When reporting bugs, please include:
+- **Environment**: OS, Java version
+- **Steps to reproduce**: Detailed steps
+- **Expected vs Actual**: Expected vs. actual behavior
+- **Logs**: Stack trace or relevant logs
 
-#### **🟡 Média Prioridade**
-- **Performance Optimization**: Benchmarks JMH
-- **Exception Handling**: Testes do GlobalExceptionHandler
-- **API Documentation**: Melhorar documentação OpenAPI
+### 💡 **Suggesting Features**
 
-#### **🟢 Baixa Prioridade**
-- **Frontend Integration**: Cliente React/Angular
-- **Monitoring**: Métricas Prometheus/Grafana
-- **CI/CD**: GitHub Actions pipeline
+For feature suggestions:
+- **Use Case**: Describe the use case
+- **Business Value**: What value does it add to the project
+- **Acceptance Criteria**: specific conditions to be met
 
-### 🐛 **Reportando Bugs**
-
-Ao reportar bugs, inclua:
-- **🖥️ Ambiente**: OS, Java version, Spring Boot version
-- **📊 Steps to reproduce**: Passos detalhados
-- **🎯 Expected vs Actual**: Comportamento esperado vs real
-- **📋 Logs**: Stack trace ou logs relevantes
-- **🧪 Test**: Teste unitário reproduzindo o bug (se possível)
-
-### 💡 **Sugerindo Features**
-
-Para sugestões de features:
-- **🎯 Use Case**: Descreva o caso de uso
-- **💼 Business Value**: Qual valor agrega ao projeto
-- **🏗️ Implementation**: Sugestão de implementação (opcional)
-- **🧪 Acceptance Criteria**: Critérios de aceitação
-
-## 📊 **Comandos Git Úteis**
+## **Useful Git Commands**  
 
 ```bash
-# Gerenciamento de branches
-git checkout -b feature/nova-feature
-git branch -d feature/feature-removida
-git push --delete origin feature/feature-removida
+# create a new branch and switch to this new branch
+git checkout -b feature/new-feature
+# remove a local branch
+git branch -d feature/feature-removed
+# removes a branch from the remote repository
+git push --delete origin feature/feature-removed
 
-# Sincronização com upstream
-git fetch upstream
-git rebase upstream/main
+# download the updates, but don't change your branch
+git fetch remote-branch
+# download the updates, and rewrite history
+git rebase remote-branch/main
+# download the updates, end edit from the penultimate commit
+git rebase -i HEAD~3
+# push your local branch to the remote
+git push origin feature/your-feature
 
-# Preparação para PR
-git rebase -i HEAD~3  # Squash commits se necessário
-git push -f origin feature/sua-feature
-
-# Tags e releases
+# create a tag
 git tag -a v1.4.0 -m "Release version 1.4.0"
+# send tag to remote
 git push origin v1.4.0
 
-# Úteis para desenvolvimento
+# displays the commit history
 git log --oneline --graph --decorate
+# displays the repository status
 git status --short
+# differences between staging and the last commit
 git diff --staged
 ```
 
 ## **Developers**
 
-### **🏆 Team**
-- **[Gadelha TI](https://github.com/gadelhati)** - *Architect & Lead Developer*
-
 ### **🤝 Contributors**
-We thank everyone who contributed to this project!
-
-<!-- [![Contributors](https://contrib.rocks/image?repo=gadelhati/maps-back)](https://github.com/gadelhati/maps-back/graphs/contributors) -->
+> **[Gadelha TI](https://github.com/gadelhati)** - *Architect & Lead Developer*
 
 ### **📞 Contact**
-- **Email:** gadelhati@gmail.com
-- **LinkedIn:** [linkedin.com/in/gadelhati](https://linkedin.com/in/gadelhati)
-- **GitHub:** [@gadelhati](https://github.com/gadelhati)
+> **Email:** gadelhati@gmail.com
 
 ## **License**
 
-This project is licensed under the **MIT License** - see the [MIT LICENSE](https://choosealicense.com/licenses/mit/) file for details.
+This project is licensed under the **MIT License** - see the [MIT LICENSE]( https://choosealicense.com/licenses/mit/) file for details.
 
 ```text
 MIT License
