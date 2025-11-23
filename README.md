@@ -30,12 +30,14 @@
 ## **Summary**
 - [Architecture & Technologies](#architecture--technologies)
 - [Quality & Testing](#quality--testing)
+- [Roadmap](#roadmap)
 - [Environment Configuration](#environment-configuration)
-- [Como Usar](#-como-usar)
-- [Development Commands](#development-commands)
-- [Deploy](#-deploy)
-- [API Documentation](#-api-documentation)
-- [Contribuição](#-contribuição)
+- [How to start](#how-to-start)
+- [Deploy](#deploy)
+- [API Documentation](#api-documentation)
+- [Contribution](#contribution)
+- [Useful Git Commands](#useful-git-commands-)
+- [Developers](#developers)
 - [License](#license)
 
 ## **Architecture & Technologies**
@@ -54,12 +56,12 @@
 | **Documentation** | OpenAPI 3, Swagger UI, JavaDoc                | Interactive API documentation                                 |
 
 ### 🎨 **Padrões de Design Implementados**
-- **Generic Controller Pattern**: Operações CRUD reutilizáveis
-- **DTO Pattern com Records**: Transferência de dados imutável e type-safe
-- **Repository Pattern**: Abstração de persistência
-- **Service Layer Pattern**: Lógica de negócio isolada
-- **Exception Handler**: Tratamento centralizado de erros
-- **Security Interceptors**: Controle de acesso em múltiplas camadas
+- **Generic Controller Pattern**: Reusable CRUD operations
+- **DTO Pattern com Records**: Immutable and type-safe data transfer
+- **Repository Pattern**: Persistence abstraction
+- **Service Layer Pattern**: Isolated business logic
+- **Exception Handler**: Centralized error handling
+- **Security Interceptors**: Multi-layered access control
 
 ## **Quality & Testing**
 
@@ -78,13 +80,6 @@ TOTAL NUMBER OF TESTS: 126
 | 📁 com.maps.controller                  |    6%    |   🔴   |
 | 📁 com.maps.service                     |    2%    |   🔴   |
 | 📁 demais pacotes                       |    0%    |   🔴   |
-
-### **Configured Quality Tools**
-- **JaCoCo**: Cobertura de código com target de 85%
-- **PIT Mutation Testing**: Validação da qualidade dos testes (80% target)
-- **Testcontainers**: Testes de integração com PostgreSQL real
-- **Static Analysis**: Checkstyle, SpotBugs integration ready
-- **Performance Testing**: JMH benchmarks configurados
 
 ### **Types of Tests Implemented**
 1. **Unit Tests**: Service layer, Utils, DTOs
@@ -242,7 +237,7 @@ netstat -ano | findstr :8080
 taskkill /PID <PID_NUMBER> /F
 ```
 
-## 🚀 **Deploy**
+## **Deploy**
 
 ### 🐳 **Docker**
 
