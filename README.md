@@ -90,7 +90,7 @@ TOTAL NUMBER OF TESTS: 126
 
 ## **Roadmap**
 
-### 🚧 **in development**
+### 🚧 **In development**
 - [x] ✅ **Testing Expansion**: 135 tests (+600%)
 - [x] ✅ **Base Coverage**: 5% established with robust tools
 - [ ] 🔄 **Repository Integration**: @DataJpaTest com Testcontainers
@@ -106,7 +106,7 @@ TOTAL NUMBER OF TESTS: 126
 - [ ] **Real-time Updates**: WebSocket for real-time data
 - [ ] **OAuth2 Integration**: Social login
 
-### 🎯 **in concept**
+### 🎯 **In concept**
 - [ ] **Message Streaming**: Apache Kafka ou RabbitMQ
 - [ ] **Caching Layer**: Redis para performance
 - [ ] **CI/CD Pipeline**: GitHub Actions
