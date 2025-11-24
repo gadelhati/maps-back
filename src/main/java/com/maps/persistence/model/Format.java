@@ -1,0 +1,24 @@
+package com.maps.persistence.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.hibernate.envers.Audited;
+
+/**
+ * @author	Marcelo Ribeiro Gadelha
+ * @email	gadelha.ti@gmail.com
+ * @website	www.gadelha.eti.br
+ **/
+
+@Getter
+@Setter
+@Entity
+@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "format")
+public class Format extends GenericAuditEntity {
+
+    private String nome;
+}

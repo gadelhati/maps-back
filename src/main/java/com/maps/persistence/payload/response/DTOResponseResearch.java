@@ -1,7 +1,7 @@
 package com.maps.persistence.payload.response;
 
-import com.maps.persistence.model.remodel.Cruise;
-import com.maps.persistence.model.remodel.Module;
+import com.maps.persistence.model.Cruise;
+import com.maps.persistence.model.Module;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;

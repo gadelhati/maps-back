@@ -6,7 +6,7 @@ package com.maps.persistence.repository;
  * @website www.gadelha.eti.br
  **/
 
-import com.maps.persistence.model.remodel.City;
+import com.maps.persistence.model.City;
 
 import java.util.UUID;
 

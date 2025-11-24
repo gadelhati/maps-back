@@ -3,7 +3,7 @@ package com.maps.persistence.payload.request;
 import java.util.UUID;
 
 import com.maps.exception.annotation.UniqueNameResearcher;
-import com.maps.persistence.model.remodel.Address;
+import com.maps.persistence.model.Address;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

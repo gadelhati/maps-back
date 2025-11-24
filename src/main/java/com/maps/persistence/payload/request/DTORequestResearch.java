@@ -1,7 +1,7 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.persistence.model.remodel.Cruise;
-import com.maps.persistence.model.remodel.Module;
+import com.maps.persistence.model.Cruise;
+import com.maps.persistence.model.Module;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

@@ -2,7 +2,7 @@ package com.maps.persistence.payload.request;
 
 import java.util.UUID;
 
-import com.maps.persistence.model.remodel.City;
+import com.maps.persistence.model.City;
 
 /**
  * @author Marcelo Ribeiro Gadelha

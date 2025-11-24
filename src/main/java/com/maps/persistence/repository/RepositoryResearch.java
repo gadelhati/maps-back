@@ -1,6 +1,6 @@
 package com.maps.persistence.repository;
 
-import com.maps.persistence.model.remodel.Research;
+import com.maps.persistence.model.Research;
 
 /**
  * @author	Marcelo Ribeiro Gadelha

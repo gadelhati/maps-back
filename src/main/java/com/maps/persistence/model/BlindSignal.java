@@ -1,6 +1,5 @@
 package com.maps.persistence.model;
 
-import com.maps.persistence.model.remodel.State;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

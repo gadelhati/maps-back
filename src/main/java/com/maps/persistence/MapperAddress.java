@@ -1,6 +1,6 @@
 package com.maps.persistence;
 
-import com.maps.persistence.model.remodel.Address;
+import com.maps.persistence.model.Address;
 import com.maps.persistence.payload.request.DTORequestAddress;
 import com.maps.persistence.payload.response.DTOResponseAddress;
 import org.mapstruct.Mapper;

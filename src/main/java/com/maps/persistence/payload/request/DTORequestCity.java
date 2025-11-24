@@ -2,7 +2,7 @@ package com.maps.persistence.payload.request;
 
 import java.util.UUID;
 
-import com.maps.persistence.model.remodel.State;
+import com.maps.persistence.model.State;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
