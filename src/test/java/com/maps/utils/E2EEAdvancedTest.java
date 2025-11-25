@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Testes avançados isolados para E2EE covering edge cases,
+ * Isolated advanced E2EE tests covering extreme cases,
  * performance scenarios, security validations, and comprehensive encryption scenarios.
  * 
  * @author Marcelo Ribeiro Gadelha
@@ -124,18 +124,32 @@ class E2EEAdvancedTest {
     }
 
     @Test
-    void testDecrypt_WithTamperedEncryptedText_ShouldFail() {
+    void testDecrypt_WithTamperedEncryptedText_ShouldFail() throws E2EEException {
         // Given
         String originalText = "Valid text to encrypt";
+        String encrypted = e2ee.encrypt(originalText);
 
-        // When & Then
-        assertDoesNotThrow(() -> {
-            String encrypted = e2ee.encrypt(originalText);
-            String tamperedEncrypted = encrypted.substring(0, encrypted.length() - 1) + "X";
-            
-            // Should throw an E2EEException when trying to decrypt tampered data
-            assertThrows(E2EEException.class, () -> e2ee.decrypt(tamperedEncrypted));
-        });
+        // Test 1: Tamper by changing a character in the middle
+        String tamperedMiddle = encrypted.substring(0, encrypted.length() / 2) +
+                "!" +
+                encrypted.substring(encrypted.length() / 2 + 1);
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(tamperedMiddle),
+                "Should throw exception when middle character is tampered");
+
+        // Test 2: Tamper by truncating data (too short)
+        String truncated = encrypted.substring(0, 20);
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(truncated),
+                "Should throw exception when data is truncated");
+
+        // Test 3: Tamper by adding extra data
+        String withExtra = encrypted + "AAAA";
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(withExtra),
+                "Should throw exception when extra data is added");
+
+        // Test 4: Completely invalid Base64
+        String invalidBase64 = "This is not Base64!!!";
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(invalidBase64),
+                "Should throw exception for invalid Base64");
     }
     
     @Test

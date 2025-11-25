@@ -8,8 +8,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Testes unitários isolados para a classe E2EE
- * Testando funcionalidades de criptografia AES segura com IV randômico
+ * Isolated unit tests for the E2EE class
+ * Testing secure AES encryption functionalities with random IV
  */
 class E2EEUnitTest {
 
@@ -18,7 +18,7 @@ class E2EEUnitTest {
     @BeforeEach
     void setUp() {
         e2ee = new E2EE();
-        // Configurar chave de teste diretamente via reflection
+        // Configure test key directly via reflection
         ReflectionTestUtils.setField(e2ee, "configuredSecretKey", "testSecretKey123456789012345678901234567890");
     }
 
