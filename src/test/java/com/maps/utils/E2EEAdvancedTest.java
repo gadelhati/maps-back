@@ -1,23 +1,28 @@
 package com.maps.utils;
 
+import com.maps.utils.E2EE.E2EEException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.crypto.SecretKey;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Advanced tests for E2EE encryption utility covering edge cases,
- * performance scenarios, and comprehensive encryption scenarios.
+ * Testes avançados isolados para E2EE covering edge cases,
+ * performance scenarios, security validations, and comprehensive encryption scenarios.
  * 
  * @author Marcelo Ribeiro Gadelha
  */
 class E2EEAdvancedTest {
 
     private E2EE e2ee;
-
+    
     @BeforeEach
     void setUp() {
         e2ee = new E2EE();
+        // Configurar chave de teste diretamente via reflection
+        ReflectionTestUtils.setField(e2ee, "configuredSecretKey", "advancedTestKey123456789012345678901234567890");
     }
 
     @Test
@@ -34,6 +39,8 @@ class E2EEAdvancedTest {
             String encrypted = e2ee.encrypt(originalText);
             String decrypted = e2ee.decrypt(encrypted);
             assertEquals(originalText, decrypted);
+            // Verify encryption increases length due to IV and padding
+            assertTrue(encrypted.length() > originalText.length());
         });
     }
 
@@ -100,7 +107,12 @@ class E2EEAdvancedTest {
             String encrypted2 = e2ee.encrypt(originalText);
             String encrypted3 = e2ee.encrypt(originalText);
             
-            // All should decrypt to same value but might be same encrypted result due to static IV
+            // With random IV, same input should produce DIFFERENT encrypted outputs
+            assertNotEquals(encrypted1, encrypted2, "Encrypted outputs should differ due to random IV");
+            assertNotEquals(encrypted2, encrypted3, "Encrypted outputs should differ due to random IV");
+            assertNotEquals(encrypted1, encrypted3, "Encrypted outputs should differ due to random IV");
+            
+            // But all should decrypt to same original value
             String decrypted1 = e2ee.decrypt(encrypted1);
             String decrypted2 = e2ee.decrypt(encrypted2);
             String decrypted3 = e2ee.decrypt(encrypted3);
@@ -121,9 +133,43 @@ class E2EEAdvancedTest {
             String encrypted = e2ee.encrypt(originalText);
             String tamperedEncrypted = encrypted.substring(0, encrypted.length() - 1) + "X";
             
-            // Should throw an exception when trying to decrypt tampered data
-            assertThrows(Exception.class, () -> e2ee.decrypt(tamperedEncrypted));
+            // Should throw an E2EEException when trying to decrypt tampered data
+            assertThrows(E2EEException.class, () -> e2ee.decrypt(tamperedEncrypted));
         });
+    }
+    
+    @Test
+    void testGenerateKey_ValidKeySizes_ShouldWork() throws E2EEException {
+        // Test valid AES key sizes
+        SecretKey key128 = e2ee.generateKey(128);
+        SecretKey key192 = e2ee.generateKey(192);
+        SecretKey key256 = e2ee.generateKey(256);
+        
+        assertNotNull(key128);
+        assertNotNull(key192);
+        assertNotNull(key256);
+        assertEquals(16, key128.getEncoded().length); // 128 bits = 16 bytes
+        assertEquals(24, key192.getEncoded().length); // 192 bits = 24 bytes
+        assertEquals(32, key256.getEncoded().length); // 256 bits = 32 bytes
+    }
+    
+    @Test
+    void testGenerateKey_InvalidKeySize_ShouldThrowException() {
+        // Invalid key sizes should throw exception
+        assertThrows(E2EEException.class, () -> e2ee.generateKey(64));
+        assertThrows(E2EEException.class, () -> e2ee.generateKey(512));
+        assertThrows(E2EEException.class, () -> e2ee.generateKey(100));
+    }
+    
+    @Test
+    void testGenerateKeyAsString_ShouldReturnValidBase64() throws E2EEException {
+        String keyString = e2ee.generateKeyAsString(128);
+        
+        assertNotNull(keyString);
+        assertFalse(keyString.trim().isEmpty());
+        
+        // Should be valid Base64
+        assertDoesNotThrow(() -> java.util.Base64.getDecoder().decode(keyString));
     }
 
     @Test
@@ -239,6 +285,28 @@ class E2EEAdvancedTest {
             String encrypted = e2ee.encrypt(repeated);
             String decrypted = e2ee.decrypt(encrypted);
             assertEquals(repeated, decrypted);
+        });
+    }
+    
+    @Test
+    void testRandomness_EncryptionShouldProduceDifferentIVs() {
+        // Given
+        String text = "Test IV randomness";
+        
+        // When & Then
+        assertDoesNotThrow(() -> {
+            // Encrypt same text multiple times and collect IVs
+            java.util.Set<String> ivs = new java.util.HashSet<>();
+            
+            for (int i = 0; i < 10; i++) {
+                String encrypted = e2ee.encrypt(text);
+                // Extract first 24 characters (16 bytes IV in Base64)
+                String ivPortion = encrypted.substring(0, Math.min(24, encrypted.length()));
+                ivs.add(ivPortion);
+            }
+            
+            // All IVs should be different (very high probability)
+            assertEquals(10, ivs.size(), "All IVs should be unique due to randomness");
         });
     }
 }

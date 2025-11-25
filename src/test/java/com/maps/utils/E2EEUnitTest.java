@@ -1,30 +1,29 @@
 package com.maps.utils;
 
+import com.maps.utils.E2EE.E2EEException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Testes unitários para a classe E2EE
- * Testando funcionalidades de criptografia AES
+ * Testes unitários isolados para a classe E2EE
+ * Testando funcionalidades de criptografia AES segura com IV randômico
  */
-@ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
 class E2EEUnitTest {
 
     private E2EE e2ee;
-
+    
     @BeforeEach
     void setUp() {
         e2ee = new E2EE();
+        // Configurar chave de teste diretamente via reflection
+        ReflectionTestUtils.setField(e2ee, "configuredSecretKey", "testSecretKey123456789012345678901234567890");
     }
 
     @Test
-    void testEncryptDecrypt_ValidData_ShouldReturnOriginalData() throws Exception {
+    void testEncryptDecrypt_ValidData_ShouldReturnOriginalData() throws E2EEException {
         // Arrange
         String originalData = "Hello, World!";
 
@@ -36,10 +35,12 @@ class E2EEUnitTest {
         assertNotNull(encrypted);
         assertNotEquals(originalData, encrypted);
         assertEquals(originalData, decrypted);
+        // Verify the encrypted data is valid Base64 and has reasonable length
+        assertTrue(encrypted.length() > originalData.length());
     }
 
     @Test
-    void testEncrypt_EmptyString_ShouldEncryptSuccessfully() throws Exception {
+    void testEncrypt_EmptyString_ShouldEncryptSuccessfully() throws E2EEException {
         // Arrange
         String emptyData = "";
 
@@ -53,7 +54,7 @@ class E2EEUnitTest {
     }
 
     @Test
-    void testEncrypt_LongString_ShouldEncryptSuccessfully() throws Exception {
+    void testEncrypt_LongString_ShouldEncryptSuccessfully() throws E2EEException {
         // Arrange
         String longData = "A".repeat(1000);
 
@@ -67,7 +68,7 @@ class E2EEUnitTest {
     }
 
     @Test
-    void testEncrypt_SpecialCharacters_ShouldEncryptSuccessfully() throws Exception {
+    void testEncrypt_SpecialCharacters_ShouldEncryptSuccessfully() throws E2EEException {
         // Arrange
         String specialData = "!@#$%^&*()_+{}|:<>?[]\\;',./`~";
 
@@ -81,7 +82,7 @@ class E2EEUnitTest {
     }
 
     @Test
-    void testEncrypt_UnicodeCharacters_ShouldEncryptSuccessfully() throws Exception {
+    void testEncrypt_UnicodeCharacters_ShouldEncryptSuccessfully() throws E2EEException {
         // Arrange
         String unicodeData = "Olá, 世界! 🌍 مرحبا";
 
@@ -97,13 +98,21 @@ class E2EEUnitTest {
     @Test
     void testEncrypt_NullInput_ShouldThrowException() {
         // Act & Assert
-        assertThrows(Exception.class, () -> e2ee.encrypt(null));
+        E2EEException exception = assertThrows(E2EEException.class, () -> e2ee.encrypt(null));
+        assertEquals("Input data cannot be null", exception.getMessage());
     }
 
     @Test
     void testDecrypt_NullInput_ShouldThrowException() {
         // Act & Assert
-        assertThrows(Exception.class, () -> e2ee.decrypt(null));
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(null));
+    }
+
+    @Test
+    void testDecrypt_EmptyInput_ShouldThrowException() {
+        // Act & Assert
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(""));
+        assertThrows(E2EEException.class, () -> e2ee.decrypt("   "));
     }
 
     @Test
@@ -112,11 +121,11 @@ class E2EEUnitTest {
         String invalidEncryptedData = "invalid_encrypted_data";
 
         // Act & Assert
-        assertThrows(Exception.class, () -> e2ee.decrypt(invalidEncryptedData));
+        assertThrows(E2EEException.class, () -> e2ee.decrypt(invalidEncryptedData));
     }
 
     @Test
-    void testEncryptTwice_SameInput_ShouldProduceSameOutput() throws Exception {
+    void testEncryptTwice_SameInput_ShouldProduceDifferentOutputs() throws E2EEException {
         // Arrange
         String data = "Test data for encryption";
 
@@ -124,12 +133,16 @@ class E2EEUnitTest {
         String encrypted1 = e2ee.encrypt(data);
         String encrypted2 = e2ee.encrypt(data);
 
-        // Assert
-        assertEquals(encrypted1, encrypted2);
+        // Assert - With random IV, same input should produce different encrypted outputs
+        assertNotEquals(encrypted1, encrypted2, "Encrypted outputs should be different due to random IV");
+        
+        // But both should decrypt to the same original data
+        assertEquals(data, e2ee.decrypt(encrypted1));
+        assertEquals(data, e2ee.decrypt(encrypted2));
     }
 
     @Test
-    void testEncrypt_DifferentInputs_ShouldProduceDifferentOutputs() throws Exception {
+    void testEncrypt_DifferentInputs_ShouldProduceDifferentOutputs() throws E2EEException {
         // Arrange
         String data1 = "First test data";
         String data2 = "Second test data";
@@ -140,5 +153,23 @@ class E2EEUnitTest {
 
         // Assert
         assertNotEquals(encrypted1, encrypted2);
+    }
+    
+    @Test
+    void testIsValidEncryptedData_WithValidData_ShouldReturnTrue() throws E2EEException {
+        // Arrange
+        String data = "Valid test data";
+        String encrypted = e2ee.encrypt(data);
+        
+        // Act & Assert
+        assertTrue(e2ee.isValidEncryptedData(encrypted));
+    }
+    
+    @Test
+    void testIsValidEncryptedData_WithInvalidData_ShouldReturnFalse() {
+        // Act & Assert
+        assertFalse(e2ee.isValidEncryptedData("invalid_data"));
+        assertFalse(e2ee.isValidEncryptedData(null));
+        assertFalse(e2ee.isValidEncryptedData(""));
     }
 }
