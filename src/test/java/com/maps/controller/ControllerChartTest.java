@@ -4,10 +4,14 @@ import com.maps.persistence.model.Chart;
 import com.maps.persistence.payload.request.DTORequestChart;
 import com.maps.persistence.payload.response.DTOResponseChart;
 import com.maps.service.ServiceChart;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,6 +40,13 @@ class ControllerChartTest {
 
     @InjectMocks
     private ControllerChart controllerChart;
+
+    @BeforeEach
+    void setUp() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        ServletRequestAttributes attrs = new ServletRequestAttributes(request);
+        RequestContextHolder.setRequestAttributes(attrs);
+    }
 
     @Test
     void testGetEntityClass_ShouldReturnChartClass() {

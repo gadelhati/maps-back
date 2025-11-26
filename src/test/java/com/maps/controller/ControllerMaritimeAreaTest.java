@@ -4,10 +4,14 @@ import com.maps.persistence.model.MaritimeArea;
 import com.maps.persistence.payload.request.DTORequestMaritimeArea;
 import com.maps.persistence.payload.response.DTOResponseMaritimeArea;
 import com.maps.service.ServiceMaritimeArea;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +31,13 @@ class ControllerMaritimeAreaTest {
 
     @InjectMocks
     private ControllerMaritimeArea controllerMaritimeArea;
+
+    @BeforeEach
+    void setUp() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        ServletRequestAttributes attrs = new ServletRequestAttributes(request);
+        RequestContextHolder.setRequestAttributes(attrs);
+    }
 
     @Test
     void testGetEntityClass_ShouldReturnMaritimeAreaClass() {

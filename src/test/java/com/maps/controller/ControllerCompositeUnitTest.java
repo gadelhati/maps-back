@@ -4,9 +4,13 @@ import com.maps.persistence.model.CompositePK;
 import com.maps.persistence.payload.request.DTORequestCompositeUnit;
 import com.maps.persistence.payload.response.DTOResponseCompositeUnit;
 import com.maps.service.ServiceCompositeUnit;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
@@ -37,6 +41,13 @@ class ControllerCompositeUnitTest {
     @InjectMocks
     private ControllerCompositeUnit controllerCompositeUnit;
 
+    @BeforeEach
+    void setUp() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        ServletRequestAttributes attrs = new ServletRequestAttributes(request);
+        RequestContextHolder.setRequestAttributes(attrs);
+    }
+
     @Test
     void testCreate_WithValidRequest_ShouldReturnCreatedResponse() {
         // Arrange
@@ -61,7 +72,7 @@ class ControllerCompositeUnitTest {
         // Arrange
         DTORequestCompositeUnit createRequest = mock(DTORequestCompositeUnit.class);
         
-        when(serviceCompositeUnit.create(createRequest))
+        when(serviceCompositeUnit.create(any(DTORequestCompositeUnit.class)))
             .thenThrow(new RuntimeException("Composite unit creation failed"));
 
         // Act & Assert
@@ -69,7 +80,7 @@ class ControllerCompositeUnitTest {
             controllerCompositeUnit.create(createRequest);
         });
 
-        verify(serviceCompositeUnit).create(createRequest);
+        verify(serviceCompositeUnit).create(any(DTORequestCompositeUnit.class));
     }
 
     @Test

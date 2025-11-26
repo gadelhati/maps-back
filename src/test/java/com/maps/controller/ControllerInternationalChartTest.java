@@ -4,10 +4,14 @@ import com.maps.persistence.model.InternationalChart;
 import com.maps.persistence.payload.request.DTORequestInternationalChart;
 import com.maps.persistence.payload.response.DTOResponseInternationalChart;
 import com.maps.service.ServiceInternationalChart;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,6 +35,13 @@ class ControllerInternationalChartTest {
 
     @InjectMocks
     private ControllerInternationalChart controllerInternationalChart;
+
+    @BeforeEach
+    void setUp() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        ServletRequestAttributes attrs = new ServletRequestAttributes(request);
+        RequestContextHolder.setRequestAttributes(attrs);
+    }
 
     @Test
     void testGetEntityClass_ShouldReturnInternationalChartClass() {

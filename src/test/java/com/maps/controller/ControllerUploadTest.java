@@ -1,10 +1,14 @@
 package com.maps.controller;
 
 import com.maps.service.ServiceStorage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +49,13 @@ class ControllerUploadTest {
     @InjectMocks
     private ControllerUpload controllerUpload;
 
+    @BeforeEach
+    void setUp() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        ServletRequestAttributes attrs = new ServletRequestAttributes(request);
+        RequestContextHolder.setRequestAttributes(attrs);
+    }
+
     @Test
     void testListUploadedFiles_WithFiles_ShouldReturnModelAndView() throws IOException {
         // Arrange
@@ -66,12 +77,12 @@ class ControllerUploadTest {
     }
 
     @Test
-    void testListUploadedFiles_ServiceThrowsIOException_ShouldPropagateException() throws IOException {
+    void testListUploadedFiles_ServiceThrowsRuntimeException_ShouldPropagateException() {
         // Arrange
-        when(serviceStorage.loadAll()).thenThrow(new IOException("Storage error"));
+        when(serviceStorage.loadAll()).thenThrow(new RuntimeException("Storage error"));
 
         // Act & Assert
-        assertThrows(IOException.class, () -> {
+        assertThrows(RuntimeException.class, () -> {
             controllerUpload.listUploadedFiles(model);
         });
 
