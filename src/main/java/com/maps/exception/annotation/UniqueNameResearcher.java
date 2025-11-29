@@ -39,15 +39,19 @@ public @interface UniqueNameResearcher {
         }
         @Override
         public boolean isValid(DTORequestResearcher value, ConstraintValidatorContext context) {
-            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
-                return false;
+            if (value == null || value.name() == null || value.name().isBlank())
+                return true;
+            boolean isUnique = (value.id() == null)
+                ? !serviceResearcher.existsByName(value.name().trim())
+                : !serviceResearcher.existsByNameAndIdNot(value.name().trim(), value.id());
+            if (!isUnique) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(
+                        context.getDefaultConstraintMessageTemplate()
+                                .replace("{label}", values)
+                ).addConstraintViolation();
             }
-            String normalizedName = value.name().trim();
-            if (value.id() == null) {
-                return !serviceResearcher.existsByName(normalizedName);
-            } else {
-                return !serviceResearcher.existsByNameAndIdNot(normalizedName, value.id());
-            }
+            return isUnique;
         }
     }
 }

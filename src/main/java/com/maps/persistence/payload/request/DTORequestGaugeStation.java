@@ -1,6 +1,6 @@
 package com.maps.persistence.payload.request;
 
-import com.maps.exception.annotation.UniqueNameGaugeStation;
+import com.maps.exception.annotation.UniqueNumberGaugeStation;
 import com.maps.persistence.model.ChartArea;
 import com.maps.persistence.model.State;
 
@@ -14,7 +14,7 @@ import org.locationtech.jts.geom.*;
  * @website	www.gadelha.eti.br
  **/
 
-@UniqueNameGaugeStation(label = "number")
+@UniqueNumberGaugeStation(label = "number")
 public record DTORequestGaugeStation (
 
     UUID id,

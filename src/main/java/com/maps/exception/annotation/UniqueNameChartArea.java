@@ -39,15 +39,19 @@ public @interface UniqueNameChartArea {
         }
         @Override
         public boolean isValid(DTORequestChartArea value, ConstraintValidatorContext context) {
-            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
-                return false;
+            if (value == null || value.name() == null || value.name().isBlank())
+                return true;
+            boolean isUnique = (value.id() == null)
+                ? !serviceChartArea.existsByName(value.name().trim())
+                : !serviceChartArea.existsByNameAndIdNot(value.name().trim(), value.id());
+            if (!isUnique) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(
+                        context.getDefaultConstraintMessageTemplate()
+                                .replace("{label}", values)
+                ).addConstraintViolation();
             }
-            String normalizedName = value.name().trim();
-            if (value.id() == null) {
-                return !serviceChartArea.existsByName(normalizedName);
-            } else {
-                return !serviceChartArea.existsByNameAndIdNot(normalizedName, value.id());
-            }
+            return isUnique;
         }
     }
 }

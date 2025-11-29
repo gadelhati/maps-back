@@ -41,15 +41,19 @@ public @interface UniqueEmail {
         }
         @Override
         public boolean isValid(DTORequestUser value, ConstraintValidatorContext context) {
-            if (value == null || value.email() == null || value.email().trim().isEmpty()) {
-                return false;
+            if (value == null || value.email() == null || value.email().isBlank())
+                return true;
+            boolean isUnique = (value.id() == null)
+                ? !serviceUser.existsByEmail(value.email().trim())
+                : !serviceUser.existsByEmailAndIdNot(value.email().trim(), value.id());
+            if (!isUnique) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(
+                        context.getDefaultConstraintMessageTemplate()
+                                .replace("{label}", values)
+                ).addConstraintViolation();
             }
-            String normalizedName = value.email().trim();
-            if (value.id() == null) {
-                return !serviceUser.existsByEmail(normalizedName);
-            } else {
-                return !serviceUser.existsByEmailAndIdNot(normalizedName, value.id());
-            }
+            return isUnique;
         }
     }
 }

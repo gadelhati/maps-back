@@ -39,15 +39,19 @@ public @interface UniqueNameCountry {
         }
         @Override
         public boolean isValid(DTORequestCountry value, ConstraintValidatorContext context) {
-            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
-                return false;
+            if (value == null || value.name() == null || value.name().isBlank())
+                return true;
+            boolean isUnique = (value.id() == null)
+                ? !serviceCountry.existsByName(value.name().trim())
+                : !serviceCountry.existsByNameAndIdNot(value.name().trim(), value.id());
+            if (!isUnique) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(
+                        context.getDefaultConstraintMessageTemplate()
+                                .replace("{label}", values)
+                ).addConstraintViolation();
             }
-            String normalizedName = value.name().trim();
-            if (value.id() == null) {
-                return !serviceCountry.existsByName(normalizedName);
-            } else {
-                return !serviceCountry.existsByNameAndIdNot(normalizedName, value.id());
-            }
+            return isUnique;
         }
     }
 }

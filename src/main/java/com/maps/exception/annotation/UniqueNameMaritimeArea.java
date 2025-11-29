@@ -39,15 +39,19 @@ public @interface UniqueNameMaritimeArea {
         }
         @Override
         public boolean isValid(DTORequestMaritimeArea value, ConstraintValidatorContext context) {
-            if (value == null || value.name() == null || value.name().trim().isEmpty()) {
-                return false;
+            if (value == null || value.name() == null || value.name().isBlank())
+                return true;
+            boolean isUnique = (value.id() == null)
+                ? !serviceMaritimeArea.existsByName(value.name().trim())
+                : !serviceMaritimeArea.existsByNameAndIdNot(value.name().trim(), value.id());
+            if (!isUnique) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(
+                        context.getDefaultConstraintMessageTemplate()
+                                .replace("{label}", values)
+                ).addConstraintViolation();
             }
-            String normalizedName = value.name().trim();
-            if (value.id() == null) {
-                return !serviceMaritimeArea.existsByName(normalizedName);
-            } else {
-                return !serviceMaritimeArea.existsByNameAndIdNot(normalizedName, value.id());
-            }
+            return isUnique;
         }
     }
 }

@@ -39,15 +39,19 @@ public @interface UniqueNameUser {
         }
         @Override
         public boolean isValid(DTORequestUser value, ConstraintValidatorContext context) {
-            if (value == null || value.username() == null || value.username().trim().isEmpty()) {
-                return false;
+            if (value == null || value.username() == null || value.username().isBlank())
+                return true;
+            boolean isUnique = (value.id() == null)
+                ? !serviceUser.existsByUsername(value.username().trim())
+                : !serviceUser.existsByUsernameAndIdNot(value.username().trim(), value.id());
+            if (!isUnique) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(
+                        context.getDefaultConstraintMessageTemplate()
+                                .replace("{label}", values)
+                ).addConstraintViolation();
             }
-            String normalizedName = value.username().trim();
-            if (value.id() == null) {
-                return !serviceUser.existsByUsername(normalizedName);
-            } else {
-                return !serviceUser.existsByUsernameAndIdNot(normalizedName, value.id());
-            }
+            return isUnique;
         }
     }
 }
