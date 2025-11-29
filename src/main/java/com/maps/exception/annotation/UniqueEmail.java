@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.annotation.*;
 
-import static com.maps.exception.Validator.isNull;
-
 /**
  * @author	Marcelo Ribeiro Gadelha
  * @email	gadelha.ti@gmail.com
