@@ -43,22 +43,30 @@ INSERT INTO maps.role_privileges(role_id, privilege_id) VALUES ('b8b37d04-628d-4
 INSERT INTO maps.role_privileges(role_id, privilege_id) VALUES ('b8b37d04-628d-4939-b200-2a5e48909cd9', 'e5761ebc-d29d-43dc-b1b3-ca013169e2c2') ON CONFLICT DO NOTHING;
 
 -- POPULING user
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '6120ce60-4499-4a8d-816b-9080e3f8e6e2', '00038057', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'user.gadelha@marinha.mil.br', true, 'VJVN1x4Tp5av8Q1zg0DDR5YfOuwDobjLU5mY0OkPj7E=') ON CONFLICT DO NOTHING; -- LUCIYJQ22QW4VGSP
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '67d43c5e-bd63-4e17-b386-09438e758194', '00038058', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'moderator.gadelha@marinha.mil.br', true, 'JAXF7QyaMkGf6CliLh4XzfZasS6DLlS8PaewPCvbxag=') ON CONFLICT DO NOTHING; -- WZBEBCKNFNVAYMNQ
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '02560770-e8b9-4c3b-b220-a2ce7be2cbda', '00038059', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'admin.gadelha@marinha.mil.br', true, 'CXt3O9WRLdhrVB1rH8qcWsfFljtu8VF1u/oFalMeNSw=') ON CONFLICT DO NOTHING; -- Y7L6TIJGRU5U44F4
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '482d27e6-b9a6-4a71-ac3a-8671e481e9b4', '00038063', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'viewer.gadelha@marinha.mil.br', true, 'KEA6Kl7dKCWeJaItbqw3lht2B1tbJg7NWtT42YOAsaE=') ON CONFLICT DO NOTHING; -- ULPM6JOBI6DU2AGL
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '7b88d564-b34b-4f07-9775-a67bd1777dec', '00038062', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'operator.gadelha@marinha.mil.br', true, 'v44cP0hVpxTPzqW+Wnc/pjl9jU/4moW8t9KGXwsRRYQ=') ON CONFLICT DO NOTHING; -- 5IK2OXZMAHOFKLNM
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '40063b4d-3b06-459e-a58d-637725c02927', '00038061', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'verifier.gadelha@marinha.mil.br', true, 'IK6aY98JhgJHHxssDgxuj/DwKeZEpm6eJdzrNhw/7o4=') ON CONFLICT DO NOTHING; -- IUIAJZSQEKHM5ADM
-INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), 'ba7f72cf-9cdb-4874-9632-6fa3a243c513', '00038060', '$2a$10$I2w4HMg8QY01/fY3JWFy.On89HmqtJajcyv4PhIt322K5RjhmMEcS', 'reviewer.gadelha@marinha.mil.br', true, 'X1cUT5NjUyAHXEOmHS1mY+oeoKFneGDq9EpnUapQEbQ=') ON CONFLICT DO NOTHING; -- UYA2ZVJ7UOULVPMY
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '15c26cfd-d048-4ec9-814c-9cdf72dcd9f6', '00038057', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'user.gadelha@marinha.mil.br', true, 'VJVN1x4Tp5av8Q1zg0DDR5YfOuwDobjLU5mY0OkPj7E=') ON CONFLICT DO NOTHING; -- SI3RECGRFGUSBJTL
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '55c16ae7-b918-4b31-b920-deb4af049075', '00038058', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'moderator.gadelha@marinha.mil.br', true, 'JAXF7QyaMkGf6CliLh4XzfZasS6DLlS8PaewPCvbxag=') ON CONFLICT DO NOTHING; -- LYOLG3NDBUL6YZNB
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '02560770-e8b9-4c3b-b220-a2ce7be2cbda', '00038059', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'admin.gadelha@marinha.mil.br', true, 'CXt3O9WRLdhrVB1rH8qcWsfFljtu8VF1u/oFalMeNSw=') ON CONFLICT DO NOTHING; -- 2MVNCIVTVD6ZID4J
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), 'e63574dc-40f5-4692-8b13-d49b20c9c678', '00038060', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'viewer.gadelha@marinha.mil.br', true, 'KEA6Kl7dKCWeJaItbqw3lht2B1tbJg7NWtT42YOAsaE=') ON CONFLICT DO NOTHING; -- 72IIWYNOIIZBTEZB
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), 'bf3df4f7-22b7-45c3-a0ad-19e3fbe804af', '00038061', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'operator.gadelha@marinha.mil.br', true, 'v44cP0hVpxTPzqW+Wnc/pjl9jU/4moW8t9KGXwsRRYQ=') ON CONFLICT DO NOTHING; -- UAAZWH6YX7ZCXJE3
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), '794a00b2-7353-4153-8e3a-e04d4ea6dbb0', '00038062', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'verifier.gadelha@marinha.mil.br', true, 'IK6aY98JhgJHHxssDgxuj/DwKeZEpm6eJdzrNhw/7o4=') ON CONFLICT DO NOTHING; -- MR2H55FQNCV4KZJ5
+INSERT INTO maps.users(created_at, updated_at, id, username, password, email, active, secret) VALUES (NOW(), NOW(), 'f35ee3dc-e466-49f7-b866-1d5c7c2632a3', '00038063', '$2a$10$tJIJ70bYXFHmhoI.p/6OLuJisZrcYv670fvNDwV.TesmaoWl5b67S', 'reviewer.gadelha@marinha.mil.br', true, 'X1cUT5NjUyAHXEOmHS1mY+oeoKFneGDq9EpnUapQEbQ=') ON CONFLICT DO NOTHING; -- 7LPIMZ6FABGARBBL
+
+--otpauth://totp/00038057:00038057@auth.com?secret=SI3RECGRFGUSBJTL&issuer=maps
+--otpauth://totp/00038058:00038058@auth.com?secret=LYOLG3NDBUL6YZNB&issuer=maps
+--otpauth://totp/00038059:00038059@auth.com?secret=2MVNCIVTVD6ZID4J&issuer=maps
+--otpauth://totp/00038060:00038060@auth.com?secret=72IIWYNOIIZBTEZB&issuer=maps
+--otpauth://totp/00038061:00038061@auth.com?secret=UAAZWH6YX7ZCXJE3&issuer=maps
+--otpauth://totp/00038062:00038062@auth.com?secret=MR2H55FQNCV4KZJ5&issuer=maps
+--otpauth://totp/00038063:00038063@auth.com?secret=7LPIMZ6FABGARBBL&issuer=maps
 
 ---- POPULING user_roles
-INSERT INTO maps.user_roles(user_id, role_id) VALUES('6120ce60-4499-4a8d-816b-9080e3f8e6e2', '7c12004d-e843-4e00-be40-01845ad75834') ON CONFLICT DO NOTHING;
-INSERT INTO maps.user_roles(user_id, role_id) VALUES('67d43c5e-bd63-4e17-b386-09438e758194', '52c57a80-4e3b-4a41-a864-58d0cea25b14') ON CONFLICT DO NOTHING;
+INSERT INTO maps.user_roles(user_id, role_id) VALUES('15c26cfd-d048-4ec9-814c-9cdf72dcd9f6', '7c12004d-e843-4e00-be40-01845ad75834') ON CONFLICT DO NOTHING;
+INSERT INTO maps.user_roles(user_id, role_id) VALUES('55c16ae7-b918-4b31-b920-deb4af049075', '52c57a80-4e3b-4a41-a864-58d0cea25b14') ON CONFLICT DO NOTHING;
 INSERT INTO maps.user_roles(user_id, role_id) VALUES('02560770-e8b9-4c3b-b220-a2ce7be2cbda', '8652ec73-0a53-433c-93be-420f1d90c681') ON CONFLICT DO NOTHING;
-INSERT INTO maps.user_roles(user_id, role_id) VALUES('482d27e6-b9a6-4a71-ac3a-8671e481e9b4', '55c16ae7-b918-4b31-b920-deb4af049075') ON CONFLICT DO NOTHING;
-INSERT INTO maps.user_roles(user_id, role_id) VALUES('7b88d564-b34b-4f07-9775-a67bd1777dec', '83366ed6-b0f2-4ef3-9658-e8bd9a8e3d39') ON CONFLICT DO NOTHING;
-INSERT INTO maps.user_roles(user_id, role_id) VALUES('40063b4d-3b06-459e-a58d-637725c02927', '927c96c5-6884-433a-9479-836efbb1ed87') ON CONFLICT DO NOTHING;
-INSERT INTO maps.user_roles(user_id, role_id) VALUES('ba7f72cf-9cdb-4874-9632-6fa3a243c513', 'b8b37d04-628d-4939-b200-2a5e48909cd9') ON CONFLICT DO NOTHING;
+INSERT INTO maps.user_roles(user_id, role_id) VALUES('e63574dc-40f5-4692-8b13-d49b20c9c678', '55c16ae7-b918-4b31-b920-deb4af049075') ON CONFLICT DO NOTHING;
+INSERT INTO maps.user_roles(user_id, role_id) VALUES('bf3df4f7-22b7-45c3-a0ad-19e3fbe804af', '83366ed6-b0f2-4ef3-9658-e8bd9a8e3d39') ON CONFLICT DO NOTHING;
+INSERT INTO maps.user_roles(user_id, role_id) VALUES('794a00b2-7353-4153-8e3a-e04d4ea6dbb0', '927c96c5-6884-433a-9479-836efbb1ed87') ON CONFLICT DO NOTHING;
+INSERT INTO maps.user_roles(user_id, role_id) VALUES('f35ee3dc-e466-49f7-b866-1d5c7c2632a3', 'b8b37d04-628d-4939-b200-2a5e48909cd9') ON CONFLICT DO NOTHING;
 
 -- POPULANDO country
 -- INSERT INTO maps.countries(id, name) VALUES ('08a92aed-0f2d-4228-bd56-9c23b23c93ef', 'Afeganistao') ON CONFLICT DO NOTHING;

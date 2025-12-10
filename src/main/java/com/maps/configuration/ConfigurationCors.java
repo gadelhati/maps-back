@@ -36,7 +36,7 @@ public class ConfigurationCors {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
 
                 String allowedOriginsStr = environment.getProperty("ALLOWED_ORIGINS", 
-                    "https://maps-front.vercel.app,https://maps-front.onrender.com,http://localhost:10000,http://localhost:5173,https://maps.chm.mb,https://www.maps.chm.mb");
+                    "https://maps-front.vercel.app,https://maps-front.onrender.com,http://localhost:8080,http://localhost:10000,http://localhost:5173,https://maps.chm.mb,https://www.maps.chm.mb");
                 
                 List<String> allowedOriginsList = Arrays.asList(allowedOriginsStr.split(","));
                 
