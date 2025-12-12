@@ -37,7 +37,7 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
     }
     @PostMapping("/signup")
     public ResponseEntity<ApiError> signUp(@RequestBody @Valid DTORequestUser value) {
-//        serviceUserAuth.register(value.getUsername(), value.getEmail());
+        serviceAuth.register(value.username(), value.email());
         return ResponseEntity.accepted().body(new ApiError(HttpStatus.CREATED, "", ""));
     }
     @PutMapping("/changePassword")
@@ -46,12 +46,12 @@ public class ControllerUser extends ControllerGeneric<User, DTORequestUser, DTOR
         return ResponseEntity.accepted().body(serviceUser.changePassword(updated));
     }
     @PutMapping("/resetPassword")
-//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
     public ResponseEntity<DTOResponseUser> resetPassword(@RequestBody DTORequestUserAuth updated) {
         return ResponseEntity.accepted().body(serviceUser.resetPassword(updated.username()));
     }
     @PutMapping("/resetTotp")
-//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER', 'VIEWER')")
     public ResponseEntity<DTOResponseUser> resetSecret(@RequestBody DTORequestUserAuth updated) {
         return ResponseEntity.accepted().body(serviceUser.resetSecret(updated.username()));
     }
